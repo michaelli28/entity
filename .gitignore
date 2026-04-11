@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Build
+.next/
+out/
+dist/
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Supabase
+supabase/.temp/
+supabase/.branches/
+
+# Testing
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+playwright-report/
+test-results/
+
+# Misc
+*.log

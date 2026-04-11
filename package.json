@@ -1,0 +1,13 @@
+{
+  "name": "zstar",
+  "private": true,
+  "scripts": {
+    "dev:web": "pnpm --filter @zstar/web dev",
+    "build:web": "pnpm --filter @zstar/web build",
+    "lint:web": "pnpm --filter @zstar/web lint",
+    "test:web": "pnpm --filter @zstar/web test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
