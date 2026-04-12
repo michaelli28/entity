@@ -58,3 +58,6 @@ venv = ".venv"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+# Disable pytest-postgresql by default; tests that need it can opt in via `-p postgresql`.
+# Requires libpq (psycopg binary) which isn't guaranteed in all environments.
+addopts = "-p no:postgresql"
