@@ -19,7 +19,8 @@ export function CompletionBanner({ sessionId, onCompleted }: Props) {
     }
   }, [sessionId]);
 
-  if (!session || !session.suggest_complete || dismissed) return null;
+  if (!session || !session.suggest_complete || session.completed_at || dismissed)
+    return null;
 
   const handleDismiss = () => {
     localStorage.setItem(`banner-dismissed:${sessionId}`, "1");
