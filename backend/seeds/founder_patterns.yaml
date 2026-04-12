@@ -1,0 +1,640 @@
+# Founder Patterns Seed
+# Sources: Paul Graham essays, YC advice, Sequoia pitch framework, First Round Review,
+# SaaStr blog, David Sacks (Craft Ventures), Reforge, Lenny's Newsletter.
+# confidence_tier key:
+#   widely_accepted  = common VC/founder wisdom in published essays/pitch templates
+#   evidence_backed  = cites a specific public data source
+#   speculative      = debated or highly context-dependent
+
+# ─── PITCH / NARRATIVE / TAM FRAMING (6) ──────────────────────────────────────
+
+- pattern_key: bottoms_up_tam_beats_topdown
+  description: >
+    Investors distrust top-down TAM slides ("the global X market is $50B, if we capture 1%...").
+    A bottoms-up build — number of addressable customers × willingness to pay — is more credible
+    and reveals whether the opportunity is real at the unit level.
+  source: "Sequoia pitch framework; First Round Review 'The Pitch Template'"
+  confidence_tier: widely_accepted
+  when_it_fails: "Very early markets where customer count is genuinely unknowable (frontier/deep tech)."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: problem_before_solution_narrative
+  description: >
+    Pitches that open with a crisp problem statement and a villain (friction, wasted cost, broken
+    workflow) before revealing the solution outperform solution-first pitches.
+    The audience needs to feel the pain before they can appreciate the cure.
+  source: "Andy Raskin 'The Greatest Sales Deck I've Ever Seen'; YC Demo Day coaching"
+  confidence_tier: widely_accepted
+  when_it_fails: "Investors already deeply familiar with the problem space — skip the education."
+  applies_to_stages: [idea, pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: one_sentence_what_you_do
+  description: >
+    Every founder should be able to say what they do in one sentence without jargon.
+    If you cannot explain it to a smart non-expert in 10 seconds, the pitch will lose investors
+    before the deck slides appear.
+  source: "Paul Graham 'Investor Heuristics'; YC application review"
+  confidence_tier: widely_accepted
+  when_it_fails: "Deep enterprise infrastructure where technical detail is a credibility signal."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: why_now_slide_is_mandatory
+  description: >
+    A compelling pitch must answer why this problem is solvable now — what has changed
+    (regulatory, technological, behavioral) to make this the right moment. Without a
+    clear "why now," investors assume the idea has been tried and failed.
+  source: "Sequoia 'Why Now' pitch framework; Mike Maples Jr. timing talks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Platforms or infrastructure bets where timing arguments are multi-decade."
+  applies_to_stages: [idea, pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: social_proof_in_deck_accelerates_close
+  description: >
+    Including named customer logos, specific usage data, or advisor credibility
+    signals (not just logos) in a pitch deck materially shortens due diligence and
+    increases close rate. Anonymous social proof ("several Fortune 500 companies") is
+    nearly worthless.
+  source: "First Round Review pitch database analysis posts; David Sacks pitch teardowns"
+  confidence_tier: widely_accepted
+  when_it_fails: "Stealth mode or highly regulated industries where customers cannot be named."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: tam_must_justify_fund_return
+  description: >
+    A venture-fundable TAM is one where owning a realistic market share could return
+    the entire fund — typically implying $1B+ addressable revenue at the seed stage
+    for a $100-250M fund. Smaller markets cap upside and reduce investor interest
+    regardless of execution quality.
+  source: "YC standard advice on fundable markets; Sequoia 'Sizing the Opportunity'"
+  confidence_tier: widely_accepted
+  when_it_fails: "Profitable bootstrapped businesses where VC is not the right vehicle."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: null
+
+# ─── TEAM DYNAMICS (6) ────────────────────────────────────────────────────────
+
+- pattern_key: cofounders_reduce_failure_rate
+  description: >
+    Companies with two or more cofounders generally outlast solo-founder companies
+    through early stages. Two founders provide peer accountability, complementary
+    skills, and emotional resilience during the lowest points of company building.
+  source: "YC batch data discussed in Paul Graham 'Co-founder Relationships'; First Round State of Startups"
+  confidence_tier: widely_accepted
+  when_it_fails: "Highly domain-specific founders with deep industry networks who bootstrap with early revenue."
+  applies_to_stages: [idea, pre_seed]
+  applies_to_categories: null
+
+- pattern_key: complementary_cofounder_skills
+  description: >
+    The most resilient founding teams pair a technical builder with a domain/go-to-market
+    specialist, not two engineers or two salespeople. Shared skills create blind spots;
+    complementary skills create coverage.
+  source: "Paul Graham 'How to Find a Technical Co-Founder'; YC cofounder matching principles"
+  confidence_tier: widely_accepted
+  when_it_fails: "Developer tools or infrastructure products where two technical founders may be optimal."
+  applies_to_stages: [idea, pre_seed]
+  applies_to_categories: null
+
+- pattern_key: cofounder_equity_should_be_near_equal
+  description: >
+    Large equity imbalances between cofounders (one holds 80%+, one holds 20%-)
+    are a red flag for investors. They signal misalignment on commitment and often
+    predict cofounder breakups when the minority holder's contribution grows.
+  source: "YC cofounder equity FAQ; Sam Altman blog posts on cofounder dynamics"
+  confidence_tier: widely_accepted
+  when_it_fails: "Seasoned solo operators who add a junior cofounder late, or IP originator arrangements."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: weakness_admission_builds_credibility
+  description: >
+    Founders who explicitly name their biggest risk or gap (and how they plan to close it)
+    build more investor trust than those who project false confidence. Investors who find
+    unacknowledged gaps themselves lose confidence in the founder's self-awareness.
+  source: "First Round Review 'How to Build Investor Trust'; YC partner feedback patterns"
+  confidence_tier: widely_accepted
+  when_it_fails: "Weaknesses that are deal-killers should be addressed before the pitch, not disclosed mid-pitch."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: first_ten_hires_set_culture
+  description: >
+    The first 10 employees define the cultural DNA of the company, including how fast decisions
+    are made, how conflict is handled, and what performance norms look like. Compromising
+    on early hires for speed is one of the most common early-stage regrets.
+  source: "First Round Review 'Culture Is the Product'; Ben Horowitz 'The Hard Thing About Hard Things'"
+  confidence_tier: widely_accepted
+  when_it_fails: "Contract or fractional work where cultural fit is secondary to specialized output."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: dont_hire_vp_sales_too_early
+  description: >
+    Hiring a VP of Sales before founders have closed 10-20 customers themselves
+    typically fails. The VP has no repeatable playbook to run, and the role
+    becomes expensive founder overhead rather than a force multiplier.
+  source: "Jason Lemkin SaaStr '10 Mistakes in Hiring Your First VP of Sales'; David Sacks SaaStr talks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Enterprise deals requiring relationship credibility the founder cannot personally provide."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: [b2b_saas]
+
+# ─── GO-TO-MARKET (6) ─────────────────────────────────────────────────────────
+
+- pattern_key: do_things_that_dont_scale_first
+  description: >
+    Before building automated acquisition, founders should manually onboard, support,
+    and even do the work for early customers. This generates the insight needed to
+    build a scalable system and demonstrates genuine customer commitment.
+  source: "Paul Graham 'Do Things That Don't Scale' (2013)"
+  confidence_tier: widely_accepted
+  when_it_fails: "Viral consumer products or PLG motions where the product IS the distribution."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: cold_outbound_works_in_b2b
+  description: >
+    Highly personalized cold outbound (email + LinkedIn) remains one of the fastest
+    ways to generate early B2B pipeline when the ICP is well-defined. Generic
+    spray-and-pray outbound destroys sender reputation without generating leads.
+  source: "Lenny's Newsletter GTM section; SaaStr cold outbound frameworks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Consumer markets, SMB markets with low ACV, or developer-led products where cold outreach is ignored."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: [b2b_saas, marketplace]
+
+- pattern_key: pricing_should_start_high
+  description: >
+    Early-stage B2B founders almost universally undercharge. Starting with prices that
+    feel uncomfortable, then discounting for early reference customers, is easier than
+    raising prices on an established customer base. Low price signals low value.
+  source: "Jason Lemkin SaaStr pricing posts; Peter Reinhardt Segment origin story"
+  confidence_tier: widely_accepted
+  when_it_fails: "Freemium or volume-driven models where adoption requires zero initial friction."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: [b2b_saas, dev_tools]
+
+- pattern_key: channel_concentration_is_fragile
+  description: >
+    Dependence on a single acquisition channel (one SEO keyword cluster, one ad network,
+    one integration partner) creates catastrophic fragility. Algorithm changes, policy shifts,
+    or partner terms can eliminate revenue overnight.
+  source: "Reforge growth frameworks; SaaStr channel risk posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Very early stage where focus on one channel is correct before diversifying."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: null
+
+- pattern_key: inbound_content_compounds_over_time
+  description: >
+    B2B content marketing (blog, video, podcast) has a compounding return — SEO authority
+    and audience trust build over months and become low-CAC acquisition engines.
+    The payoff is slow (6-18 months) but durable and defensible.
+  source: "Lenny's Newsletter content marketing analysis; HubSpot origin story"
+  confidence_tier: widely_accepted
+  when_it_fails: "Highly technical or regulated niches where buyers do not self-educate online."
+  applies_to_stages: [seed, series_a]
+  applies_to_categories: [b2b_saas, consumer]
+
+- pattern_key: nail_one_segment_before_expanding
+  description: >
+    Winning deeply in a narrow, specific customer segment — then expanding — produces
+    better outcomes than a broad horizontal launch. Segment specificity improves conversion,
+    reduces CAC, and creates word-of-mouth within tight communities.
+  source: "Peter Thiel 'Zero to One' dominate small market; Sequoia pitch framework ICP section"
+  confidence_tier: widely_accepted
+  when_it_fails: "Platforms or infrastructure where breadth of coverage IS the value proposition."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+# ─── RETENTION / ENGAGEMENT / COHORT ANALYSIS (5) ────────────────────────────
+
+- pattern_key: retention_is_the_foundation_metric
+  description: >
+    Strong retention (D1, D7, D30 for consumer; monthly for B2B) is a prerequisite for
+    sustainable growth. Pouring acquisition budget into a leaky bucket only accelerates
+    cash burn without building durable revenue.
+  source: "Andrew Chen 'The Power of Defaults'; Reforge retention frameworks"
+  confidence_tier: widely_accepted
+  when_it_fails: "One-time-use products (tax filing, real estate) where low return frequency is expected and acceptable."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: cohort_curves_reveal_product_market_fit
+  description: >
+    Flattening cohort retention curves (usage stabilizing instead of declining to zero)
+    are the strongest quantitative signal of product-market fit. A cohort that retains
+    at 40%+ after week 8 suggests a real habit has formed.
+  source: "Reforge 'The Retention Curve Framework'; Casey Winters growth talks"
+  confidence_tier: widely_accepted
+  when_it_fails: "B2B with annual contracts where cohort curves are measured quarterly, not weekly."
+  applies_to_stages: [seed, series_a]
+  applies_to_categories: [consumer, b2b_saas]
+
+- pattern_key: nps_is_a_directional_signal_not_a_kpi
+  description: >
+    NPS (Net Promoter Score) is useful for tracking directional change over time and
+    surfacing qualitative themes in detractor comments, but should not be used as a
+    primary performance metric. Gaming NPS is trivial; cohort retention cannot be gamed.
+  source: "Lenny's Newsletter NPS analysis; Reforge metric critique essays"
+  confidence_tier: widely_accepted
+  when_it_fails: "Enterprise sales where NPS is used as a contract renewal leading indicator."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: null
+
+- pattern_key: power_users_define_the_product_vision
+  description: >
+    The behavior of the top 10-20% most engaged users reveals what the product could
+    be for everyone. Understanding why power users return obsessively is more valuable
+    than understanding why average users churn.
+  source: "Reforge 'Power Users' framework; Duolingo product philosophy"
+  confidence_tier: widely_accepted
+  when_it_fails: "Enterprise software where power users are IT admins, not end-users who determine value."
+  applies_to_stages: [seed, series_a]
+  applies_to_categories: [consumer, b2b_saas]
+
+- pattern_key: activation_rate_predicts_ltv
+  description: >
+    Users who reach a defined activation milestone (first meaningful value moment) within
+    the first session or day have dramatically higher long-term retention and LTV.
+    Optimizing activation is usually higher ROI than top-of-funnel growth.
+  source: "Reforge activation frameworks; Lenny's Newsletter 'Activation > Acquisition'"
+  confidence_tier: widely_accepted
+  when_it_fails: "Products with long onboarding requirements (financial, healthcare) where early activation is structurally delayed."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+# ─── FUNDRAISING BEHAVIOR (6) ─────────────────────────────────────────────────
+
+- pattern_key: warm_intros_dramatically_improve_conversion
+  description: >
+    Cold inbound applications to VCs convert at near-zero rates. A warm introduction
+    from a trusted portfolio founder, LP, or mutual connection increases the likelihood
+    of a first meeting by an order of magnitude.
+  source: "Paul Graham 'How to Raise Money'; First Round investor AMA transcripts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Accelerator programs (YC, Techstars) where applications are reviewed cold by design."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: fundraise_when_you_dont_need_it
+  description: >
+    The best fundraising leverage comes from raising from a position of strength —
+    when revenue is growing, runway is comfortable, and the founder is not desperate.
+    Desperation is detectable and destroys negotiating position.
+  source: "Paul Graham fundraising advice; Sam Altman startup playbook"
+  confidence_tier: widely_accepted
+  when_it_fails: "Pre-revenue founders who have no choice but to raise before traction."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: null
+
+- pattern_key: run_parallel_process_for_best_terms
+  description: >
+    Speaking to multiple investors simultaneously and creating artificial scarcity
+    produces better terms, faster closes, and more options. Sequential pitching
+    gives each investor unlimited time to delay or pass.
+  source: "Paul Graham 'How to Raise Money' parallel vs sequential; Y Combinator fundraising guide"
+  confidence_tier: widely_accepted
+  when_it_fails: "Highly proprietary deals where secrecy is critical or the investor universe is extremely small."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: valuation_anchoring_is_a_negotiation_tactic
+  description: >
+    The first number said in a valuation negotiation anchors the entire discussion.
+    Founders who let investors name a valuation first often end up below market.
+    Naming a specific number (not a range) with a rationale holds the anchor.
+  source: "David Sacks SAFE negotiation talks; David Sackett fundraising posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Situations where market is unknown enough that naming a number exposes ignorance."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: lead_investor_matters_more_than_valuation
+  description: >
+    The right lead investor — one with relevant expertise, strong portfolio company
+    relationships, and board-level coaching ability — typically adds more value than
+    a 20-30% valuation difference. Optimizing only for valuation is a short-term trade.
+  source: "First Round Review 'Pick Your Investors Like Partners'; Sequoia and Benchmark founder letters"
+  confidence_tier: widely_accepted
+  when_it_fails: "Late-stage financings where operational independence is more important than investor involvement."
+  applies_to_stages: [seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: eighteen_month_runway_minimum
+  description: >
+    Raising enough to extend runway to 18+ months protects founders from being forced
+    to fundraise again from a weak position. 12 months is the minimum; 24 months is
+    preferred given how long Series A diligence cycles have become.
+  source: "YC standard guidance on runway; SaaStr fundraising posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Revenue-generating companies that can reach profitability in <12 months and choose not to dilute."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+# ─── PRODUCT STRATEGY (5) ─────────────────────────────────────────────────────
+
+- pattern_key: wedge_product_earns_platform_right
+  description: >
+    The most successful platforms started with a narrow wedge — one specific high-value
+    use case — before expanding. Dropbox started with file sync, Stripe with card
+    payments, Slack with internal messaging. The wedge must be indispensable before
+    the platform expands.
+  source: "Chris Dixon 'The Idea Maze'; Peter Thiel 'Zero to One' wedge strategy"
+  confidence_tier: widely_accepted
+  when_it_fails: "Marketplace or network-effect products where minimum viable scale requires breadth from launch."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: mvp_should_be_embarrassingly_small
+  description: >
+    Most first versions of products are far too large. An MVP that can be built and
+    tested in 2-4 weeks reveals more than months of polish. Founders who over-build
+    before customer contact confuse confidence with evidence.
+  source: "Paul Graham 'Startups in 13 Sentences'; Eric Ries 'The Lean Startup'"
+  confidence_tier: widely_accepted
+  when_it_fails: "Hardware, regulated products, or infrastructure where minimum viable product requires substantial complexity."
+  applies_to_stages: [idea, pre_seed]
+  applies_to_categories: null
+
+- pattern_key: feature_creep_dilutes_core_value
+  description: >
+    Adding features in response to one-off customer requests without testing the
+    request across the customer base is the leading cause of product bloat. Each
+    feature adds surface area to maintain, document, and explain.
+  source: "Basecamp 'It Doesn't Have to Be Crazy at Work'; YC partner product reviews"
+  confidence_tier: widely_accepted
+  when_it_fails: "Enterprise products where deal closure depends on specific feature parity with incumbents."
+  applies_to_stages: [seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: build_for_the_beachhead_not_the_dream
+  description: >
+    The product roadmap for the beachhead customer segment should be kept distinct from
+    the long-term platform vision. Building too early for future customers
+    creates complexity that alienates the present ones.
+  source: "Geoffrey Moore 'Crossing the Chasm'; Sequoia product strategy frameworks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Platform infrastructure where technical decisions made early are hard to reverse."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: second_product_almost_always_fails
+  description: >
+    Launching a second product before the first has reached strong product-market fit
+    nearly always fails and often damages the first product. Focus is a competitive advantage
+    that early-stage founders chronically undervalue.
+  source: "Paul Graham 'Startup = Growth'; Jason Lemkin SaaStr product focus posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Multi-product company designs where the core thesis requires both products to create the value."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+# ─── FOUNDER SELF-AWARENESS / COACHABILITY (5) ───────────────────────────────
+
+- pattern_key: coachability_is_a_top_investor_signal
+  description: >
+    Investors consistently rank founder coachability — willingness to update beliefs
+    when given new evidence — as one of the top signals they evaluate in early meetings.
+    Defensiveness about weaknesses is a strong anti-pattern.
+  source: "First Round Review investor survey data; YC partner public interview comments"
+  confidence_tier: widely_accepted
+  when_it_fails: "Rare cases where the founder is clearly correct and investor feedback is based on incomplete information."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: founders_overestimate_speed
+  description: >
+    Nearly every founder underestimates how long key milestones take — first paying
+    customer, first hire, first fundraise close. Building time buffers and resisting
+    public commitments to specific timelines reduces credibility risk.
+  source: "Paul Graham 'Frighteningly Ambitious Startup Ideas'; YC partner advice"
+  confidence_tier: widely_accepted
+  when_it_fails: "Founders who have done this before and have calibrated timelines from experience."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: obsession_with_the_problem_not_the_solution
+  description: >
+    Founders who are obsessed with solving a specific problem (not attached to a specific
+    solution) can pivot quickly when a solution fails. Solution attachment causes founders
+    to ignore disconfirming customer feedback.
+  source: "Paul Graham 'Hackers and Painters'; YC pivot pattern analysis"
+  confidence_tier: widely_accepted
+  when_it_fails: "Deep tech where a specific technical approach IS the company and cannot be easily changed."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: talking_to_customers_weekly_is_non_negotiable
+  description: >
+    Founders who stop doing direct customer calls as the company grows lose signal
+    faster than their product teams can compensate for. At minimum one hour of
+    direct customer conversation per week should remain on the founder's calendar.
+  source: "YC customer development doctrine; Lenny's Newsletter founder habits survey"
+  confidence_tier: widely_accepted
+  when_it_fails: "Very large-scale consumer products where individual customer calls are statistically unrepresentative."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: founders_mistake_activity_for_progress
+  description: >
+    A full calendar of meetings, calls, and conferences can create the feeling of
+    momentum while the core metrics stagnate. Regular check-ins on whether activity
+    maps to measurable output are essential for maintaining honest self-assessment.
+  source: "Paul Graham 'Startup Advice'; Sam Altman productivity talks"
+  confidence_tier: widely_accepted
+  when_it_fails: "BD-intensive businesses where relationship-building is genuinely the primary lever."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+# ─── METRICS (5) ──────────────────────────────────────────────────────────────
+
+- pattern_key: north_star_metric_aligns_teams
+  description: >
+    A single North Star Metric — one number that best captures the core value delivered
+    to customers — aligns product, engineering, and growth teams around the same
+    objective. Too many top-line metrics create divergence and gaming.
+  source: "Reforge 'North Star Metric'; Amplitude product analytics frameworks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Multi-sided platforms where one metric does not capture supply and demand health simultaneously."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: null
+
+- pattern_key: vanity_metrics_mislead_early_teams
+  description: >
+    Total registered users, page views, and social media followers are vanity metrics —
+    they move easily and correlate poorly with revenue. Founders should track only
+    metrics they cannot easily manipulate: active users, paying customers, revenue, NRR.
+  source: "Eric Ries 'The Lean Startup' vanity metrics chapter; Paul Graham essays"
+  confidence_tier: widely_accepted
+  when_it_fails: "Consumer social products where reach and brand awareness are genuinely valuable leading indicators."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: track_cac_payback_period_not_just_cac
+  description: >
+    CAC in isolation is misleading without the payback period — how many months of
+    gross profit are required to recover acquisition cost. Sustainable businesses
+    target 12-18 month payback at seed, trending to 6-9 months at Series A+.
+  source: "David Sacks SaaStr unit economics posts; SaaStr CAC payback benchmarks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Consumer products with high virality where blended CAC is near-zero and payback is immediate."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: [b2b_saas]
+
+- pattern_key: net_revenue_retention_above_100_is_compounding
+  description: >
+    NRR above 100% means existing customers expand faster than they churn, creating
+    compounding revenue growth independent of new customer acquisition. SaaS
+    businesses with NRR >120% can grow significantly without any new logos.
+  source: "SaaStr '110% NRR Is the New Floor'; David Sacks SaaS metrics posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "SMB-focused SaaS where churn is structurally high and NRR expectations differ."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: [b2b_saas]
+
+- pattern_key: gross_margin_determines_business_model_viability
+  description: >
+    SaaS gross margins of 70%+ are the baseline for venture-scale returns. Services-heavy
+    or hardware-bundled businesses with 30-40% margins require fundamentally different
+    unit economics models to achieve comparable VC returns.
+  source: "SaaStr gross margin posts; Benchmark gross margin analysis"
+  confidence_tier: widely_accepted
+  when_it_fails: "Marketplace businesses where take rate creates its own high-margin structure at scale."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: [b2b_saas]
+
+# ─── CUSTOMER DISCOVERY / SEGMENTATION (4) ────────────────────────────────────
+
+- pattern_key: mom_test_replaces_leading_questions
+  description: >
+    Asking customers "would you use this?" or "would you pay for this?" produces
+    false-positive responses. The Mom Test (ask about past behavior, not future intent)
+    generates honest, actionable signal. People lie about what they will do; they rarely
+    lie about what they have already done.
+  source: "Rob Fitzpatrick 'The Mom Test' (2013)"
+  confidence_tier: widely_accepted
+  when_it_fails: "Entirely novel categories with no past behavior to reference — future-intent questions may be unavoidable."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: icp_narrows_over_time
+  description: >
+    Founders typically start with a broad ICP definition and narrow it as early customer
+    data reveals which segments convert, retain, and expand fastest. ICP clarity at the
+    seed stage is a strong signal of market understanding.
+  source: "Lenny's Newsletter ICP frameworks; SaaStr ICP tightening posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Platform or network-effect products where width of ICP is a feature, not a bug."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: early_customers_are_not_average_customers
+  description: >
+    Early adopters are risk-tolerant, high-tolerance for product roughness, and highly
+    motivated by novelty. Mistaking their enthusiasm for broad-market signal leads to
+    over-building for a segment that is unrepresentative of the eventual mainstream market.
+  source: "Geoffrey Moore 'Crossing the Chasm'; Reforge market segmentation frameworks"
+  confidence_tier: widely_accepted
+  when_it_fails: "Products targeting professional experts where early adopters ARE representative of the full market."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: jobs_to_be_done_reveals_hidden_competition
+  description: >
+    Framing customer needs as "jobs to be done" expands the competitive landscape beyond
+    obvious direct competitors. The real competition for a B2B task manager might be
+    email and spreadsheets, not other task managers.
+  source: "Clayton Christensen 'Competing Against Luck'; Intercom product philosophy posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Well-defined markets with clear incumbent competitors where JTBD adds little new information."
+  applies_to_stages: [idea, pre_seed, seed]
+  applies_to_categories: null
+
+# ─── COMPETITIVE POSITIONING (4) ──────────────────────────────────────────────
+
+- pattern_key: ignore_competition_in_product_obsess_in_sales
+  description: >
+    In product decisions, obsessing over competitors leads to reactive roadmaps and
+    feature mimicry. In sales, understanding competitive positioning is critical for
+    handling objections. The two stances should be consciously separated.
+  source: "Paul Graham 'Beating the Averages'; YC advice on competition"
+  confidence_tier: widely_accepted
+  when_it_fails: "Highly commoditized markets where feature parity is a table-stakes requirement to compete."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: differentiation_on_one_dimension
+  description: >
+    Claiming to be better than incumbents on every dimension is not a positioning
+    strategy — it is noise. Credible differentiation means being meaningfully better
+    on one or two dimensions that matter most to the target segment.
+  source: "April Dunford 'Obviously Awesome' positioning framework"
+  confidence_tier: widely_accepted
+  when_it_fails: "Truly novel categories with no incumbent where differentiation is about education, not comparison."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: distribution_advantage_is_a_moat
+  description: >
+    A startup with an inferior product but superior distribution will often beat a
+    superior product with no distribution strategy. Building an owned distribution
+    channel (email list, community, direct relationships) early is a durable moat.
+  source: "Peter Thiel 'Zero to One' distribution chapter; David Sacks distribution moat posts"
+  confidence_tier: widely_accepted
+  when_it_fails: "Developer tools and API products where product virality IS the distribution."
+  applies_to_stages: [seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: regulatory_moats_require_proactive_engagement
+  description: >
+    In regulated industries, proactive engagement with regulators — rather than
+    ignoring or fighting them — can create defensible moats that slow well-funded
+    competitors. The cost of compliance becomes a competitor's switching cost.
+  source: "a16z regulatory strategy posts; Stripe and Plaid compliance strategy analyses"
+  confidence_tier: speculative
+  when_it_fails: "Early-stage startups that cannot afford regulatory counsel and are pre-revenue."
+  applies_to_stages: [seed, series_a, series_b_plus]
+  applies_to_categories: [b2b_saas]
+
+# ─── FOUNDER PSYCHOLOGY (3) ───────────────────────────────────────────────────
+
+- pattern_key: burnout_follows_the_funding_high
+  description: >
+    The post-fundraise period often involves a paradoxical energy crash as adrenaline
+    subsides and the weight of investor expectations sets in. Founders who do not
+    deliberately manage energy — exercise, sleep, scheduled breaks — are at elevated
+    burnout risk in the 3-6 months after a round closes.
+  source: "First Round Review 'The Emotional Journey of Founders'; Ben Horowitz 'The Hard Thing'"
+  confidence_tier: widely_accepted
+  when_it_fails: "Founders with strong prior mental health practices or who have managed post-close before."
+  applies_to_stages: [pre_seed, seed, series_a]
+  applies_to_categories: null
+
+- pattern_key: cofounder_conflict_peaks_at_18_months
+  description: >
+    Cofounder conflicts most frequently surface at 12-24 months when initial excitement
+    has faded, role clarity is incomplete, and the emotional cost of disagreement has
+    accumulated. Proactive cofounder agreements on equity vesting, roles, and exit
+    rights prevent most catastrophic breakups.
+  source: "Noam Wasserman 'The Founder's Dilemmas' (Harvard research); YC cofounder advice"
+  confidence_tier: widely_accepted
+  when_it_fails: "Cofounders with long pre-existing relationships and explicit alignment conversations before starting."
+  applies_to_stages: [pre_seed, seed]
+  applies_to_categories: null
+
+- pattern_key: identity_tied_to_company_amplifies_bad_decisions
+  description: >
+    Founders who conflate personal identity with company success make worse decisions
+    under pressure — they cannot objectively evaluate pivots, shutdowns, or M&A exits
+    because any outcome other than triumph feels like personal failure.
+  source: "Ben Horowitz 'The Hard Thing About Hard Things'; Stanford entrepreneurship psychology research"
+  confidence_tier: speculative
+  when_it_fails: "Intrinsically motivated founders who have separate identity anchors and can separate self from company."
+  applies_to_stages: [pre_seed, seed, series_a, series_b_plus]
+  applies_to_categories: null

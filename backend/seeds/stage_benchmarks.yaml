@@ -1,0 +1,204 @@
+# Stage Benchmarks Seed
+# Conservative estimates grounded in publicly-discussed ranges.
+# Sources: SaaStr annual survey posts, First Round State of Startups report,
+# PitchBook summaries, YC demo day context.
+# IMPORTANT: These are directional estimates pending calibration with actual
+# founder-outcome data. Recalibrate once ZStar collects sufficient cohort data.
+# evidence_notes on each entry explains the basis and caveats.
+
+# ─── IDEA STAGE ───────────────────────────────────────────────────────────────
+
+- stage: idea
+  metric_key: team_size_ftes
+  metric_value: { median: 1, p25: 1, p75: 2 }
+  category: null
+  evidence_notes: >
+    Idea-stage companies are almost always 1-2 people. Median of 1 reflects
+    the pre-cofounder phase. Rough estimate from YC application patterns; recalibrate
+    with actual data once collected.
+
+# ─── PRE-SEED STAGE ───────────────────────────────────────────────────────────
+
+- stage: pre_seed
+  metric_key: median_mrr_usd
+  metric_value: { median: 0, p25: 0, p75: 3000 }
+  category: null
+  evidence_notes: >
+    Most pre-seed companies have $0 MRR or very early revenue. P75 of $3k reflects
+    rare early-traction cases. Rough estimate from SaaStr survey posts and YC batch
+    discussions; recalibrate with actual data once collected.
+
+- stage: pre_seed
+  metric_key: paying_customer_count
+  metric_value: { median: 0, p25: 0, p75: 5 }
+  category: null
+  evidence_notes: >
+    Pre-seed founders typically have 0-5 paying customers, often design partners
+    or friends-and-family. Rough estimate from YC advice posts; recalibrate with
+    actual data once collected.
+
+- stage: pre_seed
+  metric_key: team_size_ftes
+  metric_value: { median: 2, p25: 1, p75: 3 }
+  category: null
+  evidence_notes: >
+    Pre-seed teams are typically 2 (cofounder pair) or 1-3. Rough estimate from YC
+    batch data discussed in public posts; recalibrate with actual data once collected.
+
+- stage: pre_seed
+  metric_key: runway_months
+  metric_value: { median: 12, p25: 6, p75: 18 }
+  category: null
+  evidence_notes: >
+    Pre-seed rounds typically fund 12-18 months. P25 of 6 reflects bootstrapped
+    founders or very small angels. Rough estimate from YC/accelerator discussions;
+    recalibrate with actual data once collected.
+
+# ─── SEED STAGE ───────────────────────────────────────────────────────────────
+
+- stage: seed
+  metric_key: median_mrr_usd
+  metric_value: { median: 15000, p25: 5000, p75: 50000 }
+  category: null
+  evidence_notes: >
+    Seed-stage SaaS/software targets ~$10-20k MRR at raise time per commonly-cited
+    SaaStr and YC benchmarks. P75 of $50k reflects stronger traction cases.
+    Rough estimate from SaaStr survey posts and First Round State of Startups;
+    recalibrate with actual data once collected.
+
+- stage: seed
+  metric_key: paying_customer_count
+  metric_value: { median: 15, p25: 5, p75: 50 }
+  category: null
+  evidence_notes: >
+    Seed companies typically show 10-30 paying customers at raise time. Wide P75
+    reflects enterprise (fewer, larger) vs. SMB (many, smaller). Rough estimate from
+    SaaStr and YC discussions; recalibrate with actual data once collected.
+
+- stage: seed
+  metric_key: runway_months
+  metric_value: { median: 18, p25: 12, p75: 24 }
+  category: null
+  evidence_notes: >
+    Standard seed advice targets 18-24 months of runway. P25 of 12 reflects lean
+    raises or higher burn. Rough estimate from YC standard guidance; recalibrate
+    with actual data once collected.
+
+- stage: seed
+  metric_key: burn_rate_usd
+  metric_value: { median: 50000, p25: 20000, p75: 120000 }
+  category: null
+  evidence_notes: >
+    Seed-stage monthly burn of $30-80k is commonly cited for 3-6 person teams in
+    major metros. P75 of $120k reflects SF/NYC teams with engineering salaries.
+    Rough estimate from SaaStr and First Round State of Startups; recalibrate
+    with actual data once collected.
+
+- stage: seed
+  metric_key: nps_score
+  metric_value: { median: 40, p25: 20, p75: 60 }
+  category: null
+  evidence_notes: >
+    NPS of 40+ at seed is a common informal benchmark for product-market fit signal.
+    P25 of 20 reflects early-stage roughness; P75 of 60 is strong for early products.
+    Rough estimate from SaaStr NPS posts; use directionally only, not as a KPI target.
+
+# ─── SERIES A STAGE ───────────────────────────────────────────────────────────
+
+- stage: series_a
+  metric_key: median_mrr_usd
+  metric_value: { median: 150000, p25: 75000, p75: 350000 }
+  category: null
+  evidence_notes: >
+    Series A SaaS typically requires $1-2M ARR ($83k-167k MRR) per commonly cited
+    SaaStr benchmarks. P75 of $350k reflects stronger growth-rate compensating for
+    lower absolute MRR. Rough estimate from SaaStr 2022-2024 posts; recalibrate
+    with actual data once collected.
+
+- stage: series_a
+  metric_key: mom_growth_rate_pct
+  metric_value: { median: 15, p25: 10, p75: 25 }
+  category: null
+  evidence_notes: >
+    Series A investors commonly look for 15-20% MoM growth or a clear path to it.
+    P25 of 10% reflects slower but capital-efficient companies. Rough estimate from
+    SaaStr growth benchmarks; recalibrate with actual data once collected.
+
+- stage: series_a
+  metric_key: gross_margin_pct
+  metric_value: { median: 72, p25: 60, p75: 80 }
+  category: null
+  evidence_notes: >
+    SaaS gross margins of 70%+ are the commonly-cited venture baseline. P25 of 60%
+    reflects early infrastructure or services-light bundles. Rough estimate from
+    SaaStr and public SaaS company filings; recalibrate with actual data.
+
+- stage: series_a
+  metric_key: net_revenue_retention_pct
+  metric_value: { median: 105, p25: 95, p75: 120 }
+  category: null
+  evidence_notes: >
+    SaaStr and First Round commonly cite 100-110% NRR as Series A expectation.
+    P25 of 95% reflects SMB-heavy books with moderate churn. Rough estimate from
+    SaaStr annual State of SaaS posts; recalibrate with actual data once collected.
+
+- stage: series_a
+  metric_key: runway_months
+  metric_value: { median: 24, p25: 18, p75: 30 }
+  category: null
+  evidence_notes: >
+    Series A rounds target 24-30 months of runway. P25 of 18 reflects tighter
+    raises or faster burn expansion post-close. Rough estimate from YC and SaaStr
+    guidance; recalibrate with actual data once collected.
+
+# ─── SERIES B+ STAGE ──────────────────────────────────────────────────────────
+
+- stage: series_b_plus
+  metric_key: median_mrr_usd
+  metric_value: { median: 800000, p25: 400000, p75: 2000000 }
+  category: null
+  evidence_notes: >
+    Series B SaaS typically implies $5-15M+ ARR ($417k-1.25M MRR) per SaaStr posts.
+    P75 of $2M MRR reflects growth-stage companies. Wide range reflects variation
+    between capital-efficient and growth-at-all-costs profiles. Recalibrate with
+    actual data once collected.
+
+- stage: series_b_plus
+  metric_key: runway_months
+  metric_value: { median: 24, p25: 18, p75: 36 }
+  category: null
+  evidence_notes: >
+    Series B rounds target 24-36 months. P25 of 18 reflects aggressive expansion
+    burn plans. Rough estimate from PitchBook round size summaries; recalibrate
+    with actual data once collected.
+
+# ─── CATEGORY-SPECIFIC ────────────────────────────────────────────────────────
+
+- stage: seed
+  metric_key: net_revenue_retention_pct
+  metric_value: { median: 105, p25: 95, p75: 120 }
+  category: b2b_saas
+  evidence_notes: >
+    B2B SaaS seed-stage NRR of 100-110% is a common signal of expansion potential.
+    P25 of 95% reflects early-stage churn before playbooks are set. Rough estimate
+    from SaaStr '110% NRR Is the New Floor'; recalibrate with actual data once collected.
+
+- stage: seed
+  metric_key: take_rate_pct
+  metric_value: { median: 12, p25: 8, p75: 20 }
+  category: marketplace
+  evidence_notes: >
+    Marketplace take rates of 10-20% are typical for two-sided platforms at seed.
+    Lower end (8%) reflects competitive supply-side negotiations; upper (20%) reflects
+    high-value matching platforms. Rough estimate from a16z marketplace analyses
+    and Andreessen Horowitz marketplace posts; recalibrate with actual data.
+
+- stage: seed
+  metric_key: wau_dau_ratio
+  metric_value: { median: 0.35, p25: 0.2, p75: 0.55 }
+  category: consumer
+  evidence_notes: >
+    Consumer seed products targeting weekly habit formation should aim for WAU/DAU
+    above 0.3. Below 0.2 suggests sporadic usage without habit formation. Rough
+    estimate directionally from Reforge retention benchmarks; recalibrate with
+    actual data once collected.
