@@ -1,11 +1,12 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from src.api.auth import router as auth_router
+from src.core.config import validate_required_secrets
 from src.core.cors import setup_cors
 from src.core.rate_limit import limiter
 from src.db.connection import close_pool, init_pool
@@ -13,6 +14,7 @@ from src.db.connection import close_pool, init_pool
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    validate_required_secrets()
     await init_pool()
     yield
     await close_pool()
