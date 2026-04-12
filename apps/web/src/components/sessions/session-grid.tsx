@@ -30,15 +30,11 @@ export function SessionGrid() {
     return map;
   }, [sessions]);
 
-  const allCoreComplete = coreBlueprints.every(
-    (b) => latestByType.get(b.key)?.completed_at != null,
-  );
-
   const recommended = coreBlueprints.find(
     (b) => latestByType.get(b.key)?.completed_at == null,
   );
 
-  const { data: recommendation } = useDeepDiveRecommendation(allCoreComplete);
+  const { data: recommendation } = useDeepDiveRecommendation(true);
 
   if (bpLoading || sLoading) return <div className="text-neutral-500">Loading…</div>;
 
@@ -54,22 +50,14 @@ export function SessionGrid() {
           />
         ))}
       </div>
-      <DeepDiveCard unlocked={allCoreComplete} recommendation={recommendation ?? null} />
+      <DeepDiveCard recommendation={recommendation ?? null} />
     </div>
   );
 }
 
 function DeepDiveCard({
-  unlocked, recommendation,
-}: { unlocked: boolean; recommendation: { target_category: string; target_signal: string; is_default: boolean } | null }) {
-  if (!unlocked) {
-    return (
-      <div className="rounded-xl p-5 border border-dashed border-neutral-800 text-neutral-500">
-        <h4 className="text-lg font-semibold">Deep Dive</h4>
-        <p className="text-sm mt-1">Complete your 4 core sessions to unlock.</p>
-      </div>
-    );
-  }
+  recommendation,
+}: { recommendation: { target_category: string; target_signal: string; is_default: boolean } | null }) {
   if (!recommendation) return null;
   return (
     <div className="rounded-xl p-5 border border-amber-500/40 bg-amber-500/5">

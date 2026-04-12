@@ -150,7 +150,11 @@ export function SessionChatSurface({
       {messages.length === 0 && (
         <StarterQuestions
           questions={blueprint.starter_questions}
-          onSelect={handleSend}
+          onSelect={(q) =>
+            setMessages([
+              { role: "assistant", content: q, id: crypto.randomUUID() },
+            ])
+          }
         />
       )}
       <CompletionBanner
