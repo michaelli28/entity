@@ -9,6 +9,7 @@ class Settings(BaseSettings):
 
     clerk_jwks_url: str = ""
     clerk_issuer: str = ""
+    clerk_audience: str = ""
     clerk_webhook_secret: str = ""
 
     anthropic_api_key: str = ""
