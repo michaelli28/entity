@@ -30,18 +30,42 @@ export default function ChatPage() {
   const abortRef = useRef<AbortController | null>(null);
   const [coldRead, setColdRead] = useState<ColdRead | null>(null);
   const [commitment, setCommitment] = useState<Commitment | null>(null);
+  const coldReadIdRef = useRef<string | null>(null);
+  useEffect(() => {
+    coldReadIdRef.current = coldRead?.id ?? null;
+  }, [coldRead]);
+
+  const fetchLatestColdRead = async (): Promise<ColdRead | null> => {
+    try {
+      const res = await fetch("/api/cold-reads/latest");
+      if (!res.ok) return null;
+      const data = (await res.json()) as Partial<ColdRead>;
+      return data.id ? (data as ColdRead) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  // Poll a few times after a stream completes — the Cold Read is
+  // generated in the backend BackgroundTask, so it appears ~3-10s later.
+  const pollColdReadUntilNew = async () => {
+    const existingId = coldReadIdRef.current;
+    const schedule = [2000, 3000, 5000, 8000, 10000];
+    for (const delay of schedule) {
+      await new Promise((r) => setTimeout(r, delay));
+      const latest = await fetchLatestColdRead();
+      if (latest && latest.id !== existingId) {
+        setColdRead(latest);
+        return;
+      }
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      try {
-        const res = await fetch("/api/cold-reads/latest");
-        if (!res.ok) return;
-        const data = (await res.json()) as Partial<ColdRead>;
-        if (!cancelled && data.id) setColdRead(data as ColdRead);
-      } catch {
-        // Cold Read unavailable — fail silently
-      }
+      const latest = await fetchLatestColdRead();
+      if (!cancelled && latest) setColdRead(latest);
     })();
     void (async () => {
       try {
@@ -102,7 +126,10 @@ export default function ChatPage() {
       handlers: {
         onSession: ({ session_id }) => setSessionId(session_id),
         onToken: (t) => updateAssistant((prev) => prev + t),
-        onDone: () => setStreaming(false),
+        onDone: () => {
+          setStreaming(false);
+          void pollColdReadUntilNew();
+        },
         onError: (e) => {
           setStreaming(false);
           updateAssistant(() => `\u26a0\ufe0f ${e.message}`);
