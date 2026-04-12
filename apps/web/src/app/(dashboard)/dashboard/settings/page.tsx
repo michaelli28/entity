@@ -21,14 +21,7 @@ export default function SettingsPage() {
         </div>
         <div className="rounded-lg border border-white/10 p-4">
           <h2 className="mb-2 font-medium">Account</h2>
-          <SignOutButton>
-            <button
-              type="button"
-              className="text-sm text-red-400 hover:underline"
-            >
-              Sign out
-            </button>
-          </SignOutButton>
+          <SignOutButton>Sign out</SignOutButton>
         </div>
       </section>
     </div>
