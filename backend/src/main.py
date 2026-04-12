@@ -11,7 +11,10 @@ from src.core.cors import setup_cors
 from src.core.logging import configure_logging
 from src.core.rate_limit import limiter
 from src.core.request_id import RequestIDMiddleware
+from src.core.sentry import init_sentry
 from src.db.connection import close_pool, init_pool
+
+init_sentry()
 
 
 @asynccontextmanager
