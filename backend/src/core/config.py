@@ -30,6 +30,9 @@ class Settings(BaseSettings):
 
     resend_api_key: str = ""
 
+    COVERAGE_COMPLETION_THRESHOLD: int = 75
+    COVERAGE_MIN_TURNS: int = 3
+
 
 settings = Settings()
 
