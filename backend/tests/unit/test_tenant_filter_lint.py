@@ -21,7 +21,7 @@ FOUNDER_OWNED_TABLES = {
     "intro_requests",
 }
 
-SAFE_COLUMNS = {"founder_id", "clerk_user_id", "id"}
+SAFE_COLUMNS = {"founder_id", "clerk_user_id", "id", "public_slug"}
 
 SQL_STRING_RE = re.compile(r'"""(.*?)"""', re.DOTALL)
 

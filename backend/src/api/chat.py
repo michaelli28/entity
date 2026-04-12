@@ -12,18 +12,21 @@ from uuid import UUID
 
 import structlog
 from anthropic import APIConnectionError, APIStatusError
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
+from ..db.repositories import cold_read_repository as crepo
 from ..db.repositories import founder_repository as frepo
 from ..db.repositories import mentor_repository as mrepo
 from ..db.repositories import startup_profile_repository as srepo
 from ..integrations import posthog as ph
+from ..llm import prompts
 from ..llm.client import SONNET_MODEL, get_client
 from ..llm.context_builder import build_messages_and_system
+from ..llm.extractors import generate_cold_read
 from ..llm.redact import redact
 from ..llm.safety import CANNED_RESPONSES, Intent, classify_intent
 
@@ -49,9 +52,38 @@ def _parse_session_id(raw: str | None) -> UUID | None:
         return None
 
 
+async def _maybe_generate_cold_read(
+    founder_id: Any,
+    session_id: Any,
+    founder_context: str,
+    clerk_sub: str,
+) -> None:
+    async with get_connection() as conn:
+        turns = await mrepo.turn_count(conn, session_id)
+        existing = await conn.fetchval(
+            "SELECT id FROM cold_reads WHERE session_id = $1", session_id
+        )
+        if existing or turns < 3:
+            return
+        messages_rows = await mrepo.recent_messages(conn, session_id, limit=20)
+    excerpt = "\n".join(f"{m['role']}: {m['content']}" for m in messages_rows)
+    cold_read = await generate_cold_read(excerpt, founder_context)
+    async with get_connection() as conn:
+        await crepo.create(
+            conn,
+            founder_id=founder_id,
+            session_id=session_id,
+            what_i_heard=cold_read.what_i_heard,
+            investor_pushback=cold_read.investor_pushback,
+            three_unanswered_questions=cold_read.three_unanswered_questions,
+        )
+    ph.capture(clerk_sub, "cold_read_generated")
+
+
 @router.post("/stream")
 async def chat_stream(
     body: ChatRequest,
+    bg: BackgroundTasks,
     claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
 ) -> StreamingResponse:
     if not body.message.strip():
@@ -65,6 +97,8 @@ async def chat_stream(
         finish_reason = "error"
         session_id: UUID | None = None
         founder_id: Any = None
+        founder: dict[str, Any] | None = None
+        profile: dict[str, Any] = {}
         input_tokens = 0
         output_tokens = 0
         try:
@@ -203,6 +237,19 @@ async def chat_stream(
                         "input_tokens": input_tokens,
                         "output_tokens": output_tokens,
                     },
+                )
+            if (
+                finish_reason == "stop"
+                and founder_id is not None
+                and session_id is not None
+                and founder is not None
+            ):
+                bg.add_task(
+                    _maybe_generate_cold_read,
+                    founder_id,
+                    session_id,
+                    prompts.founder_profile_block(founder, profile),
+                    claims["sub"],
                 )
 
     return StreamingResponse(
