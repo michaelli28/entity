@@ -121,12 +121,15 @@ async def deep_dive_recommendation(
     """Read latest signal_scores; return weakest category + signal."""
     row = await conn.fetchrow(
         """
-        SELECT category, subscore
-        FROM signal_scores
-        WHERE startup_profile_id IN (
+        SELECT kv.key AS category,
+               (kv.value)::text::int AS subscore
+        FROM signal_scores s
+        CROSS JOIN LATERAL jsonb_each(s.category_scores) AS kv
+        WHERE s.startup_profile_id IN (
             SELECT id FROM startup_profiles WHERE founder_id = $1
         )
-        ORDER BY subscore ASC, created_at DESC
+          AND jsonb_typeof(kv.value) = 'number'
+        ORDER BY subscore ASC, s.computed_at DESC
         LIMIT 1
         """,
         founder_id,
