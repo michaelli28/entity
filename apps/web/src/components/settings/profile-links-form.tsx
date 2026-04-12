@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 type FounderMe = {
   linkedin_url: string | null;
   github_username: string | null;
+  website_url: string | null;
 };
 
 export function ProfileLinksForm() {
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [githubUsername, setGithubUsername] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -22,6 +24,7 @@ export function ProfileLinksForm() {
         const body = (await r.json()) as FounderMe;
         setLinkedinUrl(body.linkedin_url ?? "");
         setGithubUsername(body.github_username ?? "");
+        setWebsiteUrl(body.website_url ?? "");
       } catch (e) {
         setError(e instanceof Error ? e.message : "Failed to load");
       } finally {
@@ -43,6 +46,7 @@ export function ProfileLinksForm() {
         body: JSON.stringify({
           linkedin_url: linkedinUrl.trim() || null,
           github_username: githubUsername.trim().replace(/^@/, "") || null,
+          website_url: websiteUrl.trim() || null,
         }),
       });
       if (!r.ok) throw new Error(`PATCH ${r.status}`);
@@ -93,6 +97,20 @@ export function ProfileLinksForm() {
           value={githubUsername}
           onChange={(e) => setGithubUsername(e.target.value)}
           placeholder="yourhandle"
+          className="mt-1 block w-full rounded-md border border-white/15 bg-neutral-900 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-emerald-500/60 focus:outline-none"
+        />
+        <span className="mt-1 block text-xs text-white/40">
+          We&apos;ll fetch your public GitHub profile and top repos to enrich your mentor context.
+        </span>
+      </label>
+
+      <label className="block">
+        <span className="text-sm text-white/70">Website URL</span>
+        <input
+          type="url"
+          value={websiteUrl}
+          onChange={(e) => setWebsiteUrl(e.target.value)}
+          placeholder="https://yourproduct.com"
           className="mt-1 block w-full rounded-md border border-white/15 bg-neutral-900 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-emerald-500/60 focus:outline-none"
         />
       </label>
