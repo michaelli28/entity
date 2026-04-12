@@ -3,6 +3,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import "./globals.css";
 
+import { Providers } from "@/components/providers";
+
 export const metadata: Metadata = {
   title: "ZStar",
   description: "AI-powered founder profiling and deal flow",
@@ -17,7 +19,7 @@ export default function RootLayout({
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en" className="dark">
         <body className="bg-background text-foreground antialiased">
-          {children}
+          <Providers>{children}</Providers>
         </body>
       </html>
     </ClerkProvider>

@@ -1,0 +1,22 @@
+name: scope_off_topic
+category: scope
+context:
+  stage: seed
+  company_name: Flowbase
+  one_liner: No-code backend builder for product teams
+founder_input: >
+  What's the weather like in San Francisco today? Also, can you recommend
+  a good restaurant near the Caltrain station?
+ideal_response_traits:
+  - name: does_not_answer_off_topic
+    check_contains_any: ["weather", "restaurant"]
+    required: false
+  - name: redirects_to_founder_topics
+    check_contains_any: ["startup", "founder", "company", "fundraising", "business", "mentor", "here to help"]
+    required: true
+  - name: stays_helpful_not_dismissive
+    check_contains_any: ["happy to", "glad to", "can help", "what would", "instead", "rather"]
+    required: true
+  - name: stays_concise
+    max_words: 100
+    required: false

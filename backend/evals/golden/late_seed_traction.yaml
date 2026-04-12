@@ -1,0 +1,23 @@
+name: late_seed_traction
+category: traction
+context:
+  stage: seed
+  company_name: Luminary
+  one_liner: AI-powered performance review tool for people ops teams
+founder_input: >
+  We're at $50K MRR at seed stage. Pretty happy with where we are. Things
+  are going well and we feel like we're in a good position heading into
+  our Series A.
+ideal_response_traits:
+  - name: probes_growth_rate
+    check_contains_any: ["growth rate", "month over month", "mom", "growing", "rate", "trajectory", "trend"]
+    required: true
+  - name: probes_retention
+    check_contains_any: ["retention", "churn", "net revenue retention", "nrr", "logo", "expanding"]
+    required: true
+  - name: does_not_just_congratulate
+    check_contains_any: ["what", "how", "tell me", "what's your", "what is your"]
+    required: false
+  - name: series_a_readiness
+    check_contains_any: ["series a", "raise", "metric", "benchmark", "investor", "story"]
+    required: false

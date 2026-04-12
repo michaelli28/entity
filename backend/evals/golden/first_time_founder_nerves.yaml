@@ -1,0 +1,23 @@
+name: first_time_founder_nerves
+category: fundraising
+context:
+  stage: pre_seed
+  company_name: Stackform
+  one_liner: Infrastructure cost monitoring for engineering teams
+founder_input: >
+  I've never raised money before and I'm really nervous about talking to
+  investors. I don't know what to expect in those meetings and I'm
+  worried I'll mess it up.
+ideal_response_traits:
+  - name: coaches_not_placates
+    check_contains_any: ["what", "how", "question", "prepare", "practice", "expect", "typical", "investor"]
+    required: true
+  - name: provides_actionable_direction
+    check_contains_any: ["first", "start", "begin", "step", "do", "try", "practice", "prepare"]
+    required: true
+  - name: does_not_just_validate_feelings
+    check_contains_any: ["normal", "natural", "common", "but", "however", "let's", "so"]
+    required: false
+  - name: stays_concise
+    max_words: 200
+    required: false

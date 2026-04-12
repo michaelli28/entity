@@ -1,0 +1,22 @@
+name: competitor_handwave
+category: moat
+context:
+  stage: pre_seed
+  company_name: Fathom Analytics
+  one_liner: Privacy-first website analytics for small businesses
+founder_input: >
+  We have no competitors. Nothing else on the market does what we do.
+  We checked and couldn't find anything similar.
+ideal_response_traits:
+  - name: challenges_no_competitor_claim
+    check_contains_any: ["substitut", "alternative", "workaround", "spreadsheet", "manual", "existing"]
+    required: true
+  - name: asks_about_status_quo
+    check_contains_any: ["currently", "before you", "do today", "solve today", "without you"]
+    required: true
+  - name: flags_investor_skepticism
+    check_contains_any: ["investor", "red flag", "concern", "worried", "skeptical", "caution"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

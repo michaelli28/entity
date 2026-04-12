@@ -1,0 +1,22 @@
+name: retention_claim
+category: traction
+context:
+  stage: seed
+  company_name: Meridian
+  one_liner: Workflow automation for operations teams at growth-stage startups
+founder_input: >
+  Our retention is great. Users really love the product and keep coming back.
+  We're seeing strong engagement across our user base.
+ideal_response_traits:
+  - name: asks_for_cohort_numbers
+    check_contains_any: ["cohort", "month 1", "month 3", "month 6", "30-day", "90-day", "d30", "d90", "specific number", "percentage"]
+    required: true
+  - name: probes_definition_of_great
+    check_contains_any: ["define", "what does", "benchmark", "industry", "compared to", "what percentage", "how do you measure"]
+    required: true
+  - name: does_not_accept_vague_claim
+    check_contains_any: ["specifically", "data", "show me", "prove", "evidence"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

@@ -161,7 +161,7 @@ Run in `backend/`:
 
 ```bash
 uv add sentry-sdk[fastapi] structlog posthog sqlglot cachetools
-uv add --dev pytest-asyncio httpx pgtestdb asgi-lifespan
+uv add --dev pytest-asyncio httpx pytest-postgresql asgi-lifespan
 ```
 
 - [ ] **Step 2: Add frontend deps**
@@ -194,7 +194,7 @@ git commit -m "feat: add Day 1 MVP dependencies (sentry, structlog, posthog, sql
 
 **Files:**
 
-- Create: `supabase/migrations/20260412000000_02_mvp_foundation.sql`
+- Create: `supabase/migrations/20260412020000_mvp_foundation.sql` (must sort after init `20260412001525_init.sql`)
 
 - [ ] **Step 1: Write the migration**
 
@@ -309,7 +309,7 @@ Expected: all four items present.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add supabase/migrations/20260412000000_02_mvp_foundation.sql
+git add supabase/migrations/20260412020000_mvp_foundation.sql
 git commit -m "feat(db): add Day 1 migration — stage values, uniques, triggers, idempotency, empirical tables"
 ```
 
@@ -370,6 +370,8 @@ git commit -m "docs(adr): document RLS disabled, app-layer tenant isolation"
 ---
 
 ## T04: Fix JWKS kid matching + TTL cache
+
+> **Review fix applied (see commit after 58874b9):** Added `asyncio.Lock` with double-checked locking for JWKS cache stampede prevention, restored issuer verification (security regression fix), catch `httpx.HTTPError` as 503, switched to `PyJWK.from_dict` for correct pyright typing, build `decode_kwargs` conditionally (drop `options={verify_aud}` pattern). Tests expanded: TTL cache, force-refresh, 503, missing-kid. See commit for final code.
 
 **Files:**
 

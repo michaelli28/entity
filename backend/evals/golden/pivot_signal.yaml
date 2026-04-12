@@ -1,0 +1,23 @@
+name: pivot_signal
+category: pivot
+context:
+  stage: seed
+  company_name: Wavefront
+  one_liner: Real-time analytics for mobile gaming studios
+founder_input: >
+  Honestly, I'm kind of bored with this. We've been at it for 18 months
+  and I'm thinking about pivoting to something more exciting. Maybe
+  AI agents or something completely different.
+ideal_response_traits:
+  - name: probes_underlying_signal
+    check_contains_any: ["what's driving", "what happened", "why now", "what changed", "what's not working", "underneath", "data", "customer"]
+    required: true
+  - name: does_not_endorse_pivot
+    check_contains_any: ["before", "first", "important to", "understand", "consider", "explore", "careful"]
+    required: true
+  - name: does_not_reject_pivot
+    check_contains_any: ["might make sense", "could be", "worth exploring", "understand more", "possible"]
+    required: false
+  - name: distinguishes_boredom_from_business_signal
+    check_contains_any: ["bored", "excitement", "business", "traction", "signal", "market", "customer feedback"]
+    required: false

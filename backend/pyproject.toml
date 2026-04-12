@@ -12,11 +12,19 @@ dependencies = [
     "asyncpg>=0.31.0",
     "pgvector>=0.3.6",
     "anthropic>=0.52.0",
-    "instructor>=1.8.0",
+    "instructor[anthropic]>=1.8.0",
     "pyjwt[crypto]>=2.10.0",
     "httpx>=0.28.0",
     "svix>=1.62.0",
     "slowapi>=0.1.9",
+    "sentry-sdk[fastapi]>=2.57.0",
+    "structlog>=25.5.0",
+    "posthog>=7.11.0",
+    "sqlglot>=30.4.2",
+    "cachetools>=7.0.5",
+    "apscheduler>=3.11.2",
+    "resend>=2.27.0",
+    "pyyaml>=6.0.3",
 ]
 
 [dependency-groups]
@@ -26,6 +34,8 @@ dev = [
     "httpx>=0.28.0",
     "ruff>=0.11.0",
     "pyright>=1.1.400",
+    "asgi-lifespan>=2.1.0",
+    "pytest-postgresql>=8.0.0",
 ]
 
 [project.scripts]
@@ -50,4 +60,9 @@ venv = ".venv"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
 testpaths = ["tests"]
+# Disable pytest-postgresql by default; tests that need it can opt in via `-p postgresql`.
+# Requires libpq (psycopg binary) which isn't guaranteed in all environments.
+addopts = "-p no:postgresql"

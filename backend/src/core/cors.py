@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.core.config import settings
+from .config import settings
 
 
 def setup_cors(app: FastAPI) -> None:
@@ -9,6 +9,7 @@ def setup_cors(app: FastAPI) -> None:
         CORSMiddleware,
         allow_origins=[settings.frontend_url],
         allow_credentials=True,
-        allow_methods=["GET", "POST", "PUT", "DELETE"],
-        allow_headers=["Authorization", "Content-Type"],
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
+        expose_headers=["X-Request-ID"],
     )

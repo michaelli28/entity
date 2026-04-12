@@ -1,0 +1,22 @@
+name: team_weakness_denial
+category: team
+context:
+  stage: seed
+  company_name: Vaultly
+  one_liner: Secure document sharing for financial advisors
+founder_input: >
+  Our team has no weaknesses. We have all the skills we need. My co-founder
+  and I cover everything between us.
+ideal_response_traits:
+  - name: probes_coachability
+    check_contains_any: ["blind spot", "gap", "weakness", "honest", "self-aware", "acknowledge", "challenge"]
+    required: true
+  - name: asks_specific_skill_question
+    check_contains_any: ["sales", "marketing", "engineering", "design", "domain", "network", "hire", "recruit"]
+    required: true
+  - name: does_not_validate_claim
+    check_contains_any: ["really", "actually", "sure", "certain", "think about", "consider"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

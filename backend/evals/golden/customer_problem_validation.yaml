@@ -1,0 +1,22 @@
+name: customer_problem_validation
+category: traction
+context:
+  stage: pre_seed
+  company_name: Helixport
+  one_liner: Supply chain visibility platform for mid-market manufacturers
+founder_input: >
+  I know customers want this. The problem is real and obvious. Anyone in
+  manufacturing knows this is a huge pain point that needs to be solved.
+ideal_response_traits:
+  - name: asks_how_many_interviewed
+    check_contains_any: ["how many", "talked to", "interviewed", "spoken with", "conversations", "customers have you"]
+    required: true
+  - name: challenges_assumption_of_knowledge
+    check_contains_any: ["assume", "actually", "really", "verify", "validate", "confirm", "heard directly"]
+    required: true
+  - name: distinguishes_problem_from_solution_desire
+    check_contains_any: ["solution", "build", "pay for", "buy", "willing to", "problem vs"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

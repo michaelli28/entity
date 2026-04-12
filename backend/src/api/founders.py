@@ -1,0 +1,114 @@
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownArgumentType=false
+# pyright: reportReturnType=false
+from typing import Any
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel, Field
+
+from ..core.dependencies import verify_clerk_jwt
+from ..db.connection import get_connection
+from ..db.repositories import founder_repository as frepo
+from ..db.repositories import startup_profile_repository as srepo
+from ..integrations import posthog as ph
+
+router = APIRouter(prefix="/api/founders", tags=["founders"])
+
+
+class PatchFounder(BaseModel):
+    name: str | None = None
+    linkedin_url: str | None = None
+    github_username: str | None = None
+    what_would_make_10x: str | None = None
+
+
+class PatchStartup(BaseModel):
+    company_name: str | None = None
+    one_liner: str | None = None
+    stage: str | None = Field(
+        default=None,
+        pattern=r"^(idea|pre_seed|seed|series_a|series_b_plus)$",
+    )
+    category: str | None = None
+
+
+def _to_out(row: dict[str, Any]) -> dict[str, Any]:
+    return {
+        k: (str(v) if k.endswith("_at") or k == "id" or k.endswith("_id") else v)
+        for k, v in row.items()
+        if not isinstance(v, bytes)
+    }
+
+
+@router.get("/me")
+async def get_me(
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    async with get_connection() as conn:
+        async with conn.transaction():
+            founder = await frepo.upsert_by_clerk_id(
+                conn,
+                clerk_user_id=claims["sub"],
+                email=claims.get("email", ""),
+                name=claims.get("name") or (claims.get("email") or "").split("@")[0],
+                avatar_url=claims.get("image_url"),
+            )
+            await srepo.ensure_for_founder(conn, founder_id=founder["id"])
+        return _to_out(founder)
+
+
+@router.patch("/me")
+async def patch_me(
+    body: PatchFounder,
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="Founder not found")
+        updated = await frepo.update_profile(
+            conn,
+            founder_id=UUID(str(founder["id"])),
+            name=body.name,
+            linkedin_url=body.linkedin_url,
+            github_username=body.github_username,
+            what_would_make_10x=body.what_would_make_10x,
+        )
+        if not updated:
+            raise HTTPException(status_code=404, detail="Founder not found")
+        return _to_out(updated)
+
+
+@router.patch("/me/startup")
+async def patch_startup(
+    body: PatchStartup,
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="Founder not found")
+        updated = await srepo.update_for_founder(
+            conn,
+            founder_id=founder["id"],
+            company_name=body.company_name,
+            one_liner=body.one_liner,
+            stage=body.stage,
+            category=body.category,
+        )
+        return _to_out(updated) if updated else {}
+
+
+@router.post("/me/complete-onboarding")
+async def complete_onboarding(
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, str]:
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="Founder not found")
+        await frepo.complete_onboarding(conn, UUID(str(founder["id"])))
+    ph.capture(claims["sub"], "onboarding_completed")
+    return {"status": "ok"}

@@ -1,0 +1,22 @@
+name: moat_skepticism
+category: moat
+context:
+  stage: seed
+  company_name: Prism AI
+  one_liner: AI-powered customer support for e-commerce brands
+founder_input: >
+  Our moat is our AI. We've built proprietary AI models that are much better
+  than anything else out there. That's what makes us defensible.
+ideal_response_traits:
+  - name: pushes_for_specificity
+    check_contains_any: ["specifically", "what data", "trained on", "fine-tuned", "proprietary data", "unique"]
+    required: true
+  - name: challenges_ai_as_moat
+    check_contains_any: ["replicate", "copy", "build", "openai", "anthropic", "foundation model", "api", "wrap"]
+    required: true
+  - name: asks_about_switching_costs
+    check_contains_any: ["switch", "lock-in", "network", "data flywheel", "switching cost"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

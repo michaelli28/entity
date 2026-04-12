@@ -1,0 +1,23 @@
+name: b2c_tam
+category: tam
+context:
+  stage: pre_seed
+  company_name: Pocketsave
+  one_liner: Micro-savings app for Gen Z consumers
+founder_input: >
+  Our TAM is massive. Everyone who has a smartphone is a potential customer.
+  There are 4 billion smartphone users worldwide so the opportunity is
+  essentially unlimited.
+ideal_response_traits:
+  - name: asks_wedge_or_segment
+    check_contains_any: ["segment", "wedge", "who specifically", "which", "niche", "subset", "beachhead", "first"]
+    required: true
+  - name: challenges_everyone_is_customer_framing
+    check_contains_any: ["everyone", "not everyone", "realistic", "actually", "convert", "reachable", "serviceable"]
+    required: true
+  - name: asks_how_they_reach_users
+    check_contains_any: ["acquire", "reach", "channel", "distribution", "find", "customer acquisition"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false
