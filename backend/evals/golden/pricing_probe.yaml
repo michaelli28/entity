@@ -1,0 +1,22 @@
+name: pricing_probe
+category: traction
+context:
+  stage: seed
+  company_name: Draftly
+  one_liner: AI writing assistant for legal teams
+founder_input: >
+  We haven't figured out pricing yet. We want to get users first and then
+  figure out what they'll pay. We have a few law firms trying it out.
+ideal_response_traits:
+  - name: challenges_no_pricing_at_seed
+    check_contains_any: ["pricing", "willingness to pay", "pay", "charge", "revenue"]
+    required: true
+  - name: asks_about_customer_conversations
+    check_contains_any: ["asked", "talked to", "conversation", "interview", "feedback", "how much would"]
+    required: true
+  - name: does_not_endorse_defer_pricing
+    check_contains_any: ["risky", "dangerous", "problem", "mistake", "important", "critical"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

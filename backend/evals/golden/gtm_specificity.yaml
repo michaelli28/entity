@@ -1,0 +1,22 @@
+name: gtm_specificity
+category: gtm
+context:
+  stage: seed
+  company_name: Clarity CRM
+  one_liner: Relationship intelligence CRM for boutique consulting firms
+founder_input: >
+  Our go-to-market is content marketing. We'll write great blog posts and
+  SEO content and build up organic traffic over time. That's how we'll grow.
+ideal_response_traits:
+  - name: asks_channel_math
+    check_contains_any: ["how many", "conversion", "cac", "cost per", "traffic", "leads", "unit", "math"]
+    required: true
+  - name: probes_timeline_or_payback
+    check_contains_any: ["how long", "timeline", "12 months", "payback", "when", "first customer"]
+    required: true
+  - name: challenges_sole_channel_reliance
+    check_contains_any: ["only", "other", "channel", "mix", "sales", "outbound", "partnership"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

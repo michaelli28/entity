@@ -1,0 +1,22 @@
+name: tam_pushback
+category: tam
+context:
+  stage: seed
+  company_name: Nexlift
+  one_liner: AI-powered logistics routing for mid-market shippers
+founder_input: >
+  Our TAM is $50 billion. We're going after the entire US freight logistics
+  market. Investors love the size of the opportunity.
+ideal_response_traits:
+  - name: bottoms_up_question
+    check_contains_any: ["bottoms-up", "bottom-up", "bottoms up", "how many customers", "how many shippers", "unit economics"]
+    required: true
+  - name: challenges_top_down_framing
+    check_contains_any: ["top-down", "top down", "addressable", "serviceable", "who specifically"]
+    required: true
+  - name: does_not_validate_50b
+    check_contains_any: ["prove", "validate", "support", "evidence", "show"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

@@ -1,0 +1,22 @@
+name: vague_traction
+category: traction
+context:
+  stage: pre_seed
+  company_name: Loopback
+  one_liner: Community platform for independent consultants
+founder_input: >
+  We have lots of interest. People are really excited. We've been getting
+  great responses from everyone we talk to.
+ideal_response_traits:
+  - name: asks_for_specific_metric
+    check_contains_any: ["how many", "number", "metric", "measure", "data", "specifically", "define"]
+    required: true
+  - name: probes_conversion_or_retention
+    check_contains_any: ["signed up", "paying", "active", "retained", "using", "waitlist", "customers"]
+    required: true
+  - name: does_not_accept_vague_interest
+    check_contains_any: ["specific", "quantify", "define", "prove", "what does"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

@@ -1,0 +1,23 @@
+name: why_now
+category: product
+context:
+  stage: pre_seed
+  company_name: Greenline
+  one_liner: Carbon accounting software for small manufacturers
+founder_input: >
+  We want to build this because we think it's an important problem. Carbon
+  emissions tracking is something every company should care about and we
+  want to be the solution.
+ideal_response_traits:
+  - name: asks_why_now
+    check_contains_any: ["why now", "timing", "what changed", "moment", "regulation", "tailwind", "catalyst"]
+    required: true
+  - name: probes_urgency
+    check_contains_any: ["urgent", "must", "need", "mandate", "deadline", "why this year", "what's driving"]
+    required: true
+  - name: does_not_validate_vague_mission
+    check_contains_any: ["important", "but", "however", "though", "what specifically"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false

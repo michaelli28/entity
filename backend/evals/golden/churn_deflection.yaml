@@ -1,0 +1,23 @@
+name: churn_deflection
+category: traction
+context:
+  stage: seed
+  company_name: Torchlight
+  one_liner: Sales enablement platform for B2B SaaS teams
+founder_input: >
+  Churn isn't a problem for us. Our customers love the product and they
+  stick around. We don't really track it closely because it's just not
+  something we worry about.
+ideal_response_traits:
+  - name: asks_retention_curve
+    check_contains_any: ["retention", "churn rate", "how many", "percentage", "lost", "month over month", "cohort"]
+    required: true
+  - name: flags_not_tracking
+    check_contains_any: ["track", "measure", "know", "data", "metric", "monitor"]
+    required: true
+  - name: explains_why_churn_matters
+    check_contains_any: ["investor", "leaky bucket", "growth", "signal", "product-market fit", "important"]
+    required: false
+  - name: stays_concise
+    max_words: 150
+    required: false
