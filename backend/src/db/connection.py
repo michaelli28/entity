@@ -1,5 +1,9 @@
+# pyright: reportReturnType=false
+# pyright: reportUnknownVariableType=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportMissingTypeStubs=false
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 import asyncpg
 
