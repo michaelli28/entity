@@ -17,6 +17,7 @@ from src.core.rate_limit import limiter
 from src.core.request_id import RequestIDMiddleware
 from src.core.sentry import init_sentry
 from src.db.connection import close_pool, init_pool
+from src.jobs.scheduler import start_scheduler, stop_scheduler
 
 init_sentry()
 
@@ -25,7 +26,9 @@ init_sentry()
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     validate_required_secrets()
     await init_pool()
+    start_scheduler()
     yield
+    stop_scheduler()
     await close_pool()
 
 
