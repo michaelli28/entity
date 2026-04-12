@@ -5,6 +5,7 @@
 # pyright: reportReturnType=false
 # pyright: reportCallIssue=false
 # pyright: reportArgumentType=false
+import json
 from typing import Any
 from uuid import UUID
 
@@ -47,16 +48,18 @@ async def insert_message(
     *,
     role: str,
     content: str,
+    metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     row = await conn.fetchrow(
         """
-        INSERT INTO mentor_messages (session_id, role, content)
-        VALUES ($1, $2, $3)
+        INSERT INTO mentor_messages (session_id, role, content, metadata)
+        VALUES ($1, $2, $3, $4::jsonb)
         RETURNING *
         """,
         session_id,
         role,
         content,
+        json.dumps(metadata or {}),
     )
     return dict(row)  # type: ignore[return-value]
 
