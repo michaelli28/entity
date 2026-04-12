@@ -3,9 +3,17 @@ import { useAuth } from "@clerk/nextjs";
 import { useEffect, useRef, useState } from "react";
 
 import { ChatInput } from "@/components/chat/chat-input";
+import { ColdReadCard } from "@/components/chat/cold-read-card";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
 import { streamChat } from "@/lib/chat-stream";
 import { posthog } from "@/lib/posthog";
+
+type ColdRead = {
+  id: string;
+  what_i_heard: string;
+  investor_pushback: string[];
+  three_unanswered_questions: string[];
+};
 
 export default function ChatPage() {
   const { getToken } = useAuth();
@@ -13,6 +21,24 @@ export default function ChatPage() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [streaming, setStreaming] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const [coldRead, setColdRead] = useState<ColdRead | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch("/api/cold-reads/latest");
+        if (!res.ok) return;
+        const data = (await res.json()) as Partial<ColdRead>;
+        if (!cancelled && data.id) setColdRead(data as ColdRead);
+      } catch {
+        // Cold Read unavailable — fail silently
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const send = async (text: string) => {
     posthog?.capture?.("first_message_sent");
@@ -60,6 +86,7 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-screen flex-col">
+      {coldRead && <ColdReadCard coldRead={coldRead} />}
       <MessageList messages={messages} isStreaming={streaming} />
       <ChatInput onSend={send} disabled={streaming} />
     </div>
