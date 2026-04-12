@@ -26,7 +26,7 @@ from ..integrations import posthog as ph
 from ..llm import prompts
 from ..llm.client import SONNET_MODEL, get_client
 from ..llm.context_builder import build_messages_and_system
-from ..llm.extractors import generate_cold_read
+from ..llm.extractors import extract_signals, generate_cold_read
 from ..llm.redact import redact
 from ..llm.safety import CANNED_RESPONSES, Intent, classify_intent
 
@@ -78,6 +78,26 @@ async def _maybe_generate_cold_read(
             three_unanswered_questions=cold_read.three_unanswered_questions,
         )
     ph.capture(clerk_sub, "cold_read_generated")
+
+
+async def _extract_signals_bg(session_id: Any, user_message: str) -> None:
+    try:
+        signals = await extract_signals(user_message)
+        async with get_connection() as conn:
+            for s in signals.signals:
+                await conn.execute(
+                    """
+                    INSERT INTO session_signals
+                        (session_id, signal_key, signal_value, confidence)
+                    VALUES ($1, $2, $3::jsonb, $4)
+                    """,
+                    session_id,
+                    s.key,
+                    json.dumps({"value": s.value}),
+                    s.confidence,
+                )
+    except Exception:
+        log.exception("signal_extraction_failed")
 
 
 @router.post("/stream")
@@ -165,6 +185,8 @@ async def chat_stream(
                     content=redacted,
                     metadata={"pii_redacted": pii_count},
                 )
+            bg.add_task(_extract_signals_bg, session_id, redacted)
+            async with get_connection() as conn:
                 system_blocks, messages = await build_messages_and_system(
                     conn,
                     founder=founder,
