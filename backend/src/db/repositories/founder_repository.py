@@ -5,6 +5,7 @@
 # pyright: reportReturnType=false
 # pyright: reportCallIssue=false
 # pyright: reportArgumentType=false
+import json
 from typing import Any
 from uuid import UUID
 
@@ -57,6 +58,7 @@ async def update_profile(
     linkedin_url: str | None = None,
     github_username: str | None = None,
     what_would_make_10x: str | None = None,
+    website_url: str | None = None,
 ) -> dict[str, Any] | None:
     row = await conn.fetchrow(
         """
@@ -64,7 +66,8 @@ async def update_profile(
             name = COALESCE($2, name),
             linkedin_url = COALESCE($3, linkedin_url),
             github_username = COALESCE($4, github_username),
-            what_would_make_10x = COALESCE($5, what_would_make_10x)
+            what_would_make_10x = COALESCE($5, what_would_make_10x),
+            website_url = COALESCE($6, website_url)
         WHERE id = $1 AND deleted_at IS NULL
         RETURNING *
         """,
@@ -73,8 +76,22 @@ async def update_profile(
         linkedin_url,
         github_username,
         what_would_make_10x,
+        website_url,
     )
     return dict(row) if row else None  # type: ignore[arg-type]
+
+
+async def update_github_data(
+    conn: asyncpg.Connection,  # type: ignore[type-arg]
+    *,
+    founder_id: UUID,
+    github_data: dict[str, Any] | None,
+) -> None:
+    await conn.execute(
+        "UPDATE founders SET github_data = $2::jsonb WHERE id = $1",
+        founder_id,
+        json.dumps(github_data) if github_data is not None else None,
+    )
 
 
 async def complete_onboarding(

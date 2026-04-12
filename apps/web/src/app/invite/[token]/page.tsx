@@ -19,7 +19,7 @@ export default function InviteAcceptPage({
         });
         if (res.ok) {
           setStatus("ok");
-          router.push("/dashboard/chat");
+          router.push("/dashboard/sessions");
         } else {
           setStatus("error");
         }

@@ -5,14 +5,25 @@
 from typing import Any
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
 from ..db.repositories import founder_repository as frepo
 from ..db.repositories import startup_profile_repository as srepo
+from ..enrichment.github import fetch_github_profile
 from ..integrations import posthog as ph
+
+
+async def _enrich_github_bg(founder_id: UUID, username: str) -> None:
+    data = await fetch_github_profile(username)
+    if data is None:
+        return
+    async with get_connection() as conn:
+        await frepo.update_github_data(
+            conn, founder_id=founder_id, github_data=data
+        )
 
 router = APIRouter(prefix="/api/founders", tags=["founders"])
 
@@ -22,6 +33,7 @@ class PatchFounder(BaseModel):
     linkedin_url: str | None = None
     github_username: str | None = None
     what_would_make_10x: str | None = None
+    website_url: str | None = None
 
 
 class PatchStartup(BaseModel):
@@ -62,6 +74,7 @@ async def get_me(
 @router.patch("/me")
 async def patch_me(
     body: PatchFounder,
+    bg: BackgroundTasks,
     claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
 ) -> dict[str, Any]:
     async with get_connection() as conn:
@@ -75,10 +88,19 @@ async def patch_me(
             linkedin_url=body.linkedin_url,
             github_username=body.github_username,
             what_would_make_10x=body.what_would_make_10x,
+            website_url=body.website_url,
         )
         if not updated:
             raise HTTPException(status_code=404, detail="Founder not found")
-        return _to_out(updated)
+    if body.github_username and body.github_username != founder.get(
+        "github_username"
+    ):
+        bg.add_task(
+            _enrich_github_bg,
+            UUID(str(founder["id"])),
+            body.github_username,
+        )
+    return _to_out(updated)
 
 
 @router.patch("/me/startup")

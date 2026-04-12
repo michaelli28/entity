@@ -9,6 +9,9 @@ from httpx import ASGITransport, AsyncClient
 
 from src.core.dependencies import verify_clerk_jwt
 from src.db.connection import get_connection
+from src.db.repositories import founder_repository as frepo
+from src.db.repositories import sessions_repository as sessrepo
+from src.db.repositories import startup_profile_repository as spr
 from src.llm import safety
 from src.main import app
 
@@ -19,6 +22,20 @@ _NAME = "Chat Founder"
 
 async def _fake_claims() -> dict[str, Any]:
     return {"sub": _CLERK_ID, "email": _EMAIL, "name": _NAME, "image_url": None}
+
+
+async def _create_big_picture_session() -> str:
+    async with get_connection() as conn:
+        f = await frepo.find_by_clerk_id(conn, _CLERK_ID)
+        assert f is not None, "founder must be pre-seeded"
+        profile = await spr.ensure_for_founder(conn, founder_id=f["id"])
+        sess = await sessrepo.create_or_get_active(
+            conn,
+            founder_id=f["id"],
+            startup_profile_id=profile["id"],
+            session_type="big_picture",
+        )
+        return str(sess["id"])
 
 
 # ---------------------------------------------------------------------------
@@ -62,9 +79,10 @@ async def authed_client() -> AsyncClient:  # type: ignore[misc]
 
 @pytest.mark.asyncio
 async def test_empty_message_returns_400(authed_client: AsyncClient) -> None:
+    session_id = await _create_big_picture_session()
     r = await authed_client.post(
         "/api/chat/stream",
-        json={"message": "   "},
+        json={"message": "   ", "session_id": session_id},
         headers={"Authorization": "Bearer x"},
     )
     assert r.status_code == 400
@@ -79,9 +97,10 @@ async def test_off_topic_returns_canned_response(
 
     monkeypatch.setattr("src.api.chat.classify_intent", fake_classify)
 
+    session_id = await _create_big_picture_session()
     r = await authed_client.post(
         "/api/chat/stream",
-        json={"message": "what's the weather"},
+        json={"message": "what's the weather", "session_id": session_id},
         headers={"Authorization": "Bearer x"},
     )
     assert r.status_code == 200
@@ -135,9 +154,13 @@ async def test_coaching_path_streams_mocked_claude_tokens(
 
     monkeypatch.setattr("src.api.chat.get_client", lambda: FakeClient())
 
+    session_id = await _create_big_picture_session()
     r = await authed_client.post(
         "/api/chat/stream",
-        json={"message": "We're a B2B SaaS targeting SMBs"},
+        json={
+            "message": "We're a B2B SaaS targeting SMBs",
+            "session_id": session_id,
+        },
         headers={"Authorization": "Bearer x"},
     )
     assert r.status_code == 200

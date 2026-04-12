@@ -17,6 +17,11 @@ def get_client() -> AsyncAnthropic:
     return _client
 
 
+def get_raw_anthropic_client() -> AsyncAnthropic:
+    """Async Anthropic client for instructor wrapping."""
+    return AsyncAnthropic(api_key=settings.anthropic_api_key)
+
+
 def build_cached_system(blocks: list[tuple[str, bool]]) -> list[dict[str, Any]]:
     """Return Anthropic system array with cache_control on blocks flagged cacheable.
 

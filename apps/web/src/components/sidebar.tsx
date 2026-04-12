@@ -3,15 +3,26 @@ import { UserButton } from "@clerk/nextjs";
 import {
   CaretLeft,
   CaretRight,
-  ChatCircle,
+  ChartPieSlice,
   GearSix,
+  IdentificationCard,
+  Sparkle,
 } from "@phosphor-icons/react";
 import { useState } from "react";
+
+import { useBlueprints, useSessions } from "@/lib/hooks/use-sessions";
 
 import { NavItem } from "./nav-item";
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const { data: blueprints = [] } = useBlueprints();
+  const { data: sessions = [] } = useSessions();
+  const core = blueprints.filter((b) => b.order < 99);
+  const doneCount = core.filter((b) =>
+    sessions.find((s) => s.session_type === b.key && s.completed_at),
+  ).length;
+
   return (
     <aside
       className={`bg-card flex flex-col border-r border-white/10 transition-[width] ${
@@ -35,9 +46,22 @@ export function Sidebar() {
       </div>
       <nav className="flex-1 space-y-1 p-2">
         <NavItem
-          href="/dashboard/chat"
-          icon={<ChatCircle weight="duotone" size={20} />}
-          label="Chat"
+          href="/dashboard/sessions"
+          icon={<Sparkle weight="duotone" size={20} />}
+          label="Sessions"
+          collapsed={collapsed}
+          badge={core.length > 0 ? `${doneCount}/${core.length}` : undefined}
+        />
+        <NavItem
+          href="/dashboard/scores"
+          icon={<ChartPieSlice weight="duotone" size={20} />}
+          label="Scores"
+          collapsed={collapsed}
+        />
+        <NavItem
+          href="/dashboard/profile"
+          icon={<IdentificationCard weight="duotone" size={20} />}
+          label="Profile"
           collapsed={collapsed}
         />
         <NavItem

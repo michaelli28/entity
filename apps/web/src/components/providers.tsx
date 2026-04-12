@@ -1,11 +1,13 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
-import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 import { initPostHog, posthog } from "@/lib/posthog";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { user, isLoaded } = useUser();
+  const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
     initPostHog();
@@ -19,5 +21,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
     }
   }, [isLoaded, user]);
 
-  return <>{children}</>;
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

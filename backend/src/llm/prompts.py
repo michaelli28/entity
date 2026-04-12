@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 MENTOR_IDENTITY = """You are a seasoned startup mentor. You help founders prepare for \
@@ -32,6 +33,47 @@ def founder_profile_block(founder: dict[str, Any], profile: dict[str, Any]) -> s
         parts.append(
             f"What they want from this product: {founder['what_would_make_10x']}"
         )
+    if founder.get("linkedin_url"):
+        parts.append(f"LinkedIn: {founder['linkedin_url']}")
+    if founder.get("website_url"):
+        parts.append(f"Website: {founder['website_url']}")
+
+    gh_raw = founder.get("github_data")
+    gh: dict[str, Any] | None = None
+    if isinstance(gh_raw, dict):
+        gh = gh_raw
+    elif isinstance(gh_raw, str) and gh_raw:
+        try:
+            parsed = json.loads(gh_raw)
+            if isinstance(parsed, dict):
+                gh = parsed
+        except (ValueError, TypeError):
+            gh = None
+
+    if gh:
+        gh_line = f"GitHub: @{gh.get('login') or founder.get('github_username')}"
+        if gh.get("bio"):
+            gh_line += f" — {gh['bio']}"
+        if gh.get("public_repos") is not None:
+            gh_line += (
+                f" ({gh['public_repos']} public repos, "
+                f"{gh.get('followers', 0)} followers)"
+            )
+        parts.append(gh_line)
+        top = gh.get("top_repos") or []
+        if top:
+            parts.append("Top repos:")
+            for r in top[:3]:
+                line = f"  - {r.get('name')}"
+                if r.get("language"):
+                    line += f" ({r['language']})"
+                if r.get("stars"):
+                    line += f" ★{r['stars']}"
+                if r.get("description"):
+                    line += f": {r['description'][:80]}"
+                parts.append(line)
+    elif founder.get("github_username"):
+        parts.append(f"GitHub: @{founder['github_username']}")
     return "\n".join(parts)
 
 
