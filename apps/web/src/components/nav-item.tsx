@@ -8,9 +8,10 @@ type NavItemProps = {
   icon: ReactNode;
   label: string;
   collapsed: boolean;
+  badge?: string;
 };
 
-export function NavItem({ href, icon, label, collapsed }: NavItemProps) {
+export function NavItem({ href, icon, label, collapsed, badge }: NavItemProps) {
   const pathname = usePathname();
   const active = pathname.startsWith(href);
   return (
@@ -22,7 +23,16 @@ export function NavItem({ href, icon, label, collapsed }: NavItemProps) {
       }`}
     >
       <span className="h-5 w-5 shrink-0">{icon}</span>
-      {!collapsed && <span>{label}</span>}
+      {!collapsed && (
+        <span className="flex-1 flex items-center justify-between">
+          <span>{label}</span>
+          {badge && (
+            <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/70">
+              {badge}
+            </span>
+          )}
+        </span>
+      )}
     </Link>
   );
 }

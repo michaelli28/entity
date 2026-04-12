@@ -18,7 +18,7 @@ export default function ReadyStep() {
     setLoading(true);
     await fetch("/api/founders/me/complete-onboarding", { method: "POST" });
     posthog?.capture?.("onboarding_completed");
-    router.push("/dashboard/chat");
+    router.push("/dashboard/sessions");
   };
 
   return (
