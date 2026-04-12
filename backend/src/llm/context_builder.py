@@ -9,6 +9,7 @@ from asyncpg import Connection
 from ..db.repositories import mentor_repository as mrepo
 from . import prompts
 from .client import build_cached_system
+from .mentor_sessions import SessionBlueprint
 
 
 async def _retrieve_patterns(
@@ -52,6 +53,7 @@ async def build_messages_and_system(
     *,
     founder: dict[str, Any],
     profile: dict[str, Any],
+    blueprint: SessionBlueprint,
     session_id: Any,
     new_user_message: str,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -73,6 +75,7 @@ async def build_messages_and_system(
         [
             (identity, True),
             (profile_block, True),
+            (blueprint.system_suffix, False),
             (retrieved, False),
         ]
     )

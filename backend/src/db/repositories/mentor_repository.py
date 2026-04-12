@@ -86,3 +86,13 @@ async def turn_count(conn: Connection, session_id: Any) -> int:
         session_id,
     )
     return result or 0
+
+
+async def user_turn_count(conn: Connection, session_id: Any) -> int:
+    """User-role message count; alias for turn_count with explicit naming."""
+    result: int | None = await conn.fetchval(
+        "SELECT count(*) FROM mentor_messages "
+        "WHERE session_id = $1 AND role = 'user'",
+        session_id,
+    )
+    return int(result or 0)

@@ -16,17 +16,26 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
+from ..core.config import settings
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
 from ..db.repositories import cold_read_repository as crepo
 from ..db.repositories import founder_repository as frepo
 from ..db.repositories import mentor_repository as mrepo
+from ..db.repositories import sessions_repository as sessrepo
 from ..db.repositories import startup_profile_repository as srepo
 from ..integrations import posthog as ph
 from ..llm import prompts
 from ..llm.client import SONNET_MODEL, get_client
 from ..llm.context_builder import build_messages_and_system
 from ..llm.extractors import extract_signals, generate_cold_read
+from ..llm.judges import judge_session_coverage
+from ..llm.mentor_sessions import (
+    BY_KEY,
+    SessionBlueprint,
+    SessionKey,
+    make_deep_dive_blueprint,
+)
 from ..llm.redact import redact
 from ..llm.safety import CANNED_RESPONSES, Intent, classify_intent
 
@@ -35,7 +44,7 @@ router = APIRouter(prefix="/api/chat", tags=["chat"])
 
 
 class ChatRequest(BaseModel):
-    session_id: str | None = None
+    session_id: UUID
     message: str
 
 
@@ -43,13 +52,29 @@ def _sse(event: str, data: dict[str, Any]) -> str:
     return f"event: {event}\ndata: {json.dumps(data)}\n\n"
 
 
-def _parse_session_id(raw: str | None) -> UUID | None:
-    if raw is None:
-        return None
+async def _judge_and_update_bg(
+    session_id: UUID,
+    founder_id: Any,
+    blueprint: SessionBlueprint,
+) -> None:
+    """Run Haiku coverage judge and update session coverage monotonically."""
     try:
-        return UUID(raw)
-    except ValueError:
-        return None
+        async with get_connection() as conn:
+            transcript = await mrepo.recent_messages(conn, session_id, limit=20)
+            user_turns = await mrepo.user_turn_count(conn, session_id)
+        result = await judge_session_coverage(blueprint, transcript, user_turns)
+        async with get_connection() as conn:
+            await sessrepo.update_coverage(
+                conn,
+                session_id=session_id,
+                founder_id=founder_id,
+                new_score=result.coverage_score,
+                threshold=settings.COVERAGE_COMPLETION_THRESHOLD,
+                user_turn_count=user_turns,
+                min_turns=settings.COVERAGE_MIN_TURNS,
+            )
+    except Exception:
+        log.exception("judge_bg_failed")
 
 
 async def _maybe_generate_cold_read(
@@ -110,42 +135,52 @@ async def chat_stream(
         raise HTTPException(status_code=400, detail="Empty message")
 
     redacted, pii_count = redact(body.message)
-    session_id_in = _parse_session_id(body.session_id)
+
+    # Up-front session validation before opening the stream so the client
+    # sees 404/409 as HTTP status, not mid-stream errors.
+    async with get_connection() as conn:
+        founder_pre = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder_pre:
+            raise HTTPException(
+                status_code=404, detail="founder not found; complete onboarding"
+            )
+        session_pre = await sessrepo.get_by_id_scoped(
+            conn, session_id=body.session_id, founder_id=founder_pre["id"]
+        )
+    if session_pre is None:
+        raise HTTPException(status_code=404, detail="session not found")
+    if session_pre["completed_at"] is not None:
+        raise HTTPException(
+            status_code=409, detail="session is complete; start a new one"
+        )
+
+    # Blueprint lookup
+    session_type_val = session_pre["session_type"]
+    if session_type_val == SessionKey.DEEP_DIVE.value:
+        blueprint = make_deep_dive_blueprint(
+            session_pre["target_category"], session_pre["target_signal"]
+        )
+    else:
+        blueprint = BY_KEY[SessionKey(session_type_val)]
+
+    session_id: UUID = session_pre["id"]
+    founder_id: Any = founder_pre["id"]
 
     async def event_stream() -> AsyncIterator[str]:
         full_text: list[str] = []
         finish_reason = "error"
-        session_id: UUID | None = None
-        founder_id: Any = None
-        founder: dict[str, Any] | None = None
+        founder: dict[str, Any] = founder_pre
         profile: dict[str, Any] = {}
         input_tokens = 0
         output_tokens = 0
         try:
             async with get_connection() as conn:
-                founder = await frepo.find_by_clerk_id(conn, claims["sub"])
-                if not founder:
-                    yield _sse(
-                        "error",
-                        {"message": "Founder not found. Complete onboarding first."},
-                    )
-                    return
-                founder_id = founder["id"]
                 profile = await srepo.get_by_founder(conn, founder_id) or {}
-
-            profile_id: Any = profile.get("id")
 
             intent = await classify_intent(redacted)
             if intent != Intent.STARTUP_COACHING:
                 canned = CANNED_RESPONSES[intent]
                 async with get_connection() as conn:
-                    session = await mrepo.ensure_session(
-                        conn,
-                        founder_id=founder_id,
-                        startup_profile_id=profile_id,
-                        session_id=session_id_in,
-                    )
-                    session_id = session["id"]
                     await mrepo.insert_message(
                         conn,
                         session_id,
@@ -171,13 +206,6 @@ async def chat_stream(
                 return
 
             async with get_connection() as conn, conn.transaction():
-                session = await mrepo.ensure_session(
-                    conn,
-                    founder_id=founder_id,
-                    startup_profile_id=profile_id,
-                    session_id=session_id_in,
-                )
-                session_id = session["id"]
                 await mrepo.insert_message(
                     conn,
                     session_id,
@@ -191,6 +219,7 @@ async def chat_stream(
                     conn,
                     founder=founder,
                     profile=profile,
+                    blueprint=blueprint,
                     session_id=session_id,
                     new_user_message=redacted,
                 )
@@ -260,18 +289,19 @@ async def chat_stream(
                         "output_tokens": output_tokens,
                     },
                 )
-            if (
-                finish_reason == "stop"
-                and founder_id is not None
-                and session_id is not None
-                and founder is not None
-            ):
+            if finish_reason == "stop":
                 bg.add_task(
                     _maybe_generate_cold_read,
                     founder_id,
                     session_id,
                     prompts.founder_profile_block(founder, profile),
                     claims["sub"],
+                )
+                bg.add_task(
+                    _judge_and_update_bg,
+                    session_id,
+                    founder_id,
+                    blueprint,
                 )
 
     return StreamingResponse(
