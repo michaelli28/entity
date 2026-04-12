@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     sentry_dsn: str = ""
     environment: str = "development"
 
+    resend_api_key: str = ""
+
 
 settings = Settings()
 
