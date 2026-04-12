@@ -371,6 +371,8 @@ git commit -m "docs(adr): document RLS disabled, app-layer tenant isolation"
 
 ## T04: Fix JWKS kid matching + TTL cache
 
+> **Review fix applied (see commit after 58874b9):** Added `asyncio.Lock` with double-checked locking for JWKS cache stampede prevention, restored issuer verification (security regression fix), catch `httpx.HTTPError` as 503, switched to `PyJWK.from_dict` for correct pyright typing, build `decode_kwargs` conditionally (drop `options={verify_aud}` pattern). Tests expanded: TTL cache, force-refresh, 503, missing-kid. See commit for final code.
+
 **Files:**
 
 - Modify: `backend/src/core/dependencies.py`
