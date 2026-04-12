@@ -6,9 +6,11 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from src.api.auth import router as auth_router
-from src.core.config import validate_required_secrets
+from src.core.config import settings, validate_required_secrets
 from src.core.cors import setup_cors
+from src.core.logging import configure_logging
 from src.core.rate_limit import limiter
+from src.core.request_id import RequestIDMiddleware
 from src.db.connection import close_pool, init_pool
 
 
@@ -27,7 +29,9 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+configure_logging(settings.environment)
 setup_cors(app)
+app.add_middleware(RequestIDMiddleware)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.include_router(auth_router)
