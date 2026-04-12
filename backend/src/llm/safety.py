@@ -2,12 +2,12 @@
 # pyright: reportUnknownMemberType=false
 # pyright: reportUnknownVariableType=false
 import contextlib
-from enum import Enum
+from enum import StrEnum
 
 from .client import HAIKU_MODEL, get_client
 
 
-class Intent(str, Enum):
+class Intent(StrEnum):
     STARTUP_COACHING = "startup_coaching"
     OFF_TOPIC = "off_topic"
     HARMFUL = "harmful"
@@ -35,9 +35,9 @@ CANNED_RESPONSES: dict[Intent, str] = {
         "I can't help with that. I'm here to support you on your startup journey."
     ),
     Intent.CRISIS: (
-        "It sounds like you're going through something really hard. Please reach out "
-        "to someone who can help: 988 Suicide & Crisis Lifeline (call or text 988, US), "
-        "or your local emergency services. Founders Taking Action "
+        "It sounds like you're going through something really hard. Please reach "
+        "out to someone who can help: 988 Suicide & Crisis Lifeline (call or text "
+        "988, US), or your local emergency services. Founders Taking Action "
         "(founderstakingaction.com) is a peer support community for founders in "
         "distress. You matter more than your startup — please reach out."
     ),
