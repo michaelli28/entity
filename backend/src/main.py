@@ -9,6 +9,7 @@ from src.api.auth import router as auth_router
 from src.api.chat import router as chat_router
 from src.api.cold_reads import router as cold_reads_router
 from src.api.commitments import router as commitments_router
+from src.api.export import router as export_router
 from src.api.founders import router as founders_router
 from src.core.config import settings, validate_required_secrets
 from src.core.cors import setup_cors
@@ -48,6 +49,7 @@ app.include_router(auth_router)
 app.include_router(chat_router)
 app.include_router(cold_reads_router)
 app.include_router(commitments_router)
+app.include_router(export_router)
 app.include_router(founders_router)
 
 
