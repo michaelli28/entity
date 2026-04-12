@@ -36,8 +36,23 @@ type FounderMe = {
   github_username: string | null;
   website_url: string | null;
   what_would_make_10x: string | null;
-  github_data: GithubData | null;
+  github_data: GithubData | string | null;
 };
+
+function parseGithubData(raw: GithubData | string | null): GithubData | null {
+  if (!raw) return null;
+  if (typeof raw === "string") {
+    try {
+      const parsed = JSON.parse(raw);
+      return typeof parsed === "object" && parsed !== null
+        ? (parsed as GithubData)
+        : null;
+    } catch {
+      return null;
+    }
+  }
+  return raw;
+}
 
 export function ProfileAnalysis() {
   const [me, setMe] = useState<FounderMe | null>(null);
@@ -65,6 +80,7 @@ export function ProfileAnalysis() {
     return <div className="text-red-400">{error ?? "No profile"}</div>;
   }
 
+  const githubData = parseGithubData(me.github_data);
   const connectedCount = [
     me.linkedin_url,
     me.github_username,
@@ -138,7 +154,7 @@ export function ProfileAnalysis() {
         />
       </section>
 
-      <GithubPanel username={me.github_username} data={me.github_data} />
+      <GithubPanel username={me.github_username} data={githubData} />
 
       <section className="rounded-xl border border-white/10 p-5">
         <h2 className="font-medium">Signals your mentor uses</h2>
@@ -151,8 +167,8 @@ export function ProfileAnalysis() {
             {me.linkedin_url ? "present" : "missing"}
           </li>
           <li className="flex items-center gap-2">
-            <SignalDot filled={Boolean(me.github_data)} /> GitHub bio + top
-            repos — {me.github_data ? "enriched" : me.github_username ? "fetching…" : "not connected"}
+            <SignalDot filled={Boolean(githubData)} /> GitHub bio + top
+            repos — {githubData ? "enriched" : me.github_username ? "fetching…" : "not connected"}
           </li>
           <li className="flex items-center gap-2">
             <SignalDot filled={Boolean(me.website_url)} /> Website URL —{" "}
