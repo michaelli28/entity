@@ -46,7 +46,8 @@ def retrieved_context_block(
         out.extend(f"- {p}" for p in patterns)
     else:
         out.append(
-            "Relevant patterns: (none loaded yet — use general startup coaching knowledge)"
+            "Relevant patterns: (none loaded yet — use general startup "
+            "coaching knowledge)"
         )
     if benchmarks:
         out.append("\nStage benchmarks:")

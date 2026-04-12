@@ -39,7 +39,8 @@ async def _retrieve_benchmarks(conn: Connection, stage: str) -> list[str]:
         "SELECT metric_key, metric_value FROM stage_benchmarks WHERE stage = $1",
         stage,
     )
-    return [f"{r['metric_key']}: {dict(r['metric_value'])}" for r in rows]
+    # metric_value is jsonb; asyncpg returns it as a dict-compatible obj
+    return [f"{r['metric_key']}: {dict(r['metric_value'])}" for r in rows]  # type: ignore[arg-type]
 
 
 async def build_messages_and_system(
