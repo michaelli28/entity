@@ -84,6 +84,33 @@ export function useCompleteSession() {
   });
 }
 
+export interface StoredMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  created_at: string;
+}
+
+export function useSessionMessages(sessionId: string | null) {
+  return useQuery<StoredMessage[]>({
+    queryKey: ["session-messages", sessionId],
+    enabled: !!sessionId,
+    staleTime: 10 * 1000,
+    queryFn: async () => {
+      if (!sessionId) return [];
+      const r = await fetch(`/api/sessions/${sessionId}/messages`, {
+        credentials: "include",
+      });
+      if (r.status === 404) return [];
+      if (!r.ok) throw new Error(`messages ${r.status}`);
+      const rows = (await r.json()) as StoredMessage[];
+      return rows.filter(
+        (m) => m.role === "user" || m.role === "assistant",
+      );
+    },
+  });
+}
+
 export function useDeepDiveRecommendation(enabled: boolean) {
   return useQuery<DeepDiveRecommendation>({
     queryKey: ["deep-dive-recommendation"],

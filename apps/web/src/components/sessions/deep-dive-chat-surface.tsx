@@ -8,7 +8,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
 import { CompletionBanner } from "@/components/sessions/completion-banner";
 import { streamChat } from "@/lib/chat-stream";
-import { useSession } from "@/lib/hooks/use-sessions";
+import { useSession, useSessionMessages } from "@/lib/hooks/use-sessions";
 
 interface Props {
   sessionId: string;
@@ -20,6 +20,23 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
   const { getToken } = useAuth();
   const { data: session, isLoading } = useSession(sessionId);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const hasHydratedRef = useRef(false);
+  const { data: history } = useSessionMessages(sessionId);
+
+  useEffect(() => {
+    if (hasHydratedRef.current) return;
+    if (!history) return;
+    hasHydratedRef.current = true;
+    if (history.length > 0) {
+      setMessages(
+        history.map((m) => ({
+          id: m.id,
+          role: m.role,
+          content: m.content,
+        })),
+      );
+    }
+  }, [history]);
   const [streaming, setStreaming] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 

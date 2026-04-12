@@ -9,6 +9,7 @@ from pydantic import BaseModel, model_validator
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
 from ..db.repositories import founder_repository as frepo
+from ..db.repositories import mentor_repository as mrepo
 from ..db.repositories import sessions_repository as srepo
 from ..db.repositories import startup_profile_repository as srpo
 from ..llm.mentor_sessions import (
@@ -146,6 +147,32 @@ async def create_session(
             target_signal=body.target_signal,
         )
     return _serialize_session(row)
+
+
+@router.get("/{session_id}/messages")
+async def get_session_messages(
+    session_id: UUID,
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> list[dict[str, Any]]:
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="founder not found")
+        scoped = await srepo.get_by_id_scoped(
+            conn, session_id=session_id, founder_id=founder["id"]
+        )
+        if scoped is None:
+            raise HTTPException(status_code=404, detail="session not found")
+        rows = await mrepo.list_by_session(conn, session_id=session_id)
+    return [
+        {
+            "id": str(m["id"]),
+            "role": m["role"],
+            "content": m["content"],
+            "created_at": m["created_at"].isoformat(),
+        }
+        for m in rows
+    ]
 
 
 @router.post("/{session_id}/complete")

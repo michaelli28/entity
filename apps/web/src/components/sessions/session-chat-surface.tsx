@@ -12,6 +12,7 @@ import { streamChat } from "@/lib/chat-stream";
 import {
   useBlueprints,
   useCreateSession,
+  useSessionMessages,
   useSessions,
 } from "@/lib/hooks/use-sessions";
 import type { SessionType } from "@/lib/schemas/session";
@@ -47,6 +48,23 @@ export function SessionChatSurface({
   const [streaming, setStreaming] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const hasTriedCreateRef = useRef(false);
+  const hasHydratedRef = useRef(false);
+  const { data: history } = useSessionMessages(sessionId);
+
+  useEffect(() => {
+    if (hasHydratedRef.current) return;
+    if (!sessionId || !history) return;
+    hasHydratedRef.current = true;
+    if (history.length > 0) {
+      setMessages(
+        history.map((m) => ({
+          id: m.id,
+          role: m.role,
+          content: m.content,
+        })),
+      );
+    }
+  }, [sessionId, history]);
 
   useEffect(() => {
     if (sessionId) return;

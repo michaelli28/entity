@@ -80,6 +80,24 @@ async def recent_messages(
     return [dict(r) for r in reversed(rows)]
 
 
+async def list_by_session(
+    conn: Connection, session_id: Any, limit: int = 500
+) -> list[dict[str, Any]]:
+    """Return all messages in a session, chronologically, capped by limit."""
+    rows = await conn.fetch(
+        """
+        SELECT id, role, content, created_at
+        FROM mentor_messages
+        WHERE session_id = $1 AND role IN ('user', 'assistant')
+        ORDER BY created_at ASC
+        LIMIT $2
+        """,
+        session_id,
+        limit,
+    )
+    return [dict(r) for r in rows]
+
+
 async def turn_count(conn: Connection, session_id: Any) -> int:
     result: int | None = await conn.fetchval(
         "SELECT COUNT(*) FROM mentor_messages WHERE session_id = $1 AND role = 'user'",
