@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ColdReadCard } from "@/components/chat/cold-read-card";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
+import { CommitmentCard } from "@/components/commitment-card";
 import { streamChat } from "@/lib/chat-stream";
 import { posthog } from "@/lib/posthog";
 
@@ -15,6 +16,11 @@ type ColdRead = {
   three_unanswered_questions: string[];
 };
 
+type Commitment = {
+  id: string;
+  description: string;
+};
+
 export default function ChatPage() {
   const { getToken } = useAuth();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -22,6 +28,7 @@ export default function ChatPage() {
   const [streaming, setStreaming] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const [coldRead, setColdRead] = useState<ColdRead | null>(null);
+  const [commitment, setCommitment] = useState<Commitment | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -35,10 +42,31 @@ export default function ChatPage() {
         // Cold Read unavailable — fail silently
       }
     })();
+    void (async () => {
+      try {
+        const res = await fetch("/api/commitments");
+        if (!res.ok) return;
+        const data = (await res.json()) as Commitment[];
+        if (!cancelled && Array.isArray(data) && data.length > 0) {
+          setCommitment(data[0]);
+        }
+      } catch {
+        // Commitments unavailable — fail silently
+      }
+    })();
     return () => {
       cancelled = true;
     };
   }, []);
+
+  const completeCommitment = async (id: string) => {
+    try {
+      await fetch(`/api/commitments/${id}/complete`, { method: "POST" });
+      setCommitment(null);
+    } catch {
+      // Ignore — UI already shows done state optimistically
+    }
+  };
 
   const send = async (text: string) => {
     posthog?.capture?.("first_message_sent");
@@ -87,6 +115,12 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen flex-col">
       {coldRead && <ColdReadCard coldRead={coldRead} />}
+      {commitment && (
+        <CommitmentCard
+          commitment={commitment}
+          onDone={completeCommitment}
+        />
+      )}
       <MessageList messages={messages} isStreaming={streaming} />
       <ChatInput onSend={send} disabled={streaming} />
     </div>
