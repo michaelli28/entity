@@ -43,4 +43,19 @@ test("golden path: onboarding → chat → first mentor reply", async ({
   await expect(page.locator("div.bg-card").last()).toContainText(/./, {
     timeout: 20000,
   });
+
+  // Send 2 more turns to trigger Cold Read generation (turn_count >= 3).
+  for (const msg of [
+    "We have 8 paying customers and about 12 in pilot.",
+    "Our pricing is 200 dollars per month per user, and most teams have 3-5 users.",
+  ]) {
+    await page.getByPlaceholder(/Share what/i).fill(msg);
+    await page.getByRole("button", { name: "Send" }).click();
+    await page.waitForTimeout(8000); // wait for stream to complete
+  }
+
+  // Cold Read card appears after background task completes.
+  await expect(page.getByText(/Your Cold Read/i)).toBeVisible({
+    timeout: 30000,
+  });
 });
