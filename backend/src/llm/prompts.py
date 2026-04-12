@@ -32,6 +32,10 @@ def founder_profile_block(founder: dict[str, Any], profile: dict[str, Any]) -> s
         parts.append(
             f"What they want from this product: {founder['what_would_make_10x']}"
         )
+    if founder.get("linkedin_url"):
+        parts.append(f"LinkedIn: {founder['linkedin_url']}")
+    if founder.get("github_username"):
+        parts.append(f"GitHub: @{founder['github_username']}")
     return "\n".join(parts)
 
 
