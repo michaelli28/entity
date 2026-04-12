@@ -1,6 +1,7 @@
 # pyright: reportMissingTypeStubs=false
 # pyright: reportUnknownMemberType=false
 # pyright: reportUnknownVariableType=false
+import contextlib
 from typing import Any
 
 from posthog import Posthog
@@ -26,11 +27,10 @@ def capture(
     client = _get_client()
     if client is None:
         return
-    try:
+    # telemetry must never break the request
+    with contextlib.suppress(Exception):
         client.capture(
             distinct_id=distinct_id,
             event=event,
             properties=properties or {},
         )
-    except Exception:
-        pass  # telemetry must never break the request
