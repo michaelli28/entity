@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { DeckUploader, type DeckState } from "./deck-uploader";
 
 type Repo = {
   name: string | null;
@@ -56,15 +57,23 @@ function parseGithubData(raw: GithubData | string | null): GithubData | null {
 
 export function ProfileAnalysis() {
   const [me, setMe] = useState<FounderMe | null>(null);
+  const [deck, setDeck] = useState<DeckState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
-        const r = await fetch("/api/founders/me", { credentials: "include" });
-        if (!r.ok) throw new Error(`GET /api/founders/me ${r.status}`);
-        setMe((await r.json()) as FounderMe);
+        const [meRes, deckRes] = await Promise.all([
+          fetch("/api/founders/me", { credentials: "include" }),
+          fetch("/api/deck/latest", { credentials: "include" }),
+        ]);
+        if (!meRes.ok) throw new Error(`GET /api/founders/me ${meRes.status}`);
+        setMe((await meRes.json()) as FounderMe);
+        if (deckRes.ok) {
+          const body = (await deckRes.json()) as DeckState | null;
+          setDeck(body);
+        }
       } catch (e) {
         setError(e instanceof Error ? e.message : "Failed to load");
       } finally {
@@ -155,6 +164,8 @@ export function ProfileAnalysis() {
       </section>
 
       <GithubPanel username={me.github_username} data={githubData} />
+
+      <DeckUploader initial={deck} onUploaded={setDeck} />
 
       <section className="rounded-xl border border-white/10 p-5">
         <h2 className="font-medium">Signals your mentor uses</h2>

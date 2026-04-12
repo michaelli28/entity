@@ -6,9 +6,11 @@ from typing import Any
 
 from asyncpg import Connection
 
+from ..db.repositories import deck_repository as drepo
 from ..db.repositories import mentor_repository as mrepo
 from . import prompts
 from .client import build_cached_system
+from .deck_extract import format_deck_summary_for_prompt
 from .mentor_sessions import SessionBlueprint
 
 
@@ -71,14 +73,27 @@ async def build_messages_and_system(
         patterns, benchmarks, rolling_summary=None
     )
 
-    system_blocks = build_cached_system(
-        [
-            (identity, True),
-            (profile_block, True),
-            (blueprint.system_suffix, False),
-            (retrieved, False),
-        ]
-    )
+    latest_deck = await drepo.latest_for_founder(conn, founder_id=founder["id"])
+    deck_text = ""
+    if latest_deck and latest_deck.get("extraction_status") == "done":
+        sections = latest_deck.get("extracted_sections")
+        if isinstance(sections, str):
+            try:
+                sections = json.loads(sections)
+            except (ValueError, TypeError):
+                sections = None
+        if isinstance(sections, dict):
+            deck_text = format_deck_summary_for_prompt(sections)
+
+    blocks: list[tuple[str, bool]] = [
+        (identity, True),
+        (profile_block, True),
+        (blueprint.system_suffix, False),
+    ]
+    if deck_text:
+        blocks.append((deck_text, False))
+    blocks.append((retrieved, False))
+    system_blocks = build_cached_system(blocks)
 
     recent = await mrepo.recent_messages(conn, session_id, limit=20)
     messages: list[dict[str, Any]] = []
