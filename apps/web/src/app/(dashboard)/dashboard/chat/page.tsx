@@ -6,6 +6,7 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { ColdReadCard } from "@/components/chat/cold-read-card";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
 import { CommitmentCard } from "@/components/commitment-card";
+import { IntroRequestButton } from "@/components/intro-request-button";
 import { streamChat } from "@/lib/chat-stream";
 import { posthog } from "@/lib/posthog";
 
@@ -122,6 +123,7 @@ export default function ChatPage() {
         />
       )}
       <MessageList messages={messages} isStreaming={streaming} />
+      <IntroRequestButton />
       <ChatInput onSend={send} disabled={streaming} />
     </div>
   );
