@@ -1,0 +1,2 @@
+-- Dev seed data (empty for now — synthetic personas added in Month 2)
+-- This file runs after migrations via `supabase db reset`
