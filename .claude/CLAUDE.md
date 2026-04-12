@@ -68,10 +68,39 @@ zstar/
 
 ## Design Tooling (for Claude)
 
-When building frontend components, use these tools in order:
+When building frontend components, follow this pipeline in order:
 
-1. `ui-ux-pro-max` skill — design decisions (colors, typography, UX patterns)
-2. `21st.dev` MCP builder — search for premium component snippets
-3. shadcn + Aceternity + Magic UI — build components into `packages/ui/`
-4. `21st.dev` MCP refiner — polish existing components
-5. `21st.dev` logo search — SVG/TSX company logos
+1. **`ui-ux-pro-max` skill** — design system decisions (colors, typography, spacing, UX patterns)
+2. **Aceternity UI MCP** (`aceternity-mcp`) — search 106+ dramatic components (Spotlight, Aurora, Multi Step Loader, Sidebar, Card effects)
+3. **`21st.dev` MCP builder** — search for premium component patterns and snippets
+4. **shadcn/ui MCP** (`shadcn mcp`) — install primitives conversationally (Field, Input, Chart, Sonner, etc.)
+5. **`mcp-universal-icons`** — 60k+ SVG icons (Lucide, Phosphor, Material, Heroicons) with JSX + Tailwind output
+6. **Build in `packages/ui/`** — compose components with Motion (framer-motion) animations
+7. **`21st.dev` MCP refiner** — polish transitions, hover states, micro-interactions
+8. **`21st.dev` logo search** — SVG/TSX company logos (LinkedIn, GitHub, Google for OAuth)
+9. **Playwright** — screenshot every screen, verify visually, catch regressions
+
+### Installed Design Packages (`@zstar/web`)
+
+- `motion` v12 (formerly framer-motion) — animation engine, OKLCH-native, used by Aceternity + Magic UI
+- `@phosphor-icons/react` — 9k+ icons, 6 weights, duotone for dark themes
+- `recharts` — radar charts, radial gauges, trend lines (shadcn charts built on this)
+- `sonner` — toast notifications (shadcn recommended)
+- `vaul` — drawer/bottom-sheet component
+
+### Component Sources by Need
+
+- **Backgrounds/effects**: Aceternity (Aurora, Beams, Spotlight, Vortex)
+- **App-level polish**: Magic UI (Shimmer Button, Border Beam, Blur Fade, Number Ticker)
+- **Form primitives**: shadcn/ui (Field, Input, Select, Label)
+- **Charts/gauges**: shadcn Recharts (Radar, Radial with endAngle, Area)
+- **Icons**: Lucide (app UI) + Phosphor duotone (feature icons)
+- **Animations**: Motion v12 (page transitions, hover effects, entrance animations)
+
+### MCP Servers (`.mcp.json`)
+
+- `shadcn` — shadcn/ui component installation
+- `aceternity` — Aceternity UI component discovery
+- `universal-icons` — multi-library icon search
+- `magic` (via plugin) — 21st.dev component builder/refiner/logo search
+- `playwright` (via plugin) — browser automation and screenshots
