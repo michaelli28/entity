@@ -57,6 +57,8 @@ venv = ".venv"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
 testpaths = ["tests"]
 # Disable pytest-postgresql by default; tests that need it can opt in via `-p postgresql`.
 # Requires libpq (psycopg binary) which isn't guaranteed in all environments.
