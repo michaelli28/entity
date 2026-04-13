@@ -7,8 +7,45 @@ import { useEffect, useRef, useState } from "react";
 import { ChatInput } from "@/components/chat/chat-input";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
 import { CompletionBanner } from "@/components/sessions/completion-banner";
+import { SessionProgress } from "@/components/sessions/session-progress";
 import { streamChat } from "@/lib/chat-stream";
 import { useSession, useSessionMessages } from "@/lib/hooks/use-sessions";
+
+const SIGNAL_LABELS: Record<string, string> = {
+  founder_background: "Founder background",
+  product_description: "Product description",
+  icp: "Ideal customer profile",
+  market_timing: "Market timing",
+  pain_points: "Pain points",
+  tam: "Total addressable market",
+  competition_analysis: "Competitive landscape",
+  moat: "Moat",
+  pricing_model: "Pricing model",
+  traction_metrics: "Traction metrics",
+  gtm_strategy: "Go-to-market",
+  team_composition: "Team composition",
+  round_size: "Round size",
+  terms: "Terms",
+  investor_pipeline: "Investor pipeline",
+  help_needed: "What you need besides money",
+  mrr_or_revenue: "MRR / revenue",
+  design_partners: "Design partners",
+  unit_economics: "Unit economics",
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  founder: "Founder",
+  market: "Market",
+  problem: "Problem",
+  competition: "Competition",
+  product: "Product",
+  traction: "Traction",
+  pricing: "Pricing",
+  team: "Team",
+};
+
+const titleCase = (s: string) =>
+  s.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
 interface Props {
   sessionId: string;
@@ -86,10 +123,12 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
         onToken: (t) => updateAssistant((prev) => prev + t),
         onDone: () => {
           setStreaming(false);
-          setTimeout(
-            () => qc.invalidateQueries({ queryKey: ["session", sessionId] }),
-            2000,
-          );
+          setTimeout(() => {
+            qc.invalidateQueries({ queryKey: ["session", sessionId] });
+            qc.invalidateQueries({
+              queryKey: ["session-coverage", sessionId],
+            });
+          }, 2000);
         },
         onError: (e) => {
           setStreaming(false);
@@ -103,12 +142,19 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
     <div className="mx-auto flex h-screen max-w-3xl flex-col p-6">
       <div className="mb-2">
         <h1 className="text-xl font-semibold">
-          Deep Dive: {session.target_category}
+          Deep Dive:{" "}
+          {CATEGORY_LABELS[session.target_category ?? ""] ??
+            titleCase(session.target_category ?? "")}
         </h1>
         {session.target_signal && (
-          <p className="text-sm text-neutral-400">{session.target_signal}</p>
+          <p className="text-sm text-neutral-400">
+            Focus:{" "}
+            {SIGNAL_LABELS[session.target_signal] ??
+              titleCase(session.target_signal)}
+          </p>
         )}
       </div>
+      <SessionProgress sessionId={sessionId} />
       <MessageList messages={messages} isStreaming={streaming} />
       <CompletionBanner
         sessionId={sessionId}

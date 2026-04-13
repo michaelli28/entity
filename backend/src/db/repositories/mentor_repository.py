@@ -114,3 +114,21 @@ async def user_turn_count(conn: Connection, session_id: Any) -> int:
         session_id,
     )
     return int(result or 0)
+
+
+async def delete_all_for_session(
+    conn: Connection, *, session_id: UUID, founder_id: UUID
+) -> int:
+    """Delete every message in a session. Scoped by founder_id via JOIN."""
+    result = await conn.execute(
+        """
+        DELETE FROM mentor_messages
+        WHERE session_id = $1
+          AND session_id IN (
+              SELECT id FROM mentor_sessions WHERE founder_id = $2
+          )
+        """,
+        session_id,
+        founder_id,
+    )
+    return int(result.split()[-1])

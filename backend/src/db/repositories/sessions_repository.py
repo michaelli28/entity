@@ -115,6 +115,17 @@ async def complete(
     return int(result.split()[-1])
 
 
+async def delete_all_for_founder(
+    conn: Connection, *, founder_id: UUID
+) -> int:
+    """Hard-delete every session for a founder. Cascades to mentor_messages."""
+    result = await conn.execute(
+        "DELETE FROM mentor_sessions WHERE founder_id = $1",
+        founder_id,
+    )
+    return int(result.split()[-1])
+
+
 async def deep_dive_recommendation(
     conn: Connection, *, founder_id: UUID
 ) -> dict[str, Any]:

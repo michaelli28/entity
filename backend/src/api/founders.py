@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
 from ..db.repositories import founder_repository as frepo
+from ..db.repositories import sessions_repository as session_repo
 from ..db.repositories import startup_profile_repository as srepo
 from ..enrichment.github import fetch_github_profile
 from ..integrations import posthog as ph
@@ -134,3 +135,19 @@ async def complete_onboarding(
         await frepo.complete_onboarding(conn, UUID(str(founder["id"])))
     ph.capture(claims["sub"], "onboarding_completed")
     return {"status": "ok"}
+
+
+@router.delete("/me/sessions")
+async def delete_all_my_sessions(
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    """Hard-delete every mentor session (and cascaded messages) for the caller."""
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="Founder not found")
+        deleted = await session_repo.delete_all_for_founder(
+            conn, founder_id=founder["id"]
+        )
+    ph.capture(claims["sub"], "mentor_history_cleared", {"deleted": deleted})
+    return {"ok": True, "deleted": deleted}

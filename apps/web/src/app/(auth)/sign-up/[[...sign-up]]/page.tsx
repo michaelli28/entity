@@ -11,7 +11,10 @@ export default function SignUpPage() {
         </a>
         .
       </p>
-      <SignUp appearance={{ baseTheme: undefined }} />
+      <SignUp
+        appearance={{ baseTheme: undefined }}
+        fallbackRedirectUrl="/onboarding"
+      />
     </div>
   );
 }

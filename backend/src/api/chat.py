@@ -37,7 +37,7 @@ from ..llm.mentor_sessions import (
     make_deep_dive_blueprint,
 )
 from ..llm.redact import redact
-from ..llm.safety import CANNED_RESPONSES, Intent, classify_intent
+from ..llm.safety import CANNED_RESPONSES, classify_intent
 
 log = structlog.get_logger()
 router = APIRouter(prefix="/api/chat", tags=["chat"])
@@ -178,7 +178,7 @@ async def chat_stream(
                 profile = await srepo.get_by_founder(conn, founder_id) or {}
 
             intent = await classify_intent(redacted)
-            if intent != Intent.STARTUP_COACHING:
+            if intent in CANNED_RESPONSES:
                 canned = CANNED_RESPONSES[intent]
                 async with get_connection() as conn:
                     await mrepo.insert_message(

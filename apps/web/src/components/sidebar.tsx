@@ -5,11 +5,14 @@ import {
   CaretRight,
   ChartPieSlice,
   GearSix,
+  House,
   IdentificationCard,
   Sparkle,
 } from "@phosphor-icons/react";
+import Link from "next/link";
 import { useState } from "react";
 
+import { SeedDemoButton } from "@/components/dev/seed-demo-button";
 import { useBlueprints, useSessions } from "@/lib/hooks/use-sessions";
 
 import { NavItem } from "./nav-item";
@@ -30,19 +33,35 @@ export function Sidebar() {
       }`}
     >
       <div className="flex items-center justify-between p-4">
-        {!collapsed && <span className="font-semibold">ZStar</span>}
-        <button
-          type="button"
-          onClick={() => setCollapsed((c) => !c)}
-          className="text-white/60 hover:text-white"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? (
-            <CaretRight weight="duotone" />
-          ) : (
-            <CaretLeft weight="duotone" />
-          )}
-        </button>
+        {!collapsed && (
+          <Link
+            href="/dashboard"
+            className="font-semibold text-white hover:text-white/80"
+          >
+            ZStar
+          </Link>
+        )}
+        <div className="flex items-center gap-1">
+          <Link
+            href="/dashboard"
+            aria-label="Go to dashboard"
+            className="rounded p-1 text-white/60 hover:bg-white/5 hover:text-white"
+          >
+            <House weight="duotone" size={18} />
+          </Link>
+          <button
+            type="button"
+            onClick={() => setCollapsed((c) => !c)}
+            className="rounded p-1 text-white/60 hover:bg-white/5 hover:text-white"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? (
+              <CaretRight weight="duotone" />
+            ) : (
+              <CaretLeft weight="duotone" />
+            )}
+          </button>
+        </div>
       </div>
       <nav className="flex-1 space-y-1 p-2">
         <NavItem
@@ -70,9 +89,14 @@ export function Sidebar() {
           label="Settings"
           collapsed={collapsed}
         />
+        {!collapsed && (
+          <div className="px-1 pt-2">
+            <SeedDemoButton />
+          </div>
+        )}
       </nav>
       <div className="border-t border-white/10 p-3">
-        <UserButton afterSignOutUrl="/" />
+        <UserButton afterSignOutUrl="/sign-in" />
       </div>
     </aside>
   );

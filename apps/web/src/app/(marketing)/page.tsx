@@ -1,9 +1,7 @@
-import { Button } from "@zstar/ui";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <Button>ZStar — AI-Powered Founder Profiling</Button>
-    </div>
-  );
+export default async function HomePage() {
+  const { userId } = await auth();
+  redirect(userId ? "/dashboard" : "/sign-in");
 }

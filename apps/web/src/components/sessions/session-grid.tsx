@@ -61,7 +61,11 @@ function DeepDiveCard({
   if (!recommendation) return null;
   return (
     <div className="rounded-xl p-5 border border-amber-500/40 bg-amber-500/5">
-      <h4 className="text-lg font-semibold">Deep Dive: {recommendation.target_category}</h4>
+      <h4 className="text-lg font-semibold">
+        Deep Dive:{" "}
+        {recommendation.target_category.charAt(0).toUpperCase() +
+          recommendation.target_category.slice(1)}
+      </h4>
       <p className="text-sm text-neutral-400 mt-1">
         Rebuild your {recommendation.target_category} story.
         {recommendation.is_default && " (we picked this as a starting default — you can change after)"}

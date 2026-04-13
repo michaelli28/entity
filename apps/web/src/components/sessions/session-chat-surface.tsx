@@ -6,12 +6,16 @@ import { useEffect, useRef, useState } from "react";
 
 import { ChatInput } from "@/components/chat/chat-input";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
+import { ChatMenu } from "@/components/sessions/chat-menu";
 import { CompletionBanner } from "@/components/sessions/completion-banner";
+import { SessionProgress } from "@/components/sessions/session-progress";
 import { StarterQuestions } from "@/components/sessions/starter-questions";
 import { streamChat } from "@/lib/chat-stream";
 import {
   useBlueprints,
   useCreateSession,
+  useDeleteAllSessions,
+  useResetSessionMessages,
   useSessionMessages,
   useSessions,
 } from "@/lib/hooks/use-sessions";
@@ -41,6 +45,8 @@ export function SessionChatSurface({
   const { data: blueprints } = useBlueprints();
   const { data: sessions } = useSessions();
   const createSession = useCreateSession();
+  const resetMessages = useResetSessionMessages();
+  const deleteAll = useDeleteAllSessions();
 
   const blueprint = blueprints?.find((b) => b.key === sessionType);
   const [sessionId, setSessionId] = useState<string | null>(sessionIdFromQuery);
@@ -48,22 +54,20 @@ export function SessionChatSurface({
   const [streaming, setStreaming] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const hasTriedCreateRef = useRef(false);
-  const hasHydratedRef = useRef(false);
+  const hydratedForRef = useRef<string | null>(null);
   const { data: history } = useSessionMessages(sessionId);
 
   useEffect(() => {
-    if (hasHydratedRef.current) return;
     if (!sessionId || !history) return;
-    hasHydratedRef.current = true;
-    if (history.length > 0) {
-      setMessages(
-        history.map((m) => ({
-          id: m.id,
-          role: m.role,
-          content: m.content,
-        })),
-      );
-    }
+    if (hydratedForRef.current === sessionId) return;
+    hydratedForRef.current = sessionId;
+    setMessages(
+      history.map((m) => ({
+        id: m.id,
+        role: m.role,
+        content: m.content,
+      })),
+    );
   }, [sessionId, history]);
 
   useEffect(() => {
@@ -139,10 +143,12 @@ export function SessionChatSurface({
         onToken: (t) => updateAssistant((prev) => prev + t),
         onDone: () => {
           setStreaming(false);
-          setTimeout(
-            () => qc.invalidateQueries({ queryKey: ["session", sessionId] }),
-            2000,
-          );
+          setTimeout(() => {
+            qc.invalidateQueries({ queryKey: ["session", sessionId] });
+            qc.invalidateQueries({
+              queryKey: ["session-coverage", sessionId],
+            });
+          }, 2000);
         },
         onError: (e) => {
           setStreaming(false);
@@ -158,12 +164,49 @@ export function SessionChatSurface({
     );
   }
 
+  const handleReset = () => {
+    if (!sessionId) return;
+    abortRef.current?.abort();
+    resetMessages.mutate(sessionId, {
+      onSuccess: () => {
+        setMessages([]);
+        hydratedForRef.current = sessionId;
+      },
+    });
+  };
+
+  const handlePivot = () => {
+    void handleSend(
+      "I'm pivoting the company — please recalibrate from here and ask what you need to re-scope.",
+    );
+  };
+
+  const handleDeleteAll = () => {
+    const ok = window.confirm(
+      "Delete all mentor history? This wipes every session and message. Cannot be undone.",
+    );
+    if (!ok) return;
+    abortRef.current?.abort();
+    deleteAll.mutate(undefined, {
+      onSuccess: () => router.push("/dashboard/sessions"),
+    });
+  };
+
   return (
     <div className="mx-auto flex h-screen max-w-3xl flex-col p-6">
-      <div className="mb-2">
-        <h1 className="text-xl font-semibold">{blueprint.title}</h1>
-        <p className="text-sm text-neutral-400">{blueprint.subtitle}</p>
+      <div className="mb-2 flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-semibold">{blueprint.title}</h1>
+          <p className="text-sm text-neutral-400">{blueprint.subtitle}</p>
+        </div>
+        <ChatMenu
+          onReset={handleReset}
+          onPivot={handlePivot}
+          onDeleteAll={handleDeleteAll}
+          disabled={streaming}
+        />
       </div>
+      <SessionProgress sessionId={sessionId} />
       <MessageList messages={messages} isStreaming={streaming} />
       {messages.length === 0 && (
         <StarterQuestions

@@ -111,6 +111,61 @@ export function useSessionMessages(sessionId: string | null) {
   });
 }
 
+export function useResetSessionMessages() {
+  const qc = useQueryClient();
+  return useMutation<{ deleted: number }, Error, string>({
+    mutationFn: async (sessionId) => {
+      const r = await fetch(`/api/sessions/${sessionId}/messages`, {
+        method: "DELETE",
+      });
+      if (!r.ok) throw new Error(`reset ${r.status}`);
+      return (await r.json()) as { deleted: number };
+    },
+    onSuccess: (_, sessionId) => {
+      qc.invalidateQueries({ queryKey: ["session-messages", sessionId] });
+      qc.invalidateQueries({ queryKey: ["session", sessionId] });
+    },
+  });
+}
+
+export function useDeleteAllSessions() {
+  const qc = useQueryClient();
+  return useMutation<{ deleted: number }, Error, void>({
+    mutationFn: async () => {
+      const r = await fetch(`/api/founders/me/sessions`, {
+        method: "DELETE",
+      });
+      if (!r.ok) throw new Error(`delete-all ${r.status}`);
+      return (await r.json()) as { deleted: number };
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["sessions"] });
+      qc.invalidateQueries({ queryKey: ["session-messages"] });
+      qc.invalidateQueries({ queryKey: ["session"] });
+    },
+  });
+}
+
+export interface SessionCoverage {
+  coverage_score: number;
+  suggest_complete: boolean;
+  target_signals: { key: string; label: string; covered: boolean }[];
+}
+
+export function useSessionCoverage(sessionId: string | null) {
+  return useQuery<SessionCoverage>({
+    queryKey: ["session-coverage", sessionId],
+    enabled: !!sessionId,
+    staleTime: 5 * 1000,
+    queryFn: async () => {
+      if (!sessionId) throw new Error("no session id");
+      const r = await fetch(`/api/sessions/${sessionId}/coverage`);
+      if (!r.ok) throw new Error(`coverage ${r.status}`);
+      return (await r.json()) as SessionCoverage;
+    },
+  });
+}
+
 export function useDeepDiveRecommendation(enabled: boolean) {
   return useQuery<DeepDiveRecommendation>({
     queryKey: ["deep-dive-recommendation"],

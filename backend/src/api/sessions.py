@@ -1,4 +1,6 @@
 # pyright: reportMissingTypeStubs=false
+# pyright: reportUnknownMemberType=false
+# pyright: reportUnknownVariableType=false
 from typing import Any
 from uuid import UUID
 
@@ -13,11 +15,37 @@ from ..db.repositories import mentor_repository as mrepo
 from ..db.repositories import sessions_repository as srepo
 from ..db.repositories import startup_profile_repository as srpo
 from ..llm.mentor_sessions import (
+    BY_KEY,
     CORE_BLUEPRINTS,
     KNOWN_SIGNAL_CATEGORIES,
     KNOWN_SIGNAL_KEYS,
     SessionKey,
+    make_deep_dive_blueprint,
 )
+
+
+# Human labels for target-signal keys. Keep in sync with the frontend map.
+SIGNAL_LABELS: dict[str, str] = {
+    "founder_background": "Your background",
+    "product_description": "What you're building",
+    "icp": "Who it's for",
+    "market_timing": "Why now",
+    "pain_points": "Pain points",
+    "tam": "Market size",
+    "competition_analysis": "Competition",
+    "moat": "Unfair advantage",
+    "pricing_model": "Pricing",
+    "traction_metrics": "Traction",
+    "gtm_strategy": "Go-to-market",
+    "team_composition": "Team",
+    "round_size": "Round size",
+    "terms": "Terms",
+    "investor_pipeline": "Pipeline",
+    "help_needed": "What you need beyond money",
+    "mrr_or_revenue": "MRR / revenue",
+    "design_partners": "Design partners",
+    "unit_economics": "Unit economics",
+}
 
 log = structlog.get_logger()
 router = APIRouter(prefix="/api/sessions", tags=["sessions"])
@@ -173,6 +201,80 @@ async def get_session_messages(
         }
         for m in rows
     ]
+
+
+@router.get("/{session_id}/coverage")
+async def get_session_coverage(
+    session_id: UUID,
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    """Return overall coverage % plus per-target-signal covered flags."""
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="founder not found")
+        scoped = await srepo.get_by_id_scoped(
+            conn, session_id=session_id, founder_id=founder["id"]
+        )
+        if scoped is None:
+            raise HTTPException(status_code=404, detail="session not found")
+
+        session_type = scoped["session_type"]
+        if session_type == "deep_dive":
+            blueprint = make_deep_dive_blueprint(
+                scoped["target_category"], scoped["target_signal"]
+            )
+        else:
+            blueprint = BY_KEY[SessionKey(session_type)]
+        target_signals = list(blueprint.target_signals)
+
+        rows = await conn.fetch(
+            """
+            SELECT DISTINCT signal_key
+            FROM session_signals
+            WHERE session_id = $1
+              AND signal_key = ANY($2::text[])
+            """,
+            session_id,
+            target_signals,
+        )
+        covered_keys = {r["signal_key"] for r in rows}
+
+    items = [
+        {
+            "key": key,
+            "label": SIGNAL_LABELS.get(key, key.replace("_", " ").title()),
+            "covered": key in covered_keys,
+        }
+        for key in target_signals
+    ]
+
+    return {
+        "coverage_score": scoped["coverage_score"],
+        "suggest_complete": scoped["suggest_complete"],
+        "target_signals": items,
+    }
+
+
+@router.delete("/{session_id}/messages")
+async def reset_session_messages(
+    session_id: UUID,
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    """Delete every message in a session (keeps the session row)."""
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="founder not found")
+        scoped = await srepo.get_by_id_scoped(
+            conn, session_id=session_id, founder_id=founder["id"]
+        )
+        if scoped is None:
+            raise HTTPException(status_code=404, detail="session not found")
+        deleted = await mrepo.delete_all_for_session(
+            conn, session_id=session_id, founder_id=founder["id"]
+        )
+    return {"ok": True, "deleted": deleted}
 
 
 @router.post("/{session_id}/complete")
