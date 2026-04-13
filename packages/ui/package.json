@@ -13,6 +13,10 @@
       "types": "./src/hooks/*.ts",
       "default": "./src/hooks/*.ts"
     },
+    "./typographic/*": {
+      "types": "./src/typographic/*.tsx",
+      "default": "./src/typographic/*.tsx"
+    },
     "./*": {
       "types": "./src/*.tsx",
       "default": "./src/*.tsx"
