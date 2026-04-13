@@ -98,6 +98,12 @@ def _validate_summary_citations(
             cleaned[key] = [
                 _process(v) if isinstance(v, str) else v for v in cleaned[key]
             ]
+    rationales = cleaned.get("category_rationales")
+    if isinstance(rationales, dict):
+        cleaned["category_rationales"] = {
+            k: _process(v) if isinstance(v, str) else v
+            for k, v in rationales.items()
+        }
     return cleaned, list(seen.values())
 
 
@@ -171,6 +177,10 @@ async def get_mentor_summary(
         grounding=grounding,
     )
     payload = summary.model_dump()
+    rationales_raw = payload.get("category_rationales") or {}
+    payload["category_rationales"] = {
+        c: rationales_raw.get(c, "") for c in CATEGORIES
+    }
     if grounding.chunks:
         cleaned, valid_cites = _validate_summary_citations(payload, grounding)
         payload = cleaned
