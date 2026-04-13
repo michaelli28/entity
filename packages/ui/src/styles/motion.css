@@ -1,0 +1,20 @@
+@keyframes zstar-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes zstar-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+  }
+}
+
+.zstar-gradient-em {
+  background: var(--gradient-flow);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: zstar-gradient-shift var(--motion-gradient-duration) ease infinite;
+  font-style: italic;
+}

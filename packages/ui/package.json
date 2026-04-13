@@ -9,6 +9,8 @@
       "default": "./src/index.ts"
     },
     "./styles/tokens.css": "./src/styles/tokens.css",
+    "./styles/motion.css": "./src/styles/motion.css",
+    "./styles/cursor.css": "./src/styles/cursor.css",
     "./hooks/*": {
       "types": "./src/hooks/*.ts",
       "default": "./src/hooks/*.ts"

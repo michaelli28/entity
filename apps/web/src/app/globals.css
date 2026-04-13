@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "@zstar/ui/styles/tokens.css";
+@import "@zstar/ui/styles/motion.css";
+@import "@zstar/ui/styles/cursor.css";
 
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
 
