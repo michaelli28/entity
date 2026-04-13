@@ -9,7 +9,16 @@ import {
   Chip,
   GradientAccent,
   DotPulse,
+  HeroBackdrop,
+  NavPill,
 } from "@zstar/ui";
+
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/pricing", label: "Pricing", active: true },
+  { href: "/blog", label: "Blog" },
+];
 
 export default function ShowcasePage() {
   return (
@@ -86,6 +95,41 @@ export default function ShowcasePage() {
           </p>
           <p className="font-[family-name:var(--font-display)] text-[28px]">
             Signal <GradientAccent as="strong">clarity</GradientAccent> at every stage
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>06 HeroBackdrop</Eyebrow>
+        <div className="mt-6 relative h-[400px] overflow-hidden rounded border border-[var(--color-border)]">
+          <HeroBackdrop className="h-full">
+            <div className="flex flex-col items-center justify-center h-full gap-4">
+              <h1 className="font-[family-name:var(--font-display)] text-[48px] text-[var(--color-text)]">
+                Build something <GradientAccent>remarkable</GradientAccent>
+              </h1>
+              <p className="text-[var(--color-text-muted)] text-sm font-[family-name:var(--font-mono)]">
+                intensity=&quot;full&quot; (default)
+              </p>
+            </div>
+          </HeroBackdrop>
+        </div>
+        <div className="mt-4 relative h-[200px] overflow-hidden rounded border border-[var(--color-border)]">
+          <HeroBackdrop intensity="soft" className="h-full">
+            <div className="flex flex-col items-center justify-center h-full">
+              <p className="text-[var(--color-text-muted)] text-sm font-[family-name:var(--font-mono)]">
+                intensity=&quot;soft&quot; — aurora + overlay at 60% opacity
+              </p>
+            </div>
+          </HeroBackdrop>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>07 NavPill</Eyebrow>
+        <div className="mt-6 flex flex-col gap-4 items-start">
+          <NavPill items={navItems} />
+          <p className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">
+            &quot;Pricing&quot; marked active — gradient underline + bg-elevated treatment
           </p>
         </div>
       </section>

@@ -15,5 +15,9 @@ export { Chip } from "./surface/chip";
 export { GradientAccent } from "./surface/gradient-accent";
 export { DotPulse } from "./surface/dot-pulse";
 
+export { HeroBackdrop } from "./surface/hero-backdrop";
+export { NavPill } from "./surface/nav-pill";
+export type { NavPillItem } from "./surface/nav-pill";
+
 // Hooks
 export { useReducedMotion } from "./hooks/use-reduced-motion";
