@@ -7,7 +7,6 @@ from typing import Any
 import instructor
 from pydantic import BaseModel, Field
 
-from ..core.categories import CATEGORIES, CategoryKey
 from ..rag.grounding import Grounding
 from .client import HAIKU_MODEL, SONNET_MODEL, get_client
 
@@ -93,17 +92,18 @@ class MentorSummary(BaseModel):
         min_length=3,
         max_length=5,
     )
-    category_rationales: dict[CategoryKey, str] = Field(
+    category_rationales: dict[str, str] = Field(
+        default_factory=dict,
         description=(
-            "One rationale per scoring category (exactly 8 keys: founder, "
-            "market, problem, competition, product, traction, pricing, team). "
-            "Each value is 1-2 sentences explaining why this founder was "
-            "scored the way they were in that category, citing specific "
-            "evidence from <profile> and <transcripts> (their own words, "
-            "their LinkedIn/GitHub/bio facts). Reference research with [N] "
-            "inline where it supports a point. If data is missing for a "
-            "category, say so directly (e.g., 'No pricing discussion in "
-            "sessions — score reflects absence of evidence')."
+            "One rationale per scoring category. Use exactly these 8 keys: "
+            "founder, market, problem, competition, product, traction, "
+            "pricing, team. Each value is 1-2 sentences explaining why this "
+            "founder was scored the way they were in that category, citing "
+            "specific evidence from <profile> and <transcripts> (their own "
+            "words, their LinkedIn/GitHub/bio facts). Reference research "
+            "with [N] inline where it supports a point. If data is missing "
+            "for a category, say so directly (e.g., 'No pricing discussion "
+            "in sessions — score reflects absence of evidence')."
         ),
     )
 

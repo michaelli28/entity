@@ -151,3 +151,36 @@ async def delete_all_my_sessions(
         )
     ph.capture(claims["sub"], "mentor_history_cleared", {"deleted": deleted})
     return {"ok": True, "deleted": deleted}
+
+
+@router.post("/me/reset")
+async def hard_reset_my_account(
+    claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
+) -> dict[str, Any]:
+    """Wipe all founder-owned history: sessions, messages, scores,
+    cold reads, summaries, commitments, signals. Keeps founder row and
+    startup_profile so the user can immediately start fresh."""
+    async with get_connection() as conn:
+        founder = await frepo.find_by_clerk_id(conn, claims["sub"])
+        if not founder:
+            raise HTTPException(status_code=404, detail="Founder not found")
+        fid = founder["id"]
+        async with conn.transaction():
+            await conn.execute(
+                "DELETE FROM mentor_sessions WHERE founder_id = $1", fid
+            )
+            await conn.execute(
+                "DELETE FROM signal_scores WHERE founder_id = $1", fid
+            )
+            await conn.execute(
+                "DELETE FROM cold_reads WHERE founder_id = $1", fid
+            )
+            await conn.execute(
+                "DELETE FROM mentor_session_summaries WHERE founder_id = $1",
+                fid,
+            )
+            await conn.execute(
+                "DELETE FROM founder_commitments WHERE founder_id = $1", fid
+            )
+    ph.capture(claims["sub"], "account_hard_reset", {})
+    return {"ok": True}

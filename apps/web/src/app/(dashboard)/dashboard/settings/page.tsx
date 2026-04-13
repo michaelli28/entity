@@ -1,6 +1,7 @@
 import { SignOutButton } from "@clerk/nextjs";
 
 import { InviteCofounderSection } from "@/components/invite-cofounder-section";
+import { HardResetSection } from "@/components/settings/hard-reset-section";
 import { ProfileLinksForm } from "@/components/settings/profile-links-form";
 
 export default function SettingsPage() {
@@ -25,6 +26,7 @@ export default function SettingsPage() {
           <h2 className="mb-2 font-medium">Account</h2>
           <SignOutButton>Sign out</SignOutButton>
         </div>
+        <HardResetSection />
       </section>
     </div>
   );

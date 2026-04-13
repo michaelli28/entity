@@ -1,5 +1,6 @@
 # pyright: reportMissingTypeStubs=false
 import json
+import logging
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -19,6 +20,7 @@ from ..rag.grounding import Grounding
 from ..rag.summary_grounding import build_summary_grounding
 
 router = APIRouter(prefix="/api/scores", tags=["scores"])
+log = logging.getLogger(__name__)
 
 
 
@@ -170,12 +172,19 @@ async def get_mentor_summary(
             k=8,
         )
 
-    summary = await generate_mentor_summary(
-        profile_blob=profile_blob,
-        scores_blob=scores_blob,
-        transcripts_blob=transcripts_blob,
-        grounding=grounding,
-    )
+    try:
+        summary = await generate_mentor_summary(
+            profile_blob=profile_blob,
+            scores_blob=scores_blob,
+            transcripts_blob=transcripts_blob,
+            grounding=grounding,
+        )
+    except Exception as exc:  # noqa: BLE001
+        log.exception("mentor_summary_llm_failed")
+        raise HTTPException(
+            status_code=502,
+            detail=f"mentor_summary_llm_failed: {type(exc).__name__}",
+        ) from exc
     payload = summary.model_dump()
     rationales_raw = payload.get("category_rationales") or {}
     payload["category_rationales"] = {
