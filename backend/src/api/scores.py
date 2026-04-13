@@ -2,9 +2,11 @@
 import json
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 
+from ..core.categories import CATEGORIES
 from ..core.dependencies import verify_clerk_jwt
+from ..core.rate_limit import limiter
 from ..db.connection import get_connection
 from ..db.repositories import founder_repository as frepo
 from ..db.repositories import mentor_repository as mrepo
@@ -12,20 +14,13 @@ from ..db.repositories import scores_repository as srepo
 from ..db.repositories import sessions_repository as sessrepo
 from ..db.repositories import startup_profile_repository as sppo
 from ..llm.extractors import generate_mentor_summary
+from ..rag.citations import ValidatedCitation, validate_citations
+from ..rag.grounding import Grounding
+from ..rag.summary_grounding import build_summary_grounding
 
 router = APIRouter(prefix="/api/scores", tags=["scores"])
 
 
-CATEGORIES = (
-    "founder",
-    "market",
-    "problem",
-    "competition",
-    "product",
-    "traction",
-    "pricing",
-    "team",
-)
 
 
 def _normalize_category_scores(raw: Any) -> dict[str, int]:
@@ -79,8 +74,43 @@ SESSION_TYPE_LABELS = {
 }
 
 
+def _validate_summary_citations(
+    summary_dict: dict[str, Any], grounding: Grounding
+) -> tuple[dict[str, Any], list[ValidatedCitation]]:
+    """Apply citation validation across every text-bearing field of the summary.
+
+    Returns (cleaned_summary, dedup_citations_first_appearance_order).
+    """
+    seen: dict[int, ValidatedCitation] = {}
+    cleaned: dict[str, Any] = dict(summary_dict)
+
+    def _process(value: str) -> str:
+        text, cites = validate_citations(value, grounding)
+        for c in cites:
+            if c.index not in seen:
+                seen[c.index] = c
+        return text
+
+    if isinstance(cleaned.get("headline"), str):
+        cleaned["headline"] = _process(cleaned["headline"])
+    for key in ("strengths", "weaknesses", "tips"):
+        if isinstance(cleaned.get(key), list):
+            cleaned[key] = [
+                _process(v) if isinstance(v, str) else v for v in cleaned[key]
+            ]
+    rationales = cleaned.get("category_rationales")
+    if isinstance(rationales, dict):
+        cleaned["category_rationales"] = {
+            k: _process(v) if isinstance(v, str) else v
+            for k, v in rationales.items()
+        }
+    return cleaned, list(seen.values())
+
+
 @router.get("/mentor-summary")
+@limiter.limit("10/minute")
 async def get_mentor_summary(
+    request: Request,
     claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
 ) -> dict[str, Any]:
     """Holistic, brutally-honest coaching summary across all sessions."""
@@ -106,35 +136,64 @@ async def get_mentor_summary(
                 lines.append(f"{role}: {m['content']}")
             transcripts.append("\n".join(lines))
 
-    if not transcripts:
-        raise HTTPException(
-            status_code=400,
-            detail="No session transcripts yet. Complete at least one mentor "
-            "session before requesting a holistic summary.",
+        if not transcripts:
+            raise HTTPException(
+                status_code=400,
+                detail="No session transcripts yet. Complete at least one "
+                "mentor session before requesting a holistic summary.",
+            )
+
+        profile_blob = (
+            f"Name: {founder.get('name', 'unknown')}\n"
+            f"Company: {profile.get('company_name', 'unknown')}\n"
+            f"One-liner: {profile.get('one_liner', 'unknown')}\n"
+            f"Stage: {profile.get('stage', 'unknown')}\n"
+            f"What would 10x this for them: "
+            f"{founder.get('what_would_make_10x') or 'not specified'}\n"
         )
 
-    profile_blob = (
-        f"Name: {founder.get('name', 'unknown')}\n"
-        f"Company: {profile.get('company_name', 'unknown')}\n"
-        f"One-liner: {profile.get('one_liner', 'unknown')}\n"
-        f"Stage: {profile.get('stage', 'unknown')}\n"
-        f"What would 10x this for them: {founder.get('what_would_make_10x') or 'not specified'}\n"
-    )
+        if score_row is None:
+            scores_blob = "No signal scores computed yet."
+        else:
+            cats = _normalize_category_scores(score_row["category_scores"])
+            cat_lines = "\n".join(f"- {k}: {v}/100" for k, v in cats.items())
+            scores_blob = (
+                f"Overall: {score_row['overall_score']}/100\n{cat_lines}"
+            )
 
-    if score_row is None:
-        scores_blob = "No signal scores computed yet."
-    else:
-        cats = _normalize_category_scores(score_row["category_scores"])
-        cat_lines = "\n".join(f"- {k}: {v}/100" for k, v in cats.items())
-        scores_blob = (
-            f"Overall: {score_row['overall_score']}/100\n{cat_lines}"
+        transcripts_blob = "\n\n".join(transcripts)[:40000]
+
+        grounding = await build_summary_grounding(
+            profile_one_liner=str(profile.get("one_liner") or ""),
+            transcripts=transcripts_blob,
+            conn=conn,
+            k=8,
         )
-
-    transcripts_blob = "\n\n".join(transcripts)[:40000]
 
     summary = await generate_mentor_summary(
         profile_blob=profile_blob,
         scores_blob=scores_blob,
         transcripts_blob=transcripts_blob,
+        grounding=grounding,
     )
-    return summary.model_dump()
+    payload = summary.model_dump()
+    rationales_raw = payload.get("category_rationales") or {}
+    payload["category_rationales"] = {
+        c: rationales_raw.get(c, "") for c in CATEGORIES
+    }
+    if grounding.chunks:
+        cleaned, valid_cites = _validate_summary_citations(payload, grounding)
+        payload = cleaned
+        payload["citations"] = [
+            {
+                "index": c.index,
+                "paper_id": str(c.paper_id),
+                "paper_title": c.paper_title,
+                "section": c.section,
+                "snippet": c.snippet,
+            }
+            for c in valid_cites
+        ]
+    else:
+        payload["citations"] = []
+    return payload

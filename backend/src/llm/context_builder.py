@@ -8,6 +8,7 @@ from asyncpg import Connection
 
 from ..db.repositories import deck_repository as drepo
 from ..db.repositories import mentor_repository as mrepo
+from ..rag.grounding import Grounding
 from . import prompts
 from .client import build_cached_system
 from .deck_extract import format_deck_summary_for_prompt
@@ -58,6 +59,7 @@ async def build_messages_and_system(
     blueprint: SessionBlueprint,
     session_id: Any,
     new_user_message: str,
+    grounding: Grounding | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Return (system_blocks_for_anthropic, messages_for_anthropic).
 
@@ -93,6 +95,14 @@ async def build_messages_and_system(
     if deck_text:
         blocks.append((deck_text, False))
     blocks.append((retrieved, False))
+    if grounding is not None and grounding.prompt_block:
+        blocks.append(
+            (
+                "Relevant research excerpts (cite with [N] matching id):\n"
+                + grounding.prompt_block,
+                False,
+            )
+        )
     system_blocks = build_cached_system(blocks)
 
     recent = await mrepo.recent_messages(conn, session_id, limit=20)

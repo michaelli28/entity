@@ -121,6 +121,13 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
       getToken: () => getToken({ template: "backend" }),
       handlers: {
         onToken: (t) => updateAssistant((prev) => prev + t),
+        onCitations: (cites) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId ? { ...m, citations: cites } : m,
+            ),
+          );
+        },
         onDone: () => {
           setStreaming(false);
           setTimeout(() => {

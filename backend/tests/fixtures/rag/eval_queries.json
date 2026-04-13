@@ -1,0 +1,65 @@
+{
+  "_readme": "Pre-registered retrieval eval queries. Each query lists the paper title(s) that MUST appear in top-3. Titles match research_papers.title (filename stem). Committed before any retrieval tuning.",
+  "queries": [
+    {
+      "query": "how do alumni networks affect venture capital investment decisions",
+      "expected_titles": ["paper 1"]
+    },
+    {
+      "query": "does early industry exposure predict entrepreneur success",
+      "expected_titles": ["paper 2"]
+    },
+    {
+      "query": "how does having an entrepreneurial parent influence becoming an entrepreneur",
+      "expected_titles": ["Paper 3"]
+    },
+    {
+      "query": "does founding team demographic diversity help or hurt startup performance",
+      "expected_titles": ["Paper 4"]
+    },
+    {
+      "query": "impact of venture capital competitor ties on entrepreneurial innovation",
+      "expected_titles": ["ssrn-2643790"]
+    },
+    {
+      "query": "how does immigration status affect entrepreneurship outcomes",
+      "expected_titles": ["ssrn-2939378"]
+    },
+    {
+      "query": "do university entrepreneurship programs change immigrant founder outcomes",
+      "expected_titles": ["ssrn-2939378"]
+    },
+    {
+      "query": "what role do family dinner conversations play in future entrepreneurship",
+      "expected_titles": ["Paper 3"]
+    },
+    {
+      "query": "does working in an industry first help you found a successful startup in that same industry",
+      "expected_titles": ["paper 2"]
+    },
+    {
+      "query": "how do shared venture capital investors affect competing startups innovation",
+      "expected_titles": ["ssrn-2643790"]
+    },
+    {
+      "query": "what predicts persistence in entrepreneurship careers over time",
+      "expected_titles": ["ssrn-2939378"]
+    },
+    {
+      "query": "how does a founder's educational alumni network shape fundraising success",
+      "expected_titles": ["paper 1"]
+    },
+    {
+      "query": "does team uniformity among founders improve or hurt venture outcomes",
+      "expected_titles": ["Paper 4"]
+    },
+    {
+      "query": "what influence do parents have on their children becoming entrepreneurs",
+      "expected_titles": ["Paper 3"]
+    },
+    {
+      "query": "how does parental human capital transfer to the next generation in entrepreneurship",
+      "expected_titles": ["Paper 3"]
+    }
+  ]
+}

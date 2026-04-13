@@ -41,3 +41,8 @@ test-results/
 
 # Misc
 *.log
+.vercel
+
+# RAG — research papers are copyrighted
+backend/data/papers/*.pdf
+!backend/data/papers/.gitkeep

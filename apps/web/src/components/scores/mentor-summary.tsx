@@ -1,28 +1,33 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 
-interface MentorSummary {
-  headline: string;
-  strengths: string[];
-  weaknesses: string[];
-  tips: string[];
+import { CitationChips } from "@/components/rag/citation-chips";
+import type { Citation } from "@/lib/schemas/citation";
+
+import type { MentorSummaryData } from "./mentor-summary-types";
+
+interface MentorSummarySectionProps {
+  summary: MentorSummaryData | null;
+  onSummary: (data: MentorSummaryData) => void;
 }
 
-export function MentorSummarySection() {
-  const [summary, setSummary] = useState<MentorSummary | null>(null);
-
-  const generate = useMutation<MentorSummary, Error, void>({
+export function MentorSummarySection({
+  summary,
+  onSummary,
+}: MentorSummarySectionProps) {
+  const generate = useMutation<MentorSummaryData, Error, void>({
     mutationFn: async () => {
       const r = await fetch("/api/scores/mentor-summary");
       if (!r.ok) {
         const body = await r.text();
         throw new Error(body || `summary ${r.status}`);
       }
-      return (await r.json()) as MentorSummary;
+      return (await r.json()) as MentorSummaryData;
     },
-    onSuccess: (data) => setSummary(data),
+    onSuccess: (data) => onSummary(data),
   });
+
+  const citations: Citation[] = summary?.citations ?? [];
 
   return (
     <section className="rounded-xl border border-white/10 bg-neutral-900/30 p-6">
@@ -78,6 +83,15 @@ export function MentorSummarySection() {
             items={summary.tips}
             accent="text-amber-300"
           />
+
+          {citations.length > 0 && (
+            <div>
+              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/50">
+                Sources
+              </h3>
+              <CitationChips citations={citations} />
+            </div>
+          )}
         </div>
       ) : !generate.isPending ? (
         <p className="text-sm text-white/50">

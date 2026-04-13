@@ -1,4 +1,15 @@
+from enum import Enum
+
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class RagMode(str, Enum):
+    """RAG feature gate. Single-knob rollout replaces boolean pair."""
+
+    OFF = "off"
+    MENTOR_ONLY = "mentor_only"
+    FULL = "full"
 
 
 class Settings(BaseSettings):
@@ -32,6 +43,17 @@ class Settings(BaseSettings):
 
     COVERAGE_COMPLETION_THRESHOLD: int = 75
     COVERAGE_MIN_TURNS: int = 3
+
+    rag_mode: RagMode = RagMode.OFF
+    openai_api_key: str = ""
+
+    @model_validator(mode="after")
+    def _rag_requires_openai_key(self) -> "Settings":
+        if self.rag_mode is not RagMode.OFF and not self.openai_api_key:
+            raise ValueError(
+                "OPENAI_API_KEY is required when rag_mode is not 'off'"
+            )
+        return self
 
 
 settings = Settings()
