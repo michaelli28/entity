@@ -40,6 +40,7 @@ dev = [
     "pyright>=1.1.400",
     "asgi-lifespan>=2.1.0",
     "pytest-postgresql>=8.0.0",
+    "reportlab>=4.4.10",
 ]
 
 [project.scripts]
