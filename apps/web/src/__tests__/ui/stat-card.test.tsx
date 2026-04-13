@@ -16,9 +16,9 @@ describe("StatCard", () => {
     expect(screen.getByTestId("stat-fill").style.getPropertyValue("--w")).toBe("100%");
   });
 
-  it("applies gradient class when `emphasis` is set", () => {
+  it("applies solid color class when `emphasis` is set", () => {
     render(<StatCard label="Score" value="87" emphasis fill={0.5} />);
     const value = screen.getByText("87");
-    expect(value.className).toContain("bg-[image:var(--gradient-flow)]");
+    expect(value.className).toContain("text-[var(--color-brand-purple-light)]");
   });
 });

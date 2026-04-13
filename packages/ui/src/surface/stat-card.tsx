@@ -21,8 +21,7 @@ export function StatCard({ label, value, fill, emphasis = false, className }: St
       <div
         className={cn(
           "font-[family-name:var(--font-display)] text-[40px] leading-none text-[var(--color-text)]",
-          emphasis &&
-            "bg-[image:var(--gradient-flow)] bg-[size:300%_300%] bg-clip-text text-transparent",
+          emphasis && "text-[var(--color-brand-purple-light)]",
         )}
       >
         {value}
@@ -31,7 +30,7 @@ export function StatCard({ label, value, fill, emphasis = false, className }: St
         <div
           data-testid="stat-fill"
           style={{ "--w": widthPercent } as React.CSSProperties}
-          className="absolute top-0 left-0 h-full bg-[image:var(--gradient-brand)] bg-[size:200%_200%] w-[var(--w)] transition-[width] duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+          className="absolute top-0 left-0 h-full bg-[color:var(--color-brand-purple-light)] w-[var(--w)] transition-[width] duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
         />
       </div>
     </div>

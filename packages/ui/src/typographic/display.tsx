@@ -14,25 +14,6 @@ const sizeByLevel: Record<DisplayLevel, string> = {
   h3: "text-[clamp(28px,3vw,44px)] leading-tight tracking-[-0.01em]",
 };
 
-function wrapEmWithGradient(node: React.ReactNode): React.ReactNode {
-  return React.Children.map(node, (child) => {
-    if (!React.isValidElement(child)) return child;
-    if (child.type === "em") {
-      const existing = (child.props as { className?: string }).className ?? "";
-      return React.cloneElement(child as React.ReactElement<{ className?: string }>, {
-        className: cn(existing, "zstar-gradient-em not-italic italic"),
-      });
-    }
-    const childProps = child.props as { children?: React.ReactNode };
-    if (childProps.children != null) {
-      return React.cloneElement(child as React.ReactElement<{ children?: React.ReactNode }>, {
-        children: wrapEmWithGradient(childProps.children),
-      });
-    }
-    return child;
-  });
-}
-
 export function Display({ as = "h1", className, children, ...rest }: DisplayProps) {
   const Tag = as;
   return (
@@ -44,7 +25,7 @@ export function Display({ as = "h1", className, children, ...rest }: DisplayProp
       )}
       {...rest}
     >
-      {wrapEmWithGradient(children)}
+      {children}
     </Tag>
   );
 }

@@ -69,16 +69,13 @@ test.describe("showcase primitive interactions", () => {
 test.describe("reduced-motion", () => {
   test.use({ colorScheme: "dark" });
 
-  test("showcase renders when prefers-reduced-motion: reduce", async ({ browser }) => {
+  test("showcase renders without errors when prefers-reduced-motion: reduce", async ({ browser }) => {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/showcase");
     await page.waitForLoadState("networkidle");
-
-    const cursor = page.locator(".zstar-cursor");
-    expect(await cursor.count()).toBe(0);
 
     expect(errors).toEqual([]);
     await context.close();

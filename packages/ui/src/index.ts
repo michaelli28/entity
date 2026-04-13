@@ -12,7 +12,6 @@ export { MonoCaption } from "./typographic/mono-caption";
 export { HairlineCard } from "./surface/hairline-card";
 export { StatCard } from "./surface/stat-card";
 export { Chip } from "./surface/chip";
-export { GradientAccent } from "./surface/gradient-accent";
 export { DotPulse } from "./surface/dot-pulse";
 
 export { HeroBackdrop } from "./surface/hero-backdrop";
@@ -33,7 +32,6 @@ export { ThinkingIndicator } from "./surface/thinking-indicator";
 // Hooks
 export { useReducedMotion } from "./hooks/use-reduced-motion";
 
-// Phase 2 — C3, E1, E2
-export { CustomCursor } from "./surface/custom-cursor";
+// Phase 2 — E1, E2
 export { MobileNavDrawer } from "./surface/mobile-nav-drawer";
 export { ChatComposerShell } from "./surface/chat-composer-shell";

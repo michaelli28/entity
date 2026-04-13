@@ -37,11 +37,11 @@ describe("NavPill", () => {
     expect(links[3]).not.toHaveAttribute("aria-current");
   });
 
-  it("active item contains gradient underline span", () => {
+  it("active item contains solid underline span", () => {
     render(<NavPill items={items} />);
     const activeLink = screen.getByRole("link", { name: "Pricing" });
     const underlineSpan = activeLink.querySelector(
-      "[class*='bg-\\[image\\:var\\(--gradient-flow\\)\\]']",
+      "[class*='bg-\\[color\\:var\\(--color-brand-purple-light\\)\\]']",
     );
     expect(underlineSpan).toBeInTheDocument();
     expect(underlineSpan).toHaveAttribute("aria-hidden", "true");

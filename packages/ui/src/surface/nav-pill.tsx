@@ -39,7 +39,7 @@ function renderDefaultLink(item: NavPillItem, children: React.ReactNode) {
       {item.active && (
         <span
           aria-hidden="true"
-          className="absolute inset-x-4 bottom-0.5 h-px bg-[image:var(--gradient-flow)]"
+          className="absolute inset-x-4 bottom-0.5 h-px bg-[color:var(--color-brand-purple-light)]"
         />
       )}
     </a>
@@ -71,7 +71,7 @@ export function NavPill({
             {item.active && (
               <span
                 aria-hidden="true"
-                className="absolute inset-x-4 bottom-0.5 h-px bg-[image:var(--gradient-flow)]"
+                className="absolute inset-x-4 bottom-0.5 h-px bg-[color:var(--color-brand-purple-light)]"
               />
             )}
           </>
@@ -92,7 +92,7 @@ export function NavPill({
             {item.active && (
               <span
                 aria-hidden="true"
-                className="absolute inset-x-4 bottom-0.5 h-px bg-[image:var(--gradient-flow)]"
+                className="absolute inset-x-4 bottom-0.5 h-px bg-[color:var(--color-brand-purple-light)]"
               />
             )}
           </a>

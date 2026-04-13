@@ -13,7 +13,7 @@ describe("Display", () => {
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Sub");
   });
 
-  it("applies the gradient flow class to <em> children", () => {
+  it("renders <em> children as plain italic text", () => {
     const { container } = render(
       <Display>
         Welcome <em>back</em>
@@ -21,6 +21,6 @@ describe("Display", () => {
     );
     const em = container.querySelector("em");
     expect(em).not.toBeNull();
-    expect(em?.className).toContain("zstar-gradient-em");
+    expect(em?.textContent).toBe("back");
   });
 });
