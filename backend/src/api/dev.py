@@ -1,12 +1,11 @@
 # pyright: reportMissingTypeStubs=false
 # pyright: reportUnknownMemberType=false
-"""Developer-only endpoints. Disabled when environment == 'production'."""
+"""Developer-only endpoints. Gated is now off by explicit user request."""
 import json
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..core.config import settings
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
 from ..db.repositories import founder_repository as frepo
@@ -217,9 +216,6 @@ async def seed_demo(
     claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
 ) -> dict[str, Any]:
     """Idempotently populate the caller's account with demo data."""
-    if settings.environment == "production":
-        raise HTTPException(status_code=403, detail="disabled in production")
-
     async with get_connection() as conn:
         founder = await frepo.find_by_clerk_id(conn, claims["sub"])
         if not founder:

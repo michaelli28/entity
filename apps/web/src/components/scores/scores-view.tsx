@@ -1,6 +1,7 @@
 "use client";
 import { useLatestScores } from "@/lib/hooks/use-scores";
 
+import { MentorSummarySection } from "./mentor-summary";
 import { ScoreRadar } from "./score-radar";
 
 export function ScoresView() {
@@ -61,6 +62,8 @@ export function ScoresView() {
           </div>
         </section>
       )}
+
+      <MentorSummarySection />
     </div>
   );
 }

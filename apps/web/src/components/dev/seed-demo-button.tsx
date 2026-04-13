@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function SeedDemoButton() {
-  if (process.env.NODE_ENV === "production") return null;
   return <SeedDemoButtonInner />;
 }
 
