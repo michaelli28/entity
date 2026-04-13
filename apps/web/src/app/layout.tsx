@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { DM_Serif_Display, Syne, JetBrains_Mono } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 
 import { Providers } from "@/components/providers";
+import { TheatricsProvider } from "@/lib/theatrics/tier-context";
+import { resolveTier } from "@/lib/theatrics/resolve-tier";
 
 const fontDisplay = DM_Serif_Display({
   subsets: ["latin"],
@@ -38,19 +41,29 @@ export const metadata: Metadata = {
   description: "AI-powered founder profiling and deal flow",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const headersList = await headers();
+  const pathname =
+    headersList.get("x-invoke-path") ??
+    headersList.get("next-url") ??
+    "/";
+  const tier = resolveTier(pathname);
+
   return (
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html
         lang="en"
+        data-theatrics={tier}
         className={`dark ${fontDisplay.variable} ${fontSans.variable} ${fontMono.variable}`}
       >
         <body className="antialiased">
-          <Providers>{children}</Providers>
+          <TheatricsProvider value={tier}>
+            <Providers>{children}</Providers>
+          </TheatricsProvider>
         </body>
       </html>
     </ClerkProvider>

@@ -1,4 +1,5 @@
 import { AuroraBackground } from "@zstar/ui";
+import { TheatricsProvider } from "@/lib/theatrics/tier-context";
 
 export default function OnboardingLayout({
   children,
@@ -6,10 +7,12 @@ export default function OnboardingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuroraBackground>
-      <div className="relative z-10 flex min-h-screen items-center justify-center p-6">
-        {children}
-      </div>
-    </AuroraBackground>
+    <TheatricsProvider value="medium">
+      <AuroraBackground>
+        <div className="relative z-10 flex min-h-screen items-center justify-center p-6">
+          {children}
+        </div>
+      </AuroraBackground>
+    </TheatricsProvider>
   );
 }
