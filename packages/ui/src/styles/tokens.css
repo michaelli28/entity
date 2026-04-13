@@ -18,10 +18,10 @@
   --gradient-brand: linear-gradient(135deg, #7c3aed, #4f46e5, #2563eb);
   --gradient-flow: linear-gradient(135deg, #a78bfa, #818cf8, #60a5fa, #7c3aed);
 
-  /* Fonts — family strings only; weights are loaded via next/font */
-  --font-display: "DM Serif Display", Georgia, serif;
-  --font-sans: "Syne", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Fonts — var() picks up the next/font CSS variable when loaded; string is the SSR fallback */
+  --font-display: var(--font-display-loaded, "DM Serif Display"), Georgia, serif;
+  --font-sans: var(--font-sans-loaded, "Syne"), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-loaded, "JetBrains Mono"), ui-monospace, monospace;
 
   /* Motion */
   --motion-gradient-duration: 5s;
