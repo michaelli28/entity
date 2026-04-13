@@ -15,6 +15,10 @@ import {
   EmptyState,
   LoadingShimmer,
   ErrorPanel,
+  KineticHeadline,
+  ScrollReveal,
+  StreamingReveal,
+  ThinkingIndicator,
 } from "@zstar/ui";
 
 const navItems = [
@@ -229,6 +233,66 @@ export default function ShowcasePage() {
             retryLabel="Sign in again"
           />
           <ErrorPanel title="No retry variant" detail={<p>This panel has no retry action.</p>} />
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>12 KineticHeadline</Eyebrow>
+        <div className="mt-6 space-y-8">
+          <div>
+            <MonoCaption variant="muted" className="mb-3">tier=&quot;full&quot; (default)</MonoCaption>
+            <KineticHeadline>Build something remarkable</KineticHeadline>
+          </div>
+          <div>
+            <MonoCaption variant="muted" className="mb-3">tier=&quot;medium&quot; as h2</MonoCaption>
+            <KineticHeadline as="h2" tier="medium">Signal clarity at scale</KineticHeadline>
+          </div>
+          <div>
+            <MonoCaption variant="muted" className="mb-3">tier=&quot;calm&quot; — static fallback</MonoCaption>
+            <KineticHeadline as="h3" tier="calm">Quiet headline, no animation</KineticHeadline>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>13 ScrollReveal</Eyebrow>
+        <div className="mt-6 space-y-6 max-w-xl">
+          {["First reveal item — scroll to see", "Second reveal item", "Third reveal item"].map((text, i) => (
+            <ScrollReveal key={i} as="section">
+              <HairlineCard>
+                <MonoCaption variant="muted">0{i + 1}</MonoCaption>
+                <div className="mt-4 font-[family-name:var(--font-display)] text-[20px]">{text}</div>
+              </HairlineCard>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>14 StreamingReveal</Eyebrow>
+        <div className="mt-6 max-w-xl space-y-4">
+          <HairlineCard>
+            <MonoCaption variant="muted" className="mb-3">animated (reduced-motion off)</MonoCaption>
+            <p className="text-[var(--color-text)] leading-relaxed">
+              <StreamingReveal text="Your pitch deck has strong market sizing but the go-to-market strategy needs more specificity around customer acquisition channels." />
+            </p>
+          </HairlineCard>
+          <HairlineCard>
+            <MonoCaption variant="muted" className="mb-3">staticMode=true — plain render</MonoCaption>
+            <p className="text-[var(--color-text)] leading-relaxed">
+              <StreamingReveal staticMode text="Stream complete — no re-animation on this text." />
+            </p>
+          </HairlineCard>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>15 ThinkingIndicator</Eyebrow>
+        <div className="mt-6 flex items-center gap-6">
+          <ThinkingIndicator />
+          <MonoCaption variant="muted">default label</MonoCaption>
+          <ThinkingIndicator label="Analyzing signals" />
+          <MonoCaption variant="muted">label=&quot;Analyzing signals&quot;</MonoCaption>
         </div>
       </section>
 

@@ -24,5 +24,11 @@ export { EmptyState } from "./surface/empty-state";
 export { LoadingShimmer } from "./surface/loading-shimmer";
 export { ErrorPanel } from "./surface/error-panel";
 
+// Kinetic layer
+export { KineticHeadline } from "./typographic/kinetic-headline";
+export { ScrollReveal } from "./surface/scroll-reveal";
+export { StreamingReveal } from "./surface/streaming-reveal";
+export { ThinkingIndicator } from "./surface/thinking-indicator";
+
 // Hooks
 export { useReducedMotion } from "./hooks/use-reduced-motion";
