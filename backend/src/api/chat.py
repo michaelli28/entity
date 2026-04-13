@@ -12,12 +12,13 @@ from uuid import UUID
 
 import structlog
 from anthropic import APIConnectionError, APIStatusError
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from ..core.config import settings
 from ..core.dependencies import verify_clerk_jwt
+from ..core.rate_limit import limiter
 from ..db.connection import get_connection
 from ..db.repositories import cold_read_repository as crepo
 from ..db.repositories import founder_repository as frepo
@@ -128,7 +129,9 @@ async def _extract_signals_bg(session_id: Any, user_message: str) -> None:
 
 
 @router.post("/stream")
+@limiter.limit("20/minute")
 async def chat_stream(
+    request: Request,
     body: ChatRequest,
     bg: BackgroundTasks,
     claims: dict[str, Any] = Depends(verify_clerk_jwt),  # noqa: B008
