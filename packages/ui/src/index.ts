@@ -32,3 +32,8 @@ export { ThinkingIndicator } from "./surface/thinking-indicator";
 
 // Hooks
 export { useReducedMotion } from "./hooks/use-reduced-motion";
+
+// Phase 2 — C3, E1, E2
+export { CustomCursor } from "./surface/custom-cursor";
+export { MobileNavDrawer } from "./surface/mobile-nav-drawer";
+export { ChatComposerShell } from "./surface/chat-composer-shell";

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Display,
   Eyebrow,
@@ -19,7 +20,17 @@ import {
   ScrollReveal,
   StreamingReveal,
   ThinkingIndicator,
+  CustomCursor,
+  MobileNavDrawer,
+  ChatComposerShell,
 } from "@zstar/ui";
+
+const drawerNavItems = [
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/mentor", label: "Mentor" },
+  { href: "/signals", label: "Signals" },
+  { href: "/settings", label: "Settings" },
+];
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -29,6 +40,8 @@ const navItems = [
 ];
 
 export default function ShowcasePage() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
     <main className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] p-12 space-y-16">
       <section>
@@ -329,6 +342,76 @@ export default function ShowcasePage() {
             <DotPulse tone="brand" label="Streaming" />
             <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">label=&quot;Streaming&quot;</span>
           </div>
+        </div>
+      </section>
+      <section>
+        <Eyebrow>16 MobileNavDrawer</Eyebrow>
+        <div className="mt-6">
+          <MobileNavDrawer
+            open={drawerOpen}
+            onOpenChange={setDrawerOpen}
+            trigger={
+              <button className="rounded-full border border-[var(--color-border-interactive)] px-4 py-1.5 text-xs uppercase tracking-[0.15em] text-[var(--color-text)]">
+                Open menu
+              </button>
+            }
+            title="Navigation"
+          >
+            <nav className="flex flex-col gap-1 mt-2">
+              {drawerNavItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="block rounded px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-bg-elevated)] transition-colors"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </MobileNavDrawer>
+          <p className="mt-3 text-xs font-[family-name:var(--font-mono)] text-[var(--color-text-muted)]">
+            Vaul bottom-sheet drawer — 80vh, rounded-t-2xl
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>17 ChatComposerShell</Eyebrow>
+        <div className="mt-6 relative rounded border border-[var(--color-border)] bg-[var(--color-bg-elevated)] h-[200px] overflow-hidden">
+          <div className="p-6">
+            <p className="text-[var(--color-text-muted)] text-sm font-[family-name:var(--font-mono)]">
+              chat content area
+            </p>
+          </div>
+          <ChatComposerShell
+            left={
+              <button className="p-2 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
+                +
+              </button>
+            }
+            input={
+              <textarea
+                rows={1}
+                placeholder="Message your mentor..."
+                className="w-full resize-none rounded border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] outline-none focus:border-[var(--color-border-interactive)]"
+              />
+            }
+            right={
+              <button className="rounded-full bg-[var(--color-brand)] px-4 py-2 text-xs font-medium text-white">
+                Send
+              </button>
+            }
+          />
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>18 CustomCursor</Eyebrow>
+        <div className="mt-6">
+          <p className="text-[var(--color-text-muted)] text-sm font-[family-name:var(--font-mono)]">
+            Move your pointer — requires pointer:fine. The cursor dot follows with mix-blend-mode:difference.
+          </p>
+          <CustomCursor enabled={true} />
         </div>
       </section>
     </main>

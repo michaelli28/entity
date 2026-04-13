@@ -31,12 +31,14 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "motion": "^12.38.0"
+    "motion": "^12.38.0",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "motion": "^12.38.0"
+    "motion": "^12.38.0",
+    "vaul": "^1.1.2"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
