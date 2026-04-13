@@ -9,6 +9,10 @@
       "default": "./src/index.ts"
     },
     "./styles/tokens.css": "./src/styles/tokens.css",
+    "./hooks/*": {
+      "types": "./src/hooks/*.ts",
+      "default": "./src/hooks/*.ts"
+    },
     "./*": {
       "types": "./src/*.tsx",
       "default": "./src/*.tsx"
