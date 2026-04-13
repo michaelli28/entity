@@ -38,6 +38,8 @@ from ..llm.mentor_sessions import (
 )
 from ..llm.redact import redact
 from ..llm.safety import CANNED_RESPONSES, classify_intent
+from ..rag.chat_grounding import build_chat_grounding
+from ..rag.citations import validate_citations
 
 log = structlog.get_logger()
 router = APIRouter(prefix="/api/chat", tags=["chat"])
@@ -215,6 +217,9 @@ async def chat_stream(
                 )
             bg.add_task(_extract_signals_bg, session_id, redacted)
             async with get_connection() as conn:
+                grounding = await build_chat_grounding(
+                    query=redacted, conn=conn, k=4
+                )
                 system_blocks, messages = await build_messages_and_system(
                     conn,
                     founder=founder,
@@ -222,6 +227,7 @@ async def chat_stream(
                     blueprint=blueprint,
                     session_id=session_id,
                     new_user_message=redacted,
+                    grounding=grounding,
                 )
 
             yield _sse("session", {"session_id": str(session_id)})
@@ -243,6 +249,29 @@ async def chat_stream(
                 output_tokens = final_msg.usage.output_tokens
 
             finish_reason = "stop"
+            # Validate citations and emit any that survived before 'done'.
+            if grounding.chunks:
+                cleaned, valid_cites = validate_citations(
+                    "".join(full_text), grounding
+                )
+                # Replace buffered text so persistence uses the cleaned form.
+                full_text = [cleaned]
+                if valid_cites:
+                    yield _sse(
+                        "citations",
+                        {
+                            "citations": [
+                                {
+                                    "index": c.index,
+                                    "paper_id": str(c.paper_id),
+                                    "paper_title": c.paper_title,
+                                    "section": c.section,
+                                    "snippet": c.snippet,
+                                }
+                                for c in valid_cites
+                            ]
+                        },
+                    )
             yield _sse("done", {"finish_reason": finish_reason})
 
         except (APIStatusError, APIConnectionError):
