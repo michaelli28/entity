@@ -17,6 +17,10 @@
       "types": "./src/typographic/*.tsx",
       "default": "./src/typographic/*.tsx"
     },
+    "./surface/*": {
+      "types": "./src/surface/*.tsx",
+      "default": "./src/surface/*.tsx"
+    },
     "./*": {
       "types": "./src/*.tsx",
       "default": "./src/*.tsx"
