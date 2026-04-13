@@ -19,8 +19,7 @@ export function SidebarShell({
   ...rest
 }: SidebarShellProps) {
   return (
-    <aside
-      role="navigation"
+    <nav
       aria-label="Sidebar"
       className={cn(
         "flex h-full flex-col border-r border-[color:var(--color-border)]",
@@ -56,6 +55,6 @@ export function SidebarShell({
           {footer}
         </div>
       )}
-    </aside>
+    </nav>
   );
 }

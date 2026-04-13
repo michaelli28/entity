@@ -34,11 +34,19 @@
     "motion": "^12.38.0",
     "vaul": "^1.1.2"
   },
+  "scripts": {
+    "test": "vitest run"
+  },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/jest-dom": "^6.6.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.4.0",
+    "jsdom": "^26.1.0",
     "motion": "^12.38.0",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "vitest": "^3.1.0"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
