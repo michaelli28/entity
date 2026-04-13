@@ -2,8 +2,11 @@ import { auth } from "@clerk/nextjs/server";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
+// Long LLM calls (mentor summary ~30–90s). Vercel Pro caps at 800s.
+export const maxDuration = 300;
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const UPSTREAM_TIMEOUT_MS = 180_000;
 
 async function proxy(
   req: NextRequest,
@@ -41,7 +44,7 @@ async function proxy(
   const init: RequestInit = {
     method: req.method,
     headers,
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
   };
   if (!["GET", "HEAD"].includes(req.method)) {
     const body = await req.arrayBuffer();
