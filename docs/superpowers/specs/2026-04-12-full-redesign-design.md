@@ -75,10 +75,32 @@ Scale:
 
 ### 3.4 Borders and spacing
 
-- Default border is hairline (1px, `--color-border`)
+- Default divider border is hairline (1px, `--color-border` = `rgba(255,255,255,.07)`)
+- **Interactive borders** (inputs, cards that receive focus, form fields) use `--color-border-interactive` = `rgba(255,255,255,.18)` to meet WCAG 1.4.11 (3:1 for UI components)
 - Sharp corners by default; pills (nav, chips, CTAs) and avatars (gradient circle) are the only rounded elements
 - Section padding: 80–120px vertical on marketing; 40–60px on dashboard
 - Grid gap on card grids: 1px (to create continuous hairline grid)
+
+### 3.5 Kinetic and data-reactive motion
+
+Motion is a first-class design token, not a decoration. Four capabilities ship with the redesign:
+
+- **View Transitions API** — Next 15 `unstable_ViewTransition` wrapped at the root layout. Shared-element `view-transition-name` on: `SessionRow` → `MentorChatCard` avatar, `StatCard` → `ScoreRadarFrame` tile, `/dashboard` hero greeting → `/dashboard/profile` header. Gives route changes a morph feel instead of page-load feel.
+- **Scroll-linked CSS animations** — `animation-timeline: scroll()` and `view()` for reveals on landing, `/cold-read`, `/dashboard/artifacts/[id]`, and long settings. Lives in `packages/ui/src/motion/scroll-reveal.tsx`. Native CSS, no JS cost. Replaces static hairline dividers with kinetic reading rhythm.
+- **`KineticHeadline`** — in `packages/ui/src/typographic/kinetic-headline.tsx`. Splits `Display` `<em>` children per-glyph; staggered spring entrance via Motion v12; subtle weight/skew shift on cursor proximity. Used on landing hero, `/onboarding/ready`, `/cold-read` hero.
+- **`DraggableTileGrid`** — in `apps/web/src/components/dashboard/draggable-tile-grid.tsx`. Motion v12 `Reorder` + spring physics; order persisted to `user_preferences` (new JSONB column on `founders`). Used on `/dashboard` overview so StatCards are rearrangeable. Dashboard stops being a magazine spread, becomes a tool.
+
+All motion respects `prefers-reduced-motion` (disables gradient shift, kinetic headline stagger, scroll-linked reveals, and drag physics — items become static with instant hover feedback only).
+
+### 3.6 Tiered theatrics matrix
+
+Theatrics are tiered by surface to match the user's cognitive load. Three tiers:
+
+| Tier | Surfaces | Custom cursor | Animated gradients | Kinetic type | Shader/drag |
+|---|---|---|---|---|---|
+| **Full** | `/`, `/privacy`, `/terms`, `/subprocessors`, `/sign-in`, `/sign-up`, `/onboarding/*`, `/cold-read/[slug]`, `/invite/[token]` | yes | yes | yes | yes |
+| **Medium** | `/dashboard`, `/dashboard/profile`, `/dashboard/settings`, `/dashboard/artifacts/[id]` | yes | capped at 2 concurrent, single hero accent | on H1 only | draggable tiles on `/dashboard` only |
+| **Calm** | `/dashboard/chat/**`, `/dashboard/sessions`, `/dashboard/scores` | **off** | static gradients only; StatCard fill bars animate once on mount then static | off | off |
 
 ---
 
@@ -89,9 +111,16 @@ Location: `packages/ui/src/`. Exported via `@zstar/ui`. Existing `components/but
 ### 4.1 Layout primitives
 
 - `NavPill` — floating pill nav: animated gradient logo, link list (tabs), CTA button. Used by marketing/public shell.
-- `Sidebar` — hybrid editorial sidebar: 240px, hairline right border, serif wordmark top, mono nav labels, gradient accent on active item, collapses to NavPill below `lg`. Used by dashboard shell.
-- `Shell` — route-group-aware wrapper that picks NavPill vs Sidebar vs minimal shell.
-- `CustomCursor` — global 8px screen-blended cursor; respects reduced-motion.
+- `SidebarShell` — primitive (in `packages/ui`): 240px, hairline right border, slots for brand/nav/footer, collapses to NavPill below `lg`. Knows nothing about nav items.
+- `AppSidebar` — domain composition (in `apps/web/src/components/sidebar.tsx`): wraps `SidebarShell`, injects ZStar-specific nav config (Dashboard, Sessions, Scores, Profile, Settings), active-item styling, user block.
+- `Shell` — route-group-aware wrapper that picks NavPill vs AppSidebar vs minimal shell.
+- `CustomCursor` — global 8px screen-blended cursor. Gating:
+  - `"use client"` + mounted only after hydration (`useEffect`)
+  - `@media (pointer: fine)` — disabled on touch devices
+  - Respects `prefers-reduced-motion`
+  - Hidden when hovering selectors: `input, textarea, [contenteditable], [data-no-cursor], iframe, .cl-rootBox *` (Clerk portals) so native text/resize cursors show
+  - Disabled when `window.self !== window.top` (iframe embeds)
+  - Tier-gated: component reads a `data-theatrics` attribute on `<html>` set by route group; no-op on `calm` tier
 
 ### 4.2 Typographic primitives
 
@@ -111,12 +140,14 @@ Location: `packages/ui/src/`. Exported via `@zstar/ui`. Existing `components/but
 
 ### 4.4 Domain compositions
 
-Live in `apps/web/src/components/` (not in `packages/ui` — they bind to domain state).
+Live in `apps/web/src/components/` (not in `packages/ui` — they bind to domain state). **All four are wrap-only frames — they must not reimplement state, effects, or data hooks of their wrapped components.**
 
-- `MentorChatCard` — editorial chat UI: serif avatar with animated gradient ring, mono status, hairline message bubbles, gradient send button, coverage progress bar at top.
-- `ScoreRadarFrame` — editorial frame around existing Recharts radar; preserves current data contract.
-- `SessionRow` — list row: mono timestamp + session #, serif title, progress bar, status chip.
-- `DeckUploadEditorial` — editorial skin over the existing `DeckUploader` component; preserves polling and Vision-extraction display.
+- `MentorChatCard` — editorial *frame* around existing `session-chat-surface.tsx` and `deep-dive-chat-surface.tsx`. Accepts the existing surface as a child. Must not touch `messages`, `streaming`, `abortRef`, `hasTriedCreateRef`, `hasHydratedRef`, `streamChat`, or `qc.invalidateQueries` logic. `MessageList` and its `endRef` scroll anchoring stay intact. Styling applied via className props on the existing markup.
+- `ScoreRadarFrame` — editorial frame around existing Recharts radar in `score-radar.tsx`. Wraps `<ScoreRadar/>` inside `scores-view.tsx`; passes CSS custom properties via a parent wrapper; does not modify `ResponsiveContainer`, `PolarGrid`, or data contracts.
+- `SessionRow` — list row primitive (new component, no wrapped legacy): mono timestamp + session #, serif title, progress bar, status chip.
+- `DeckUploadEditorial` — editorial *frame* around existing `deck-uploader.tsx`. Preserves `pollUntilDone`, `[2s, 3s, 5s, 8s, 12s]` backoff, `setDeck` updates, extracted-section rendering. Applied via className overrides and a thin adapter passing `{ deck, uploading, error, handleFile }` to a presentational subcomponent; the poll loop is not reimplemented.
+
+**Contract rule:** any domain composition that wraps a stateful component must add a Vitest test asserting the wrapped component is mounted and its props are untouched.
 
 ---
 
@@ -148,7 +179,7 @@ Three shells, selected by Next.js route group.
 
 - No nav chrome; centered card on `HeroBackdrop` aurora
 - Serif display title; mono step indicator (`01 / 04`); gradient CTA
-- Clerk components restyled via Clerk `appearance` config to match (hairline inputs, gradient submit, mono labels)
+- **Clerk: commit to headless primitives upfront** (`<SignIn.Root>`, `<SignUp.Root>` and their child components) rather than the `appearance` API. Reason: `appearance.elements` cannot reach OTP cell borders, social-button dividers, or modal-portal chrome cleanly — a mid-build pivot to headless is the predictable failure mode.
 - `CustomCursor` enabled
 
 ### 5.4 Presentational shell — `/cold-read/[slug]`, `/invite/[token]`
@@ -195,11 +226,26 @@ Three shells, selected by Next.js route group.
 ## 7. Testing and Verification
 
 - **Type-checking**: `pnpm -w typecheck` must stay clean after every primitive addition.
-- **Unit tests**: primitives (NavPill, Sidebar, Display, Eyebrow, StatCard, Chip, HairlineCard) get Vitest unit tests under `packages/ui/src/__tests__/`. Test rendering, variant props, reduced-motion fallback.
-- **Integration**: rehydration, scoring fetch, deck upload polling, GitHub enrichment must pass their existing tests unchanged (redesign is presentation-only).
+- **Unit tests**: primitives (NavPill, SidebarShell, Display, Eyebrow, StatCard, Chip, HairlineCard, CustomCursor, KineticHeadline) get Vitest unit tests under `packages/ui/src/__tests__/`. Test rendering, variant props, reduced-motion fallback, and — for `CustomCursor` — portal/iframe/touch/input gating.
+- **Wrap-contract tests**: each domain wrapper (`MentorChatCard`, `DeepDiveFrame`, `DeckUploadEditorial`, `ScoreRadarFrame`) has a Vitest test asserting the wrapped component mounts and receives untouched props.
+- **Per-surface integration tests in CI** — **required gate, not just screenshots.** Three flows must pass in CI on every redesign PR:
+  - Chat rehydration: navigate to existing session → assert historical messages render before any send; `endRef` scroll anchoring still works.
+  - Deck upload: upload fixture PDF → assert status transitions `pending → processing → done` and extracted sections appear in the DOM.
+  - Scores: mock `useLatestScores` → assert radar renders 8 axes and stat grid values.
 - **Visual verification**: Playwright script screenshots every route at 1440w and 375w. Artifacts committed to `docs/screenshots/redesign/` for before/after review. Run before each PR.
-- **Accessibility**: all interactive elements keyboard-reachable; focus ring uses gradient outline (2px offset); custom cursor does not replace focus states; `prefers-reduced-motion` disables animated gradients and cursor.
-- **Performance**: Google Fonts loaded via `next/font` with `display: swap`; no FOIT. Gradient animations use `background-position` (cheap, GPU-compositable).
+- **Accessibility (WCAG AA floor)**:
+  - `--color-border-interactive` at `.18` on inputs/form controls meets WCAG 1.4.11 (3:1 for UI components). Pure dividers may remain at `.07`.
+  - Mono labels carrying meaning (status, timestamps, counts) floor at **12px**; 10–11px reserved for pure decoration.
+  - `--color-muted` (`.42`) meets AA normal on `#000` (5.6:1); do not use for text smaller than 13px.
+  - All interactive elements keyboard-reachable; focus ring uses gradient outline (2px offset); custom cursor does not replace focus states.
+  - `prefers-reduced-motion` disables: gradient shift animation, `CustomCursor`, `KineticHeadline` stagger, scroll-linked reveals, `DraggableTileGrid` spring physics.
+  - `CustomCursor` never replaces native cursors in text inputs, Clerk modals, file pickers, iframes, or touch devices (see 4.1 gating matrix).
+- **Performance**:
+  - Google Fonts loaded via `next/font/google` with `display: swap`, `adjustFontFallback` on, explicit `fallback: ['Georgia']` for DM Serif Display to mitigate CLS on 100px clamp hero.
+  - Font weights trimmed: DM Serif Display (regular + italic only), Syne (400/600/800 only — not the full 300–800 range), JetBrains Mono (400 only).
+  - Preload: display + sans. Mono is lazy (only used in labels, not above-the-fold hero).
+  - Gradient animations use `background-position` (cheap, GPU-compositable); Full-tier surfaces cap at 8 concurrent animated elements, Medium tier caps at 2.
+  - `@source` glob for Tailwind 4 uses the `@zstar/ui` package export path, not relative `../` paths, so `apps/web` can be moved without breaking token resolution.
 
 ---
 
@@ -226,7 +272,11 @@ Three shells, selected by Next.js route group.
 ## 10. Success Criteria
 
 - Every one of the ~20 surfaces redesigned using the editorial language.
-- All existing tests pass unchanged.
+- All existing tests pass unchanged; per-surface integration tests (chat rehydration, deck upload, scores) green in CI.
 - Playwright screenshot set captured at 1440w and 375w for every route.
 - Design tokens centralized in `packages/ui`; no ad-hoc colors or font families in `apps/web`.
 - Primitive components reused across ≥3 surfaces each (validates the "tokens-first" bet).
+- View Transitions live on at least 3 shared-element pairs.
+- `CustomCursor` passes gating matrix (touch device off, inputs off, Clerk portals off, iframes off, `calm` tier off).
+- WCAG AA contrast floor met on all interactive borders and meaningful text.
+- No chat/deck/scores regression: all three integration tests pass on the redesigned surfaces.
