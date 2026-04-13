@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en" className="dark">
-        <body className="bg-background text-foreground antialiased">
+        <body className="antialiased">
           <Providers>{children}</Providers>
         </body>
       </html>

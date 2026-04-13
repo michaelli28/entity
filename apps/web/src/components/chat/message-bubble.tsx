@@ -19,7 +19,7 @@ export function MessageBubble({ role, content }: MessageBubbleProps) {
         className={`max-w-[75%] whitespace-pre-wrap rounded-2xl px-4 py-2 ${
           isUser
             ? "bg-primary text-primary-foreground"
-            : "bg-card border border-white/10"
+            : "bg-[var(--color-bg)] border border-white/10"
         }`}
       >
         {content}

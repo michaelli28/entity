@@ -14,7 +14,7 @@ interface CommitmentCardProps {
 export function CommitmentCard({ commitment, onDone }: CommitmentCardProps) {
   const [done, setDone] = useState(false);
   return (
-    <div className="bg-card/60 mx-4 mt-2 flex items-center justify-between rounded-xl border border-white/10 p-4">
+    <div className="bg-[var(--color-bg)]/60 mx-4 mt-2 flex items-center justify-between rounded-xl border border-white/10 p-4">
       <div>
         <p className="mb-1 text-xs uppercase text-white/50">Your commitment</p>
         <p className="text-sm">{commitment.description}</p>

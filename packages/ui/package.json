@@ -8,6 +8,7 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./styles/tokens.css": "./src/styles/tokens.css",
     "./*": {
       "types": "./src/*.tsx",
       "default": "./src/*.tsx"

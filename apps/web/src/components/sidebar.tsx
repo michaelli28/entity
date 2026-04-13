@@ -25,7 +25,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`bg-card flex flex-col border-r border-white/10 transition-[width] ${
+      className={`bg-[var(--color-bg)] flex flex-col border-r border-white/10 transition-[width] ${
         collapsed ? "w-16" : "w-60"
       }`}
     >

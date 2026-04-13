@@ -35,7 +35,7 @@ export default async function DashboardLayout({
   const onboarded = await checkOnboarded(token);
   if (!onboarded) redirect("/onboarding");
   return (
-    <div className="bg-background flex min-h-screen">
+    <div className="bg-[var(--color-bg)] flex min-h-screen">
       <Sidebar />
       <main className="flex-1 overflow-auto">{children}</main>
     </div>
