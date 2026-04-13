@@ -17,21 +17,37 @@ export function CustomCursor({ enabled = false }: CustomCursorProps) {
   const frameRef = React.useRef<number | null>(null);
   const targetRef = React.useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Compute gating once on mount (mostly SSR-safe — client-only rendering)
+  // Re-evaluate gating whenever enabled/reduced changes. Default disabled=true.
   React.useEffect(() => {
-    if (!enabled) return;
-    if (reduced) return;
-    if (typeof window === "undefined") return;
+    if (!enabled) {
+      setDisabled(true);
+      return;
+    }
+    if (reduced) {
+      setDisabled(true);
+      return;
+    }
+    if (typeof window === "undefined") {
+      setDisabled(true);
+      return;
+    }
 
     // Gate 1: pointer:fine
     const fine = window.matchMedia("(pointer: fine)").matches;
-    if (!fine) return;
+    if (!fine) {
+      setDisabled(true);
+      return;
+    }
 
     // Gate 2: in iframe (visibility decision left to host; if we're in an iframe, skip)
     try {
-      if (window.self !== window.top) return;
+      if (window.self !== window.top) {
+        setDisabled(true);
+        return;
+      }
     } catch {
-      return; // cross-origin — assume iframe
+      setDisabled(true); // cross-origin — assume iframe
+      return;
     }
 
     setDisabled(false);

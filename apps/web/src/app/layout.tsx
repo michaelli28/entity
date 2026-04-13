@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { resolveTier } from "@/lib/theatrics/resolve-tier";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { DM_Serif_Display, Syne, JetBrains_Mono } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 
 import { Providers } from "@/components/providers";
 import { TheatricsProvider } from "@/lib/theatrics/tier-context";
-import { resolveTier } from "@/lib/theatrics/resolve-tier";
 
 const fontDisplay = DM_Serif_Display({
   subsets: ["latin"],
@@ -47,10 +47,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const headersList = await headers();
-  const pathname =
-    headersList.get("x-invoke-path") ??
-    headersList.get("next-url") ??
-    "/";
+  const pathname = headersList.get("x-pathname") ?? "/";
   const tier = resolveTier(pathname);
 
   return (
