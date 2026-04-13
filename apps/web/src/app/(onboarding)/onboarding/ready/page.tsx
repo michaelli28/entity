@@ -24,7 +24,7 @@ export default function ReadyStep() {
   return (
     <WizardCard>
       <StepIndicator step={3} />
-      <h1 className="mb-3 text-2xl font-semibold">Before we start</h1>
+      <h1 className="mb-3 text-2xl font-semibold text-white">Before we start</h1>
       <p className="mb-4 text-sm text-white/70">
         Your conversations are processed by Anthropic (Claude) under their
         commercial terms and stored encrypted. We&apos;ve requested Zero Data
@@ -48,7 +48,7 @@ export default function ReadyStep() {
           onChange={(e) => setAck(e.target.checked)}
           className="mt-1"
         />
-        <span className="text-sm">I understand</span>
+        <span className="text-sm text-white/80">I understand</span>
       </label>
       <ShimmerButton
         disabled={!ack || loading}

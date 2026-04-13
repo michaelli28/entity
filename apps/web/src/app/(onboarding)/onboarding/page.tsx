@@ -16,7 +16,7 @@ export default function WelcomeStep() {
   return (
     <WizardCard>
       <StepIndicator step={1} />
-      <h1 className="mb-3 text-3xl font-semibold">Welcome to ZStar</h1>
+      <h1 className="mb-3 text-3xl font-semibold text-white">Welcome to ZStar</h1>
       <p className="mb-8 text-white/70">
         I&apos;m your AI mentor. I&apos;ll help you sharpen your fundraising
         narrative, identify gaps investors will push on, and build a clearer

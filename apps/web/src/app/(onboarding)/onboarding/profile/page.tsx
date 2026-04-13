@@ -57,14 +57,14 @@ export default function ProfileStep() {
   return (
     <WizardCard>
       <StepIndicator step={2} />
-      <h1 className="mb-6 text-2xl font-semibold">
+      <h1 className="mb-6 text-2xl font-semibold text-white">
         Tell me about you and your startup
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="text-sm">Your name</label>
+          <label className="text-sm text-white/80">Your name</label>
           <input
-            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 [&>option]:bg-neutral-900 [&>option]:text-white"
             {...register("name")}
           />
           {errors.name && (
@@ -72,9 +72,9 @@ export default function ProfileStep() {
           )}
         </div>
         <div>
-          <label className="text-sm">Company name</label>
+          <label className="text-sm text-white/80">Company name</label>
           <input
-            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 [&>option]:bg-neutral-900 [&>option]:text-white"
             {...register("company_name")}
           />
           {errors.company_name && (
@@ -84,11 +84,11 @@ export default function ProfileStep() {
           )}
         </div>
         <div>
-          <label className="text-sm">
+          <label className="text-sm text-white/80">
             One-liner (what you do in one sentence)
           </label>
           <input
-            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 [&>option]:bg-neutral-900 [&>option]:text-white"
             {...register("one_liner")}
           />
           {errors.one_liner && (
@@ -98,9 +98,9 @@ export default function ProfileStep() {
           )}
         </div>
         <div>
-          <label className="text-sm">Stage</label>
+          <label className="text-sm text-white/80">Stage</label>
           <select
-            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 [&>option]:bg-neutral-900 [&>option]:text-white"
             {...register("stage")}
           >
             <option value="idea">Idea</option>
@@ -111,11 +111,11 @@ export default function ProfileStep() {
           </select>
         </div>
         <div>
-          <label className="text-sm">
+          <label className="text-sm text-white/80">
             What would make this a 10/10 for you?
           </label>
           <select
-            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-white placeholder:text-white/40 [&>option]:bg-neutral-900 [&>option]:text-white"
             {...register("what_would_make_10x")}
           >
             <option value="better_intros">Better investor intros</option>
