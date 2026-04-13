@@ -1,4 +1,5 @@
 # pyright: reportMissingTypeStubs=false
+import asyncio
 import json
 import logging
 from typing import Any
@@ -14,7 +15,7 @@ from ..db.repositories import mentor_repository as mrepo
 from ..db.repositories import scores_repository as srepo
 from ..db.repositories import sessions_repository as sessrepo
 from ..db.repositories import startup_profile_repository as sppo
-from ..llm.extractors import generate_mentor_summary
+from ..llm.extractors import generate_category_rationales, generate_mentor_summary
 from ..rag.citations import ValidatedCitation, validate_citations
 from ..rag.grounding import Grounding
 from ..rag.summary_grounding import build_summary_grounding
@@ -172,12 +173,27 @@ async def get_mentor_summary(
             k=8,
         )
 
+    async def _rationales_safe() -> dict[str, str]:
+        try:
+            r = await generate_category_rationales(
+                profile_blob=profile_blob,
+                scores_blob=scores_blob,
+                transcripts_blob=transcripts_blob,
+            )
+            return {c: getattr(r, c, "") for c in CATEGORIES}
+        except Exception:  # noqa: BLE001
+            log.exception("category_rationales_failed")
+            return {c: "" for c in CATEGORIES}
+
     try:
-        summary = await generate_mentor_summary(
-            profile_blob=profile_blob,
-            scores_blob=scores_blob,
-            transcripts_blob=transcripts_blob,
-            grounding=grounding,
+        summary, rationales_map = await asyncio.gather(
+            generate_mentor_summary(
+                profile_blob=profile_blob,
+                scores_blob=scores_blob,
+                transcripts_blob=transcripts_blob,
+                grounding=grounding,
+            ),
+            _rationales_safe(),
         )
     except Exception as exc:  # noqa: BLE001
         log.exception("mentor_summary_llm_failed")
@@ -186,10 +202,7 @@ async def get_mentor_summary(
             detail=f"mentor_summary_llm_failed: {type(exc).__name__}",
         ) from exc
     payload = summary.model_dump()
-    rationales_raw = payload.get("category_rationales") or {}
-    payload["category_rationales"] = {
-        c: rationales_raw.get(c, "") for c in CATEGORIES
-    }
+    payload["category_rationales"] = rationales_map
     if grounding.chunks:
         cleaned, valid_cites = _validate_summary_citations(payload, grounding)
         payload = cleaned
