@@ -19,5 +19,10 @@ export { HeroBackdrop } from "./surface/hero-backdrop";
 export { NavPill } from "./surface/nav-pill";
 export type { NavPillItem } from "./surface/nav-pill";
 
+export { SidebarShell } from "./surface/sidebar-shell";
+export { EmptyState } from "./surface/empty-state";
+export { LoadingShimmer } from "./surface/loading-shimmer";
+export { ErrorPanel } from "./surface/error-panel";
+
 // Hooks
 export { useReducedMotion } from "./hooks/use-reduced-motion";

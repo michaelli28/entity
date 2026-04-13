@@ -11,6 +11,10 @@ import {
   DotPulse,
   HeroBackdrop,
   NavPill,
+  SidebarShell,
+  EmptyState,
+  LoadingShimmer,
+  ErrorPanel,
 } from "@zstar/ui";
 
 const navItems = [
@@ -131,6 +135,100 @@ export default function ShowcasePage() {
           <p className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">
             &quot;Pricing&quot; marked active — gradient underline + bg-elevated treatment
           </p>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>08 SidebarShell</Eyebrow>
+        <div className="mt-6 flex h-[400px] overflow-hidden rounded border border-[var(--color-border)]">
+          <SidebarShell
+            header={
+              <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--color-text-muted)] uppercase tracking-widest">
+                ZStar
+              </span>
+            }
+            nav={
+              <nav className="flex flex-col gap-1">
+                {["Dashboard", "Mentor", "Signals", "Settings"].map((item) => (
+                  <a
+                    key={item}
+                    href="#"
+                    className="block rounded px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-bg-elevated)] transition-colors"
+                  >
+                    {item}
+                  </a>
+                ))}
+              </nav>
+            }
+            footer={
+              <span className="text-xs text-[var(--color-text-muted)] font-[family-name:var(--font-mono)]">
+                v0.1.0
+              </span>
+            }
+          />
+          <div className="flex-1 bg-[var(--color-bg)] p-6">
+            <p className="text-[var(--color-text-muted)] text-sm font-[family-name:var(--font-mono)]">
+              main content area
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex h-[100px] overflow-hidden rounded border border-[var(--color-border)]">
+          <SidebarShell collapsed nav={<div className="flex flex-col gap-2 items-center" />} />
+          <div className="flex-1 bg-[var(--color-bg)] p-4 flex items-center">
+            <p className="text-[var(--color-text-muted)] text-xs font-[family-name:var(--font-mono)]">
+              collapsed=true — w-16
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>09 EmptyState</Eyebrow>
+        <div className="mt-6 grid grid-cols-2 gap-4">
+          <div className="rounded border border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+            <EmptyState
+              eyebrow="Mentor"
+              title="No threads yet"
+              body={<p>Start your first conversation with your AI mentor.</p>}
+              action={
+                <button className="rounded-full border border-[var(--color-border-interactive)] px-4 py-1.5 text-xs uppercase tracking-[0.15em] text-[var(--color-text)]">
+                  Start a thread
+                </button>
+              }
+            />
+          </div>
+          <div className="rounded border border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+            <EmptyState title="Nothing here" />
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>10 LoadingShimmer</Eyebrow>
+        <div className="mt-6 space-y-3 max-w-sm">
+          <LoadingShimmer height="1rem" />
+          <LoadingShimmer height="1rem" width="70%" />
+          <LoadingShimmer height="1rem" width="50%" />
+          <LoadingShimmer height="3rem" rounded="md" />
+          <LoadingShimmer height="2rem" width="2rem" rounded="full" />
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>11 ErrorPanel</Eyebrow>
+        <div className="mt-6 grid grid-cols-2 gap-4 max-w-2xl">
+          <ErrorPanel
+            title="Failed to load signals"
+            detail={<p>Check your connection and try again.</p>}
+            retry={() => {}}
+          />
+          <ErrorPanel
+            title="Session expired"
+            detail={<p>Your session has timed out.</p>}
+            retry={() => {}}
+            retryLabel="Sign in again"
+          />
+          <ErrorPanel title="No retry variant" detail={<p>This panel has no retry action.</p>} />
         </div>
       </section>
 
