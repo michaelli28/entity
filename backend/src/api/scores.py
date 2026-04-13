@@ -4,6 +4,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 
+from ..core.categories import CATEGORIES
 from ..core.dependencies import verify_clerk_jwt
 from ..db.connection import get_connection
 from ..db.repositories import founder_repository as frepo
@@ -16,16 +17,6 @@ from ..llm.extractors import generate_mentor_summary
 router = APIRouter(prefix="/api/scores", tags=["scores"])
 
 
-CATEGORIES = (
-    "founder",
-    "market",
-    "problem",
-    "competition",
-    "product",
-    "traction",
-    "pricing",
-    "team",
-)
 
 
 def _normalize_category_scores(raw: Any) -> dict[str, int]:
