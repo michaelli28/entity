@@ -7,6 +7,8 @@ import {
   HairlineCard,
   StatCard,
   Chip,
+  GradientAccent,
+  DotPulse,
 } from "@zstar/ui";
 
 export default function ShowcasePage() {
@@ -70,6 +72,57 @@ export default function ShowcasePage() {
           <Chip>pending</Chip>
           <Chip>processing</Chip>
           <Chip onClick={() => {}}>clickable</Chip>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>05 GradientAccent</Eyebrow>
+        <div className="mt-6 space-y-4">
+          <p className="font-[family-name:var(--font-display)] text-[28px]">
+            Build something <GradientAccent>remarkable</GradientAccent>
+          </p>
+          <p className="font-[family-name:var(--font-display)] text-[28px]">
+            Your pitch, <GradientAccent as="em">perfected</GradientAccent>
+          </p>
+          <p className="font-[family-name:var(--font-display)] text-[28px]">
+            Signal <GradientAccent as="strong">clarity</GradientAccent> at every stage
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <Eyebrow>06 DotPulse</Eyebrow>
+        <div className="mt-6 space-y-6">
+          <div className="flex flex-wrap items-center gap-6">
+            <div className="flex items-center gap-2">
+              <DotPulse />
+              <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">brand md</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <DotPulse size="sm" />
+              <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">brand sm</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <DotPulse tone="neutral" />
+              <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">neutral md</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <DotPulse tone="neutral" size="sm" />
+              <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">neutral sm</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <DotPulse tone="success" />
+              <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">success md</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <DotPulse tone="success" size="sm" />
+              <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">success sm</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <DotPulse tone="brand" label="Streaming" />
+            <span className="text-[var(--color-muted)] text-xs font-[family-name:var(--font-mono)]">label=&quot;Streaming&quot;</span>
+          </div>
         </div>
       </section>
     </main>

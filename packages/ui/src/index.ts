@@ -12,6 +12,8 @@ export { MonoCaption } from "./typographic/mono-caption";
 export { HairlineCard } from "./surface/hairline-card";
 export { StatCard } from "./surface/stat-card";
 export { Chip } from "./surface/chip";
+export { GradientAccent } from "./surface/gradient-accent";
+export { DotPulse } from "./surface/dot-pulse";
 
 // Hooks
 export { useReducedMotion } from "./hooks/use-reduced-motion";
