@@ -1,6 +1,9 @@
+import { type Citation, citationsSchema } from "./schemas/citation";
+
 export interface SSEHandlers {
   onSession?: (data: { session_id: string }) => void;
   onToken: (text: string) => void;
+  onCitations?: (citations: Citation[]) => void;
   onDone: (data: { finish_reason: string }) => void;
   onError: (err: Error) => void;
 }
@@ -75,6 +78,9 @@ export async function streamChat(opts: StreamChatOptions): Promise<void> {
               handlers.onSession?.(json as { session_id: string });
             } else if (currentEvent === "token") {
               handlers.onToken(String(json.text ?? ""));
+            } else if (currentEvent === "citations") {
+              const parsed = citationsSchema.safeParse(json.citations);
+              if (parsed.success) handlers.onCitations?.(parsed.data);
             } else if (currentEvent === "done") {
               handlers.onDone(json as { finish_reason: string });
             } else if (currentEvent === "error") {
