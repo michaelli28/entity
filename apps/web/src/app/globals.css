@@ -9,3 +9,29 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
 }
+
+/* Dark-theme scrollbars — the default white scrollbar on sessions and
+   other long pages reads as out-of-palette against the OKLCH surfaces. */
+html {
+  scrollbar-color: var(--color-border) transparent;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+  border: 2px solid var(--color-bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-dim);
+}

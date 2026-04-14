@@ -153,7 +153,12 @@ export function AnomalousScene({ className }: AnomalousSceneProps) {
     const colorLit = new THREE.Color().setHSL(0.81, 1.0, 0.70);   // hot luminous pink-violet
     const colorRim = new THREE.Color().setHSL(0.76, 0.7, 0.40);   // restrained mid violet
 
-    const geometry = new THREE.IcosahedronGeometry(1.5, 80);
+    // Detail 16 gives ~5k triangles — plenty of vertex density for the
+    // snoise displacement (frequency 1.6 → ~12 samples per wavelength, well
+    // above Nyquist) at ~25× less GPU load than the original detail=80.
+    // Heavy geometry here caused visible hitches on scroll near the
+    // pin-stage opacity fade and sticky release.
+    const geometry = new THREE.IcosahedronGeometry(1.5, 16);
     const material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },

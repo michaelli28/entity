@@ -58,7 +58,9 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
         </button>
       </div>
       <p className="zs-chat-input__hint">
-        <kbd>↵</kbd> to send · <kbd>⇧ ↵</kbd> for new line
+        <span><kbd>↵</kbd> to send</span>
+        <span aria-hidden="true" className="zs-chat-input__hint-sep">·</span>
+        <span><kbd>⇧ ↵</kbd> for new line</span>
       </p>
     </div>
   );

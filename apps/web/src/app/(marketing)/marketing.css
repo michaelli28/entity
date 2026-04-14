@@ -841,7 +841,13 @@
   /* JS sets --pin-opacity as the user approaches the end of the pin range
      for a soft release before the natural sticky unstick. */
   opacity: var(--pin-opacity, 1);
-  will-change: opacity;
+  /* Promote to a stable compositor layer so the opacity fade + sticky
+     release near the "knot in a founder's head" section doesn't churn
+     layers and drop frames. translateZ(0) pins the layer; `contain: paint`
+     scopes repaints to the box. */
+  transform: translateZ(0);
+  will-change: opacity, transform;
+  contain: paint;
   overflow: hidden;
 }
 
