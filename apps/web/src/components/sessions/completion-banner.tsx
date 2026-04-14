@@ -19,7 +19,12 @@ export function CompletionBanner({ sessionId, onCompleted }: Props) {
     }
   }, [sessionId]);
 
-  if (!session || !session.suggest_complete || session.completed_at || dismissed)
+  if (
+    !session ||
+    !session.suggest_complete ||
+    session.completed_at ||
+    dismissed
+  )
     return null;
 
   const handleDismiss = () => {
@@ -28,18 +33,30 @@ export function CompletionBanner({ sessionId, onCompleted }: Props) {
   };
 
   return (
-    <div role="status" className="rounded-lg border border-emerald-500/40 bg-emerald-500/5 p-4 my-4">
-      <p className="text-sm mb-3">
-        I think we&apos;ve covered this. Want to mark this session complete?
+    <div role="status" className="zs-complete">
+      <p className="zs-complete__title">Ready to wrap?</p>
+      <p className="zs-complete__text">
+        I think we&rsquo;ve covered what we need. You can mark this session
+        complete and move on, or keep probing.
       </p>
-      <div className="flex gap-2">
+      <div className="zs-complete__actions">
         <button
-          onClick={() => complete.mutate(sessionId, { onSuccess: onCompleted })}
+          type="button"
+          className="zs-btn-sm"
+          data-variant="primary"
+          onClick={() =>
+            complete.mutate(sessionId, { onSuccess: onCompleted })
+          }
           disabled={complete.isPending}
-          className="px-4 py-2 bg-emerald-500 text-black rounded-md text-sm font-medium">
-          Mark complete
+        >
+          {complete.isPending ? "Marking…" : "Mark complete"}
         </button>
-        <button onClick={handleDismiss} className="px-4 py-2 border border-neutral-700 rounded-md text-sm">
+        <button
+          type="button"
+          className="zs-btn-sm"
+          data-variant="ghost"
+          onClick={handleDismiss}
+        >
           Keep going
         </button>
       </div>

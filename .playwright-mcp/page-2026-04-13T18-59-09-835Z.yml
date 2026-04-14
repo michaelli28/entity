@@ -1,0 +1,14 @@
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - article [ref=e4]:
+      - heading "Terms of Service" [level=1] [ref=e5]
+      - paragraph [ref=e6]: "Last updated: 2026-04-12"
+      - heading "Not financial, legal, or tax advice" [level=2] [ref=e7]
+      - paragraph [ref=e8]: ZStar provides general startup coaching. It is NOT investment advice, legal advice, or tax advice. For specific decisions involving money, securities, or legal matters, consult a licensed professional.
+      - heading "User content responsibility" [level=2] [ref=e9]
+      - paragraph [ref=e10]: Don't paste social security numbers, credit card numbers, or other people's personal information. You are responsible for the content you share.
+      - heading "Acceptable use" [level=2] [ref=e11]
+      - paragraph [ref=e12]: No harmful, illegal, or harassing content. We may suspend accounts that violate this.
+  - button "Open Next.js Dev Tools" [ref=e18] [cursor=pointer]:
+    - img [ref=e19]
+  - alert [ref=e22]

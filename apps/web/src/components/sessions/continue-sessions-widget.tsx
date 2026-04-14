@@ -13,30 +13,23 @@ export function ContinueSessionsWidget() {
     sessions.find((s) => s.session_type === b.key && s.completed_at),
   ).length;
   const nextBlueprint = core.find(
-    (b) =>
-      !sessions.find((s) => s.session_type === b.key && s.completed_at),
+    (b) => !sessions.find((s) => s.session_type === b.key && s.completed_at),
   );
 
   return (
-    <Link
-      href="/dashboard/sessions"
-      className="block rounded-xl p-5 border border-neutral-800 bg-neutral-900/50 hover:bg-neutral-900 transition-colors"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="text-sm text-neutral-400">
-            Continue your mentor sessions
-          </div>
-          <div className="text-lg font-medium mt-1">
-            {nextBlueprint
-              ? `Next: ${nextBlueprint.title}`
-              : "All core sessions done — try a Deep Dive"}
-          </div>
-        </div>
-        <div className="text-sm text-neutral-400">
-          {doneCount} / {core.length}
-        </div>
-      </div>
+    <Link href="/dashboard/sessions" className="zs-continue">
+      <span className="zs-continue__left">
+        <span className="zs-continue__label">Continue mentor sessions</span>
+        <span className="zs-continue__title">
+          {nextBlueprint
+            ? `Next · ${nextBlueprint.title}`
+            : "All core sessions done — try a deep dive"}
+        </span>
+      </span>
+      <span className="zs-continue__count">
+        {String(doneCount).padStart(2, "0")} /{" "}
+        {String(core.length).padStart(2, "0")}
+      </span>
     </Link>
   );
 }

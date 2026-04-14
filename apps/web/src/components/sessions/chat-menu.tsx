@@ -17,8 +17,15 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
     const handler = (e: MouseEvent) => {
       if (!ref.current?.contains(e.target as Node)) setOpen(false);
     };
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     window.addEventListener("mousedown", handler);
-    return () => window.removeEventListener("mousedown", handler);
+    window.addEventListener("keydown", onEsc);
+    return () => {
+      window.removeEventListener("mousedown", handler);
+      window.removeEventListener("keydown", onEsc);
+    };
   }, [open]);
 
   const run = (fn: () => void) => {
@@ -27,7 +34,7 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
   };
 
   return (
-    <div className="relative" ref={ref}>
+    <div className="zs-chat-menu" ref={ref}>
       <button
         type="button"
         aria-label="Chat options"
@@ -35,47 +42,49 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
         aria-expanded={open}
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
-        className="rounded-md border border-neutral-800 px-2 py-1 text-sm text-neutral-300 hover:border-neutral-600 hover:text-white disabled:opacity-50"
+        className="zs-chat-menu__toggle"
       >
-        &#8943;
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="3.5" cy="8" r="1.25" fill="currentColor" />
+          <circle cx="8" cy="8" r="1.25" fill="currentColor" />
+          <circle cx="12.5" cy="8" r="1.25" fill="currentColor" />
+        </svg>
       </button>
       {open && (
-        <div
-          role="menu"
-          className="absolute right-0 z-20 mt-1 w-56 overflow-hidden rounded-md border border-neutral-800 bg-neutral-950 shadow-lg"
-        >
-          <MenuItem onClick={() => run(onReset)}>Reset this chat</MenuItem>
-          <MenuItem onClick={() => run(onPivot)}>
-            I&#39;m pivoting&hellip;
-          </MenuItem>
-          <MenuItem onClick={() => run(onDeleteAll)} destructive>
+        <div role="menu" className="zs-chat-menu__panel">
+          <button
+            type="button"
+            role="menuitem"
+            className="zs-chat-menu__item"
+            onClick={() => run(onReset)}
+          >
+            Reset this chat
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            className="zs-chat-menu__item"
+            onClick={() => run(onPivot)}
+          >
+            I&rsquo;m pivoting…
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            data-destructive
+            className="zs-chat-menu__item"
+            onClick={() => run(onDeleteAll)}
+          >
             Delete all history
-          </MenuItem>
+          </button>
         </div>
       )}
     </div>
-  );
-}
-
-function MenuItem({
-  children,
-  onClick,
-  destructive,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  destructive?: boolean;
-}) {
-  return (
-    <button
-      type="button"
-      role="menuitem"
-      onClick={onClick}
-      className={`block w-full px-3 py-2 text-left text-sm hover:bg-neutral-900 ${
-        destructive ? "text-red-400 hover:text-red-300" : "text-neutral-200"
-      }`}
-    >
-      {children}
-    </button>
   );
 }

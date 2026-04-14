@@ -15,7 +15,10 @@ export function SessionGrid() {
   const { data: sessions = [], isLoading: sLoading } = useSessions();
 
   const coreBlueprints = useMemo(
-    () => [...blueprints].filter((b) => b.order < 99).sort((a, b) => a.order - b.order),
+    () =>
+      [...blueprints]
+        .filter((b) => b.order < 99)
+        .sort((a, b) => a.order - b.order),
     [blueprints],
   );
 
@@ -36,11 +39,17 @@ export function SessionGrid() {
 
   const { data: recommendation } = useDeepDiveRecommendation(true);
 
-  if (bpLoading || sLoading) return <div className="text-neutral-500">Loading…</div>;
+  if (bpLoading || sLoading) {
+    return (
+      <p className="zs-surface__eyebrow" style={{ padding: "2rem 0" }}>
+        Loading…
+      </p>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+      <div className="zs-session-grid">
         {coreBlueprints.map((bp: Blueprint) => (
           <SessionCard
             key={bp.key}
@@ -57,30 +66,50 @@ export function SessionGrid() {
 
 function DeepDiveCard({
   recommendation,
-}: { recommendation: { target_category: string; target_signal: string; is_default: boolean } | null }) {
+}: {
+  recommendation: {
+    target_category: string;
+    target_signal: string;
+    is_default: boolean;
+  } | null;
+}) {
   if (!recommendation) return null;
+  const category =
+    recommendation.target_category.charAt(0).toUpperCase() +
+    recommendation.target_category.slice(1);
   return (
-    <div className="rounded-xl p-5 border border-amber-500/40 bg-amber-500/5">
-      <h4 className="text-lg font-semibold">
-        Deep Dive:{" "}
-        {recommendation.target_category.charAt(0).toUpperCase() +
-          recommendation.target_category.slice(1)}
+    <div className="zs-deepdive">
+      <span className="zs-deepdive__eyebrow">Suggested deep dive</span>
+      <h4 className="zs-deepdive__title">
+        Rebuild your <em>{category.toLowerCase()}</em> story
       </h4>
-      <p className="text-sm text-neutral-400 mt-1">
-        Rebuild your {recommendation.target_category} story.
-        {recommendation.is_default && " (we picked this as a starting default — you can change after)"}
+      <p className="zs-deepdive__subtitle">
+        Focused probe on {recommendation.target_category}.
+        {recommendation.is_default &&
+          " We picked this as a starting default — you can switch after."}
       </p>
-      <StartDeepDiveButton recommendation={recommendation} />
+      <form
+        action={`/dashboard/chat/deep-dive/start?category=${encodeURIComponent(recommendation.target_category)}&signal=${encodeURIComponent(recommendation.target_signal)}`}
+        method="post"
+      >
+        <button
+          type="submit"
+          className="zs-button"
+          data-variant="primary"
+          style={{ marginTop: "0.25rem" }}
+        >
+          Start deep dive
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path
+              d="M3.5 8h9m0 0L8.5 4m4 4l-4 4"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </form>
     </div>
-  );
-}
-
-function StartDeepDiveButton({
-  recommendation,
-}: { recommendation: { target_category: string; target_signal: string; is_default: boolean } }) {
-  return (
-    <form action={`/dashboard/chat/deep-dive/start?category=${encodeURIComponent(recommendation.target_category)}&signal=${encodeURIComponent(recommendation.target_signal)}`} method="post">
-      <button className="mt-3 px-4 py-2 bg-amber-500 text-black rounded-md text-sm font-medium">Start Deep Dive</button>
-    </form>
   );
 }

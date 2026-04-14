@@ -19,11 +19,28 @@ export function SessionProgressRing({
   return <NumericRing value={coverageScore} />;
 }
 
+const ACCENT = "oklch(0.68 0.22 295)";
+const TRACK = "oklch(0.28 0.020 290)";
+const POS = "oklch(0.74 0.14 160)";
+
 function Checkmark() {
   return (
     <div
       aria-label="Completed"
-      className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400"
+      style={{
+        width: "2.5rem",
+        height: "2.5rem",
+        borderRadius: "50%",
+        background: "color-mix(in oklab, oklch(0.74 0.14 160) 16%, transparent)",
+        border: "1px solid color-mix(in oklab, oklch(0.74 0.14 160) 40%, transparent)",
+        color: POS,
+        fontFamily: "var(--font-mono)",
+        fontSize: "0.75rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+      }}
     >
       ✓
     </div>
@@ -34,7 +51,13 @@ function NotStarted() {
   return (
     <div
       aria-label="Not started"
-      className="h-10 w-10 rounded-full border border-dashed border-neutral-700"
+      style={{
+        width: "2.5rem",
+        height: "2.5rem",
+        borderRadius: "50%",
+        border: "1px dashed var(--color-border-interactive)",
+        flexShrink: 0,
+      }}
     />
   );
 }
@@ -43,7 +66,15 @@ function Analyzing() {
   return (
     <div
       aria-label="Analyzing"
-      className="h-10 w-10 rounded-full border-2 border-neutral-500 animate-pulse"
+      style={{
+        width: "2.5rem",
+        height: "2.5rem",
+        borderRadius: "50%",
+        border: "1.5px solid var(--color-border-interactive)",
+        borderTopColor: ACCENT,
+        animation: "zs-spin 900ms linear infinite",
+        flexShrink: 0,
+      }}
     />
   );
 }
@@ -51,29 +82,49 @@ function Analyzing() {
 function NumericRing({ value }: { value: number }) {
   const pct = Math.min(100, Math.max(0, value));
   return (
-    <div aria-label={`Coverage ${pct}%`} className="relative h-10 w-10">
-      <svg viewBox="0 0 36 36" className="h-full w-full -rotate-90">
+    <div
+      aria-label={`Coverage ${pct}%`}
+      style={{
+        position: "relative",
+        width: "2.5rem",
+        height: "2.5rem",
+        flexShrink: 0,
+      }}
+    >
+      <svg
+        viewBox="0 0 36 36"
+        style={{
+          width: "100%",
+          height: "100%",
+          transform: "rotate(-90deg)",
+        }}
+      >
+        <circle cx="18" cy="18" r="15.9" fill="none" stroke={TRACK} strokeWidth="2" />
         <circle
           cx="18"
           cy="18"
           r="15.9"
           fill="none"
-          stroke="rgb(64 64 64)"
-          strokeWidth="2"
-        />
-        <circle
-          cx="18"
-          cy="18"
-          r="15.9"
-          fill="none"
-          stroke="rgb(34 197 94)"
+          stroke={ACCENT}
           strokeWidth="2"
           strokeDasharray={`${pct} 100`}
           strokeLinecap="round"
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center text-[10px] font-medium">
-        {pct}%
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.625rem",
+          fontVariantNumeric: "tabular-nums",
+          color: "var(--color-text)",
+        }}
+      >
+        {pct}
       </div>
     </div>
   );

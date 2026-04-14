@@ -1,0 +1,71 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - heading "ZStar is invite-only" [level=1] [ref=e3]
+    - paragraph [ref=e4]:
+      - text: If you have an invite link, click it to continue. Otherwise,
+      - link "join the waitlist" [ref=e5] [cursor=pointer]:
+        - /url: /waitlist
+      - text: .
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e11]:
+          - heading "Create your account" [level=1] [ref=e12]
+          - paragraph [ref=e13]: Welcome! Please fill in the details to get started.
+        - generic [ref=e14]:
+          - generic [ref=e16]:
+            - button "Sign in with Google Continue with Google" [disabled]:
+              - generic:
+                - generic:
+                  - img "Sign in with Google"
+                - generic: Continue with Google
+          - paragraph [ref=e24]: or
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - generic [ref=e28]:
+                - generic [ref=e30]:
+                  - generic [ref=e31]:
+                    - generic: First name
+                    - generic: Optional
+                  - textbox "First name" [disabled]
+                - generic [ref=e37]:
+                  - generic [ref=e38]:
+                    - generic: Last name
+                    - generic: Optional
+                  - textbox "Last name" [disabled]
+              - generic [ref=e45]:
+                - generic [ref=e46]:
+                  - generic: Email address
+                - textbox "Email address" [disabled]:
+                  - /placeholder: Enter your email address
+                  - text: zstar-e2e+clerk_test@example.com
+              - generic [ref=e51]:
+                - generic [ref=e52]:
+                  - generic [ref=e53]:
+                    - generic: Password
+                  - generic [ref=e55]:
+                    - textbox "Password" [disabled]:
+                      - /placeholder: Enter your password
+                      - text: ZstarE2E!pass424242
+                    - button "Show password" [ref=e57] [cursor=pointer]:
+                      - img [ref=e58]
+                - generic [ref=e61]: Your password meets all the necessary requirements.
+                - paragraph [ref=e85]:
+                  - img [ref=e86]
+                  - text: Your password meets all the necessary requirements.
+            - generic [ref=e63]:
+              - button "Loading" [disabled]:
+                - generic:
+                  - generic "Loading"
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]: Already have an account?
+          - link "Sign in" [ref=e71] [cursor=pointer]:
+            - /url: https://zstar-web.vercel.app/sign-in
+        - generic [ref=e73]:
+          - generic [ref=e75]:
+            - paragraph [ref=e76]: Secured by
+            - link "Clerk logo" [ref=e77] [cursor=pointer]:
+              - /url: https://go.clerk.com/components
+              - img [ref=e78]
+          - paragraph [ref=e83]: Development mode
+  - alert [ref=e6]

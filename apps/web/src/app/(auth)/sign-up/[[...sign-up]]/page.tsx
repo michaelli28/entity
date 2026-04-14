@@ -1,16 +1,27 @@
 import { SignUp } from "@clerk/nextjs";
+import Link from "next/link";
+
+import { clerkAuthAppearance } from "../../_components/clerk-appearance";
 
 export default function SignUpPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-6">
-      <h1 className="mb-4 text-2xl font-semibold">Create your ZStar account</h1>
-      <p className="mb-6 text-sm text-white/60">
-        Sign up to start your first mentor session.
+    <>
+      <p className="zs-auth-widget__eyebrow">Create account</p>
+      <h1 className="zs-auth-widget__title">
+        Start your <em>first session</em>.
+      </h1>
+      <p className="zs-auth-widget__lede">
+        Two minutes to set up. Free while we&rsquo;re in early access.
       </p>
+
       <SignUp
-        appearance={{ baseTheme: undefined }}
+        appearance={clerkAuthAppearance}
         fallbackRedirectUrl="/onboarding"
       />
-    </div>
+
+      <p className="zs-auth-widget__switch">
+        Already have an account? <Link href="/sign-in">Sign in →</Link>
+      </p>
+    </>
   );
 }

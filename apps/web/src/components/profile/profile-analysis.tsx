@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import { DeckUploader, type DeckState } from "./deck-uploader";
 
 type Repo = {
@@ -83,10 +84,24 @@ export function ProfileAnalysis() {
   }, []);
 
   if (loading) {
-    return <div className="text-white/60">Loading your profile…</div>;
+    return (
+      <p className="zs-surface__eyebrow" style={{ padding: "2rem 0" }}>
+        Loading profile…
+      </p>
+    );
   }
   if (error || !me) {
-    return <div className="text-red-400">{error ?? "No profile"}</div>;
+    return (
+      <div
+        className="zs-card zs-card--danger"
+        role="alert"
+        style={{ padding: "1rem 1.25rem" }}
+      >
+        <p style={{ margin: 0, color: "var(--color-signal-neg)" }}>
+          {error ?? "No profile"}
+        </p>
+      </div>
+    );
   }
 
   const githubData = parseGithubData(me.github_data);
@@ -97,31 +112,47 @@ export function ProfileAnalysis() {
   ].filter(Boolean).length;
 
   return (
-    <div className="space-y-6">
-      <header className="flex items-center justify-between">
+    <>
+      <header className="zs-surface__head zs-surface__head--row">
         <div>
-          <h1 className="text-2xl font-semibold">Your profile analysis</h1>
-          <p className="mt-1 text-sm text-white/60">
-            What your mentor knows about you. The more signals you connect, the
-            sharper the coaching.
+          <p className="zs-surface__eyebrow">Profile</p>
+          <h1 className="zs-surface__title">
+            What your mentor <em>knows about you</em>.
+          </h1>
+          <p className="zs-surface__subtitle">
+            The more signals you connect, the sharper the coaching. Everything
+            here stays on your server.
           </p>
         </div>
         <Link
           href="/dashboard/settings"
-          className="rounded-md border border-white/20 px-3 py-1.5 text-sm text-white/80 hover:bg-white/5"
+          className="zs-button"
+          data-variant="ghost"
         >
           Edit in settings
         </Link>
       </header>
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="zs-sources-grid">
         <SourceCard
           title="Identity"
           connected={Boolean(me.name)}
           body={
             <div>
-              <div className="font-medium text-white">{me.name}</div>
-              <div className="text-sm text-white/60">{me.email}</div>
+              <div
+                style={{
+                  color: "var(--color-text)",
+                  fontSize: "0.9375rem",
+                  fontWeight: 500,
+                }}
+              >
+                {me.name}
+              </div>
+              <div
+                style={{ color: "var(--color-text-muted)", fontSize: "0.8125rem" }}
+              >
+                {me.email}
+              </div>
             </div>
           }
         />
@@ -134,12 +165,24 @@ export function ProfileAnalysis() {
                 href={me.linkedin_url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm text-emerald-400 underline break-all"
+                style={{
+                  color: "var(--color-accent)",
+                  textDecoration: "underline",
+                  wordBreak: "break-all",
+                  fontSize: "0.8125rem",
+                }}
               >
                 {me.linkedin_url}
               </a>
             ) : (
-              <span className="text-sm text-white/40">Not connected</span>
+              <span
+                style={{
+                  color: "var(--color-text-dim)",
+                  fontSize: "0.8125rem",
+                }}
+              >
+                Not connected
+              </span>
             )
           }
         />
@@ -152,46 +195,71 @@ export function ProfileAnalysis() {
                 href={me.website_url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm text-emerald-400 underline break-all"
+                style={{
+                  color: "var(--color-accent)",
+                  textDecoration: "underline",
+                  wordBreak: "break-all",
+                  fontSize: "0.8125rem",
+                }}
               >
                 {me.website_url}
               </a>
             ) : (
-              <span className="text-sm text-white/40">Not connected</span>
+              <span
+                style={{
+                  color: "var(--color-text-dim)",
+                  fontSize: "0.8125rem",
+                }}
+              >
+                Not connected
+              </span>
             )
           }
         />
-      </section>
+      </div>
 
       <GithubPanel username={me.github_username} data={githubData} />
 
       <DeckUploader initial={deck} onUploaded={setDeck} />
 
-      <section className="rounded-xl border border-white/10 p-5">
-        <h2 className="font-medium">Signals your mentor uses</h2>
-        <p className="mt-1 text-sm text-white/60">
-          {connectedCount} of 3 public links connected.
-        </p>
-        <ul className="mt-3 space-y-2 text-sm text-white/70">
-          <li className="flex items-center gap-2">
-            <SignalDot filled={Boolean(me.linkedin_url)} /> LinkedIn URL —{" "}
-            {me.linkedin_url ? "present" : "missing"}
-          </li>
-          <li className="flex items-center gap-2">
-            <SignalDot filled={Boolean(githubData)} /> GitHub bio + top
-            repos — {githubData ? "enriched" : me.github_username ? "fetching…" : "not connected"}
-          </li>
-          <li className="flex items-center gap-2">
-            <SignalDot filled={Boolean(me.website_url)} /> Website URL —{" "}
-            {me.website_url ? "present" : "missing"}
-          </li>
-          <li className="flex items-center gap-2">
-            <SignalDot filled={Boolean(me.what_would_make_10x)} /> 10x outcome
-            goal — {me.what_would_make_10x ? "captured" : "missing"}
-          </li>
+      <section className="zs-card">
+        <div>
+          <h2 className="zs-card__title">Signals your mentor uses</h2>
+          <p className="zs-card__subtitle">
+            {connectedCount} of 3 public links connected.
+          </p>
+        </div>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.625rem",
+          }}
+        >
+          <SignalRow on={Boolean(me.linkedin_url)} label="LinkedIn URL" value={me.linkedin_url ? "present" : "missing"} />
+          <SignalRow
+            on={Boolean(githubData)}
+            label="GitHub bio + top repos"
+            value={
+              githubData
+                ? "enriched"
+                : me.github_username
+                  ? "fetching…"
+                  : "not connected"
+            }
+          />
+          <SignalRow on={Boolean(me.website_url)} label="Website URL" value={me.website_url ? "present" : "missing"} />
+          <SignalRow
+            on={Boolean(me.what_would_make_10x)}
+            label="10× outcome goal"
+            value={me.what_would_make_10x ? "captured" : "missing"}
+          />
         </ul>
       </section>
-    </div>
+    </>
   );
 }
 
@@ -205,15 +273,13 @@ function SourceCard({
   body: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-white/10 p-4">
-      <div className="mb-2 flex items-center justify-between">
-        <div className="text-xs uppercase tracking-wide text-white/50">
-          {title}
-        </div>
-        <div
-          className={`h-2 w-2 rounded-full ${
-            connected ? "bg-emerald-400" : "bg-white/20"
-          }`}
+    <div className="zs-source">
+      <div className="zs-source__head">
+        <span className="zs-source__label">{title}</span>
+        <span
+          className="zs-dot"
+          data-on={connected || undefined}
+          aria-label={connected ? "connected" : "not connected"}
         />
       </div>
       {body}
@@ -221,13 +287,40 @@ function SourceCard({
   );
 }
 
-function SignalDot({ filled }: { filled: boolean }) {
+function SignalRow({
+  on,
+  label,
+  value,
+}: {
+  on: boolean;
+  label: string;
+  value: string;
+}) {
   return (
-    <span
-      className={`inline-block h-2 w-2 rounded-full ${
-        filled ? "bg-emerald-400" : "bg-white/20"
-      }`}
-    />
+    <li
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.625rem",
+        fontSize: "0.875rem",
+        color: "var(--color-text-muted)",
+      }}
+    >
+      <span className="zs-dot" data-on={on || undefined} aria-hidden />
+      <span style={{ color: "var(--color-text)" }}>{label}</span>
+      <span
+        style={{
+          marginLeft: "auto",
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.6875rem",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: on ? "var(--color-signal-pos)" : "var(--color-text-dim)",
+        }}
+      >
+        {value}
+      </span>
+    </li>
   );
 }
 
@@ -240,24 +333,30 @@ function GithubPanel({
 }) {
   if (!username) {
     return (
-      <section className="rounded-xl border border-dashed border-white/10 p-5">
-        <h2 className="font-medium">GitHub</h2>
-        <p className="mt-1 text-sm text-white/60">
+      <section className="zs-card zs-card--dashed">
+        <h2 className="zs-card__title">GitHub</h2>
+        <p className="zs-card__subtitle">
           Add a GitHub username in{" "}
-          <Link className="underline" href="/dashboard/settings">
+          <Link
+            href="/dashboard/settings"
+            style={{
+              color: "var(--color-accent)",
+              textDecoration: "underline",
+            }}
+          >
             settings
           </Link>{" "}
-          to enrich your mentor&apos;s context with your public repos.
+          to enrich your mentor&rsquo;s context with your public repos.
         </p>
       </section>
     );
   }
   if (!data) {
     return (
-      <section className="rounded-xl border border-white/10 p-5">
-        <h2 className="font-medium">GitHub: @{username}</h2>
-        <p className="mt-1 text-sm text-white/60">
-          Fetching your public profile… Reload this page in a few seconds.
+      <section className="zs-card">
+        <h2 className="zs-card__title">GitHub · @{username}</h2>
+        <p className="zs-card__subtitle">
+          Fetching your public profile… reload in a few seconds.
         </p>
       </section>
     );
@@ -266,66 +365,130 @@ function GithubPanel({
   const repos = data.top_repos ?? [];
 
   return (
-    <section className="rounded-xl border border-white/10 p-5">
-      <div className="flex items-start gap-4">
+    <section className="zs-card">
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
         {data.avatar_url && (
           <img
             src={data.avatar_url}
             alt={data.login ?? "github avatar"}
-            className="h-16 w-16 rounded-full border border-white/10"
+            style={{
+              width: "3.25rem",
+              height: "3.25rem",
+              borderRadius: "50%",
+              border: "1px solid var(--color-border)",
+              flexShrink: 0,
+            }}
           />
         )}
-        <div className="flex-1">
-          <div className="flex items-baseline gap-2">
-            <h2 className="font-medium">
-              {data.name ?? data.login ?? username}
-            </h2>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap" }}>
+            <h2 className="zs-card__title">{data.name ?? data.login ?? username}</h2>
             <a
               href={data.html_url ?? `https://github.com/${username}`}
               target="_blank"
               rel="noreferrer"
-              className="text-sm text-emerald-400 underline"
+              style={{
+                color: "var(--color-accent)",
+                fontSize: "0.8125rem",
+                textDecoration: "underline",
+              }}
             >
               @{data.login ?? username}
             </a>
           </div>
           {data.bio && (
-            <p className="mt-1 text-sm text-white/70">{data.bio}</p>
+            <p
+              style={{
+                marginTop: "0.375rem",
+                fontSize: "0.875rem",
+                color: "var(--color-text-muted)",
+                lineHeight: 1.5,
+              }}
+            >
+              {data.bio}
+            </p>
           )}
-          <div className="mt-2 flex flex-wrap gap-4 text-xs text-white/50">
-            {data.company && <span>🏢 {data.company}</span>}
-            {data.location && <span>📍 {data.location}</span>}
-            {data.public_repos != null && (
-              <span>📦 {data.public_repos} public repos</span>
-            )}
-            {data.followers != null && (
-              <span>👥 {data.followers} followers</span>
-            )}
+          <div
+            style={{
+              marginTop: "0.625rem",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.75rem 1.25rem",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.6875rem",
+              color: "var(--color-text-dim)",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            }}
+          >
+            {data.company && <span>{data.company}</span>}
+            {data.location && <span>{data.location}</span>}
+            {data.public_repos != null && <span>{data.public_repos} repos</span>}
+            {data.followers != null && <span>{data.followers} followers</span>}
           </div>
         </div>
       </div>
 
       {repos.length > 0 && (
-        <div className="mt-5">
-          <h3 className="mb-2 text-sm font-medium text-white/70">Top repos</h3>
-          <div className="space-y-2">
+        <div>
+          <p className="zs-card__eyebrow" style={{ marginBottom: "0.625rem" }}>
+            Top repos
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             {repos.map((r) => (
               <a
                 key={r.name ?? String(Math.random())}
                 href={r.html_url ?? "#"}
                 target="_blank"
                 rel="noreferrer"
-                className="block rounded-lg border border-white/10 bg-neutral-900/50 p-3 text-sm hover:bg-neutral-900"
+                style={{
+                  display: "block",
+                  padding: "0.75rem 0.875rem",
+                  background: "var(--color-bg)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  color: "inherit",
+                  transition: "border-color 140ms ease-out",
+                }}
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-white">{r.name}</span>
-                  <span className="flex items-center gap-3 text-xs text-white/50">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "0.75rem",
+                  }}
+                >
+                  <span style={{ color: "var(--color-text)", fontWeight: 500, fontSize: "0.875rem" }}>
+                    {r.name}
+                  </span>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      gap: "0.875rem",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.6875rem",
+                      color: "var(--color-text-dim)",
+                      letterSpacing: "0.04em",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {r.language && <span>{r.language}</span>}
                     {r.stars != null && <span>★ {r.stars}</span>}
                   </span>
                 </div>
                 {r.description && (
-                  <p className="mt-1 text-white/60">{r.description}</p>
+                  <p
+                    style={{
+                      margin: "0.375rem 0 0",
+                      fontSize: "0.8125rem",
+                      color: "var(--color-text-muted)",
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    {r.description}
+                  </p>
                 )}
               </a>
             ))}

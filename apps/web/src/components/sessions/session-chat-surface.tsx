@@ -10,6 +10,8 @@ import { ChatMenu } from "@/components/sessions/chat-menu";
 import { CompletionBanner } from "@/components/sessions/completion-banner";
 import { SessionProgress } from "@/components/sessions/session-progress";
 import { StarterQuestions } from "@/components/sessions/starter-questions";
+import "@/app/(dashboard)/chat.css";
+
 import { streamChat } from "@/lib/chat-stream";
 import {
   useBlueprints,
@@ -167,7 +169,10 @@ export function SessionChatSurface({
 
   if (!sessionId || !blueprint) {
     return (
-      <div className="p-6 text-neutral-500">Starting session&hellip;</div>
+      <div className="zs-chat-pending" role="status" aria-busy="true">
+        <span className="zs-chat-pending__label">Starting session</span>
+        <span className="zs-chat-pending__bar" aria-hidden="true" />
+      </div>
     );
   }
 
@@ -200,36 +205,44 @@ export function SessionChatSurface({
   };
 
   return (
-    <div className="mx-auto flex h-screen max-w-3xl flex-col p-6">
-      <div className="mb-2 flex items-start justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold">{blueprint.title}</h1>
-          <p className="text-sm text-neutral-400">{blueprint.subtitle}</p>
-        </div>
-        <ChatMenu
-          onReset={handleReset}
-          onPivot={handlePivot}
-          onDeleteAll={handleDeleteAll}
-          disabled={streaming}
+    <div className="zs-chat">
+      <div className="zs-chat__inner">
+        <header className="zs-chat__head">
+          <div className="zs-chat__title-group">
+            <span className="zs-chat__eyebrow">Mentor session</span>
+            <h1 className="zs-chat__title">{blueprint.title}</h1>
+            <p className="zs-chat__subtitle">{blueprint.subtitle}</p>
+          </div>
+          <ChatMenu
+            onReset={handleReset}
+            onPivot={handlePivot}
+            onDeleteAll={handleDeleteAll}
+            disabled={streaming}
+          />
+        </header>
+
+        <SessionProgress sessionId={sessionId} />
+
+        <MessageList messages={messages} isStreaming={streaming} />
+
+        {messages.length === 0 && (
+          <StarterQuestions
+            questions={blueprint.starter_questions}
+            onSelect={(q) =>
+              setMessages([
+                { role: "assistant", content: q, id: crypto.randomUUID() },
+              ])
+            }
+          />
+        )}
+
+        <CompletionBanner
+          sessionId={sessionId}
+          onCompleted={() => router.push("/dashboard/sessions")}
         />
+
+        <ChatInput onSend={handleSend} disabled={streaming} />
       </div>
-      <SessionProgress sessionId={sessionId} />
-      <MessageList messages={messages} isStreaming={streaming} />
-      {messages.length === 0 && (
-        <StarterQuestions
-          questions={blueprint.starter_questions}
-          onSelect={(q) =>
-            setMessages([
-              { role: "assistant", content: q, id: crypto.randomUUID() },
-            ])
-          }
-        />
-      )}
-      <CompletionBanner
-        sessionId={sessionId}
-        onCompleted={() => router.push("/dashboard/sessions")}
-      />
-      <ChatInput onSend={handleSend} disabled={streaming} />
     </div>
   );
 }

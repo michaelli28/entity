@@ -18,48 +18,79 @@ export default async function ArtifactPage({
   const token = await getToken({ template: "backend" });
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!token || !apiUrl) {
-    return <div className="p-8">Not found</div>;
+    return (
+      <div className="zs-surface zs-surface--narrow">
+        <p className="zs-surface__eyebrow">Not found</p>
+      </div>
+    );
   }
   const res = await fetch(`${apiUrl}/api/cold-reads/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store",
   });
-  if (!res.ok) return <div className="p-8">Not found</div>;
+  if (!res.ok) {
+    return (
+      <div className="zs-surface zs-surface--narrow">
+        <p className="zs-surface__eyebrow">Not found</p>
+      </div>
+    );
+  }
   const cr = (await res.json()) as ColdRead;
+
   return (
-    <article className="mx-auto max-w-2xl space-y-6 p-8">
-      <h1 className="text-3xl font-semibold">Your Cold Read</h1>
-      <section>
-        <h2 className="mb-2 text-sm uppercase tracking-wide text-white/60">
-          What I heard
-        </h2>
-        <p>{cr.what_i_heard}</p>
-      </section>
-      <section>
-        <h2 className="mb-2 text-sm uppercase tracking-wide text-white/60">
-          What investors will push on
-        </h2>
-        <ul className="list-disc space-y-1 pl-5">
-          {cr.investor_pushback.map((p) => (
-            <li key={p}>{p}</li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        <h2 className="mb-2 text-sm uppercase tracking-wide text-white/60">
-          Three questions you can&apos;t yet answer
-        </h2>
-        <ul className="list-disc space-y-1 pl-5">
-          {cr.three_unanswered_questions.map((q) => (
-            <li key={q}>{q}</li>
-          ))}
-        </ul>
-      </section>
-      {cr.public_slug && (
-        <p className="text-xs text-white/50">
-          Share link: <code>zstar.ai/cold-read/{cr.public_slug}</code>
+    <article className="zs-surface zs-surface--narrow">
+      <header className="zs-surface__head">
+        <p className="zs-surface__eyebrow">Cold read</p>
+        <h1 className="zs-surface__title">
+          Your mentor&rsquo;s first <em>read</em>.
+        </h1>
+        <p className="zs-surface__subtitle">
+          What I heard, what investors will press on, and what you can&rsquo;t
+          yet answer.
         </p>
-      )}
+      </header>
+
+      <section className="zs-prose">
+        <div>
+          <p className="zs-prose__eyebrow">What I heard</p>
+          <p>{cr.what_i_heard}</p>
+        </div>
+
+        <div>
+          <p className="zs-prose__eyebrow">What investors will push on</p>
+          <ul>
+            {cr.investor_pushback.map((p) => (
+              <li key={p}>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="zs-prose__eyebrow">Three questions you can&rsquo;t yet answer</p>
+          <ul>
+            {cr.three_unanswered_questions.map((q) => (
+              <li key={q}>
+                <span>{q}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {cr.public_slug && (
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.6875rem",
+              letterSpacing: "0.08em",
+              color: "var(--color-text-dim)",
+            }}
+          >
+            Share link · <code>zstar.ai/cold-read/{cr.public_slug}</code>
+          </p>
+        )}
+      </section>
     </article>
   );
 }

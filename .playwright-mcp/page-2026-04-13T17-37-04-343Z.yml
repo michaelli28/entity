@@ -1,0 +1,8 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e6]
+  - generic [ref=e126]:
+    - heading "Welcome to ZStar" [level=1] [ref=e131]
+    - paragraph [ref=e132]: I'm your AI mentor. I'll help you sharpen your fundraising narrative, identify gaps investors will push on, and build a clearer picture of where your startup stands. Two minutes to set up.
+    - link "Let's go" [ref=e133] [cursor=pointer]:
+      - /url: /onboarding/profile
+      - button "Let's go" [ref=e134]: Let's go

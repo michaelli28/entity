@@ -1,0 +1,680 @@
+/* =======================================================================
+   Shared dashboard surface chrome — page head, panel, card, input, button
+   Used by: sessions, dashboard root, profile, settings, artifacts.
+   Governed by .impeccable.md.
+   ======================================================================= */
+
+/* ---------- Page shell ---------- */
+
+.zs-surface {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2rem);
+}
+
+.zs-surface--narrow {
+  max-width: 42rem;
+}
+
+.zs-surface__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.zs-surface__head--row {
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.zs-surface__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-surface__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1.625rem, 3.2vw, 2.125rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.zs-surface__title em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.zs-surface__subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+/* ---------- Panel / card ---------- */
+
+.zs-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: clamp(1.125rem, 2.2vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.zs-card--flat {
+  background: transparent;
+}
+
+.zs-card--dashed {
+  background: transparent;
+  border-style: dashed;
+}
+
+.zs-card--danger {
+  background: color-mix(in oklab, var(--color-signal-neg) 6%, transparent);
+  border-color: color-mix(in oklab, var(--color-signal-neg) 26%, transparent);
+}
+
+.zs-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.zs-card__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+.zs-card__subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  max-width: 56ch;
+}
+
+.zs-card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-card--link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 1.125rem 1.25rem;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 160ms ease-out,
+    background 160ms ease-out,
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.zs-card--link:hover {
+  border-color: var(--color-border-interactive);
+  background: var(--color-surface);
+  transform: translateY(-1px);
+}
+
+.zs-card--link:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Status dot (connected / covered / present) ---------- */
+
+.zs-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-dim);
+  flex-shrink: 0;
+}
+
+.zs-dot[data-on] {
+  background: var(--color-signal-pos);
+  box-shadow: 0 0 6px oklch(0.74 0.14 160 / 0.4);
+}
+
+.zs-dot[data-tone="accent"][data-on] {
+  background: var(--color-accent);
+  box-shadow: 0 0 6px var(--color-accent-glow);
+}
+
+.zs-dot--hollow {
+  background: transparent;
+  border: 1px solid var(--color-border-interactive);
+  box-shadow: none;
+}
+
+/* ---------- Input (label + input rows) ---------- */
+
+.zs-surface-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.zs-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.zs-input-field__label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.zs-input-field__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  line-height: 1.45;
+}
+
+.zs-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 0.625rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  transition: border-color 160ms ease-out;
+}
+
+.zs-input::placeholder {
+  color: var(--color-text-dim);
+}
+
+.zs-input:hover {
+  border-bottom-color: var(--color-border-interactive);
+}
+
+.zs-input:focus {
+  outline: none;
+  border-bottom-color: var(--color-accent);
+}
+
+.zs-input-error {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-signal-neg);
+}
+
+.zs-input-ok {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-signal-pos);
+}
+
+/* ---------- Buttons ---------- */
+
+.zs-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 140ms ease-out,
+    border-color 140ms ease-out,
+    color 140ms ease-out,
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.zs-button:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.zs-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zs-button[data-variant="primary"] {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+  box-shadow:
+    0 1px 0 0 oklch(1 0 0 / 0.2) inset,
+    0 10px 30px -8px var(--color-accent-glow);
+}
+
+.zs-button[data-variant="primary"]:hover:not([disabled]) {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.zs-button[data-variant="ghost"] {
+  background: transparent;
+  border-color: var(--color-border-interactive);
+  color: var(--color-text);
+}
+
+.zs-button[data-variant="ghost"]:hover:not([disabled]) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.zs-button[data-variant="quiet"] {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.zs-button[data-variant="quiet"]:hover:not([disabled]) {
+  border-color: var(--color-border-interactive);
+  color: var(--color-text);
+}
+
+.zs-button[data-variant="danger"] {
+  background: color-mix(in oklab, var(--color-signal-neg) 14%, transparent);
+  border-color: color-mix(in oklab, var(--color-signal-neg) 40%, transparent);
+  color: var(--color-signal-neg);
+}
+
+.zs-button[data-variant="danger"]:hover:not([disabled]) {
+  background: color-mix(in oklab, var(--color-signal-neg) 22%, transparent);
+  border-color: var(--color-signal-neg);
+}
+
+/* ---------- Session card ---------- */
+
+.zs-session-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.875rem;
+}
+
+@media (min-width: 720px) {
+  .zs-session-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.zs-session-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  min-height: 11rem;
+  transition:
+    border-color 160ms ease-out,
+    background 160ms ease-out,
+    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.zs-session-card:hover {
+  border-color: var(--color-border-interactive);
+  transform: translateY(-1px);
+}
+
+.zs-session-card:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.zs-session-card[data-recommended] {
+  border-color: color-mix(in oklab, var(--color-accent) 50%, var(--color-border));
+  background:
+    radial-gradient(100% 60% at 0% 0%, color-mix(in oklab, var(--color-accent) 10%, transparent) 0%, transparent 70%),
+    var(--color-bg-elevated);
+}
+
+.zs-session-card__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.zs-session-card__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.zs-session-card__eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.zs-session-card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-session-card__recommended {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.0625rem 0.375rem;
+  background: color-mix(in oklab, var(--color-accent) 18%, transparent);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+.zs-session-card__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.zs-session-card__subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.zs-session-card__cta {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* ---------- Continue widget ---------- */
+
+.zs-continue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 160ms ease-out,
+    background 160ms ease-out;
+}
+
+.zs-continue:hover {
+  border-color: var(--color-border-interactive);
+  background: var(--color-surface);
+}
+
+.zs-continue__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.zs-continue__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-continue__title {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: -0.005em;
+}
+
+.zs-continue__count {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* ---------- Deep Dive card (recommended follow-up) ---------- */
+
+.zs-deepdive {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: color-mix(in oklab, var(--color-accent) 6%, var(--color-bg-elevated));
+  border: 1px solid color-mix(in oklab, var(--color-accent) 28%, transparent);
+  border-radius: 14px;
+}
+
+.zs-deepdive__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.zs-deepdive__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.zs-deepdive__title em {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+.zs-deepdive__subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* ---------- Source-card grid (profile connected sources) ---------- */
+
+.zs-sources-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .zs-sources-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .zs-sources-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.zs-source {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.zs-source__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.zs-source__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+/* ---------- Copy-to-clipboard URL block ---------- */
+
+.zs-url-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.zs-url-block code {
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+/* ---------- Spinner animation ---------- */
+
+@keyframes zs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Prose (for long-form cold-read / artifact bodies) ---------- */
+
+.zs-prose {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.zs-prose__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin: 0 0 0.5rem;
+}
+
+.zs-prose p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  max-width: 62ch;
+}
+
+.zs-prose ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  max-width: 62ch;
+}
+
+.zs-prose li {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.zs-prose li::before {
+  content: "";
+  display: inline-block;
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: 0.55rem;
+  background: var(--color-accent);
+  transform: rotate(45deg);
+  border-radius: 1px;
+}

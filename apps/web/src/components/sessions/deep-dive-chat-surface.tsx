@@ -8,6 +8,8 @@ import { ChatInput } from "@/components/chat/chat-input";
 import { type ChatMessage, MessageList } from "@/components/chat/message-list";
 import { CompletionBanner } from "@/components/sessions/completion-banner";
 import { SessionProgress } from "@/components/sessions/session-progress";
+import "@/app/(dashboard)/chat.css";
+
 import { streamChat } from "@/lib/chat-stream";
 import { useSession, useSessionMessages } from "@/lib/hooks/use-sessions";
 
@@ -86,7 +88,12 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
   useEffect(() => () => abortRef.current?.abort(), []);
 
   if (isLoading || !session) {
-    return <div className="p-6 text-neutral-500">Loading&hellip;</div>;
+    return (
+      <div className="zs-chat-pending" role="status" aria-busy="true">
+        <span className="zs-chat-pending__label">Loading</span>
+        <span className="zs-chat-pending__bar" aria-hidden="true" />
+      </div>
+    );
   }
 
   const handleSend = async (text: string) => {
@@ -146,28 +153,32 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
   };
 
   return (
-    <div className="mx-auto flex h-screen max-w-3xl flex-col p-6">
-      <div className="mb-2">
-        <h1 className="text-xl font-semibold">
-          Deep Dive:{" "}
-          {CATEGORY_LABELS[session.target_category ?? ""] ??
-            titleCase(session.target_category ?? "")}
-        </h1>
-        {session.target_signal && (
-          <p className="text-sm text-neutral-400">
-            Focus:{" "}
-            {SIGNAL_LABELS[session.target_signal] ??
-              titleCase(session.target_signal)}
-          </p>
-        )}
+    <div className="zs-chat">
+      <div className="zs-chat__inner">
+        <header className="zs-chat__head">
+          <div className="zs-chat__title-group">
+            <span className="zs-chat__eyebrow">Deep dive</span>
+            <h1 className="zs-chat__title">
+              {CATEGORY_LABELS[session.target_category ?? ""] ??
+                titleCase(session.target_category ?? "")}
+            </h1>
+            {session.target_signal && (
+              <p className="zs-chat__subtitle">
+                Focus ·{" "}
+                {SIGNAL_LABELS[session.target_signal] ??
+                  titleCase(session.target_signal)}
+              </p>
+            )}
+          </div>
+        </header>
+        <SessionProgress sessionId={sessionId} />
+        <MessageList messages={messages} isStreaming={streaming} />
+        <CompletionBanner
+          sessionId={sessionId}
+          onCompleted={() => router.push("/dashboard/sessions")}
+        />
+        <ChatInput onSend={handleSend} disabled={streaming} />
       </div>
-      <SessionProgress sessionId={sessionId} />
-      <MessageList messages={messages} isStreaming={streaming} />
-      <CompletionBanner
-        sessionId={sessionId}
-        onCompleted={() => router.push("/dashboard/sessions")}
-      />
-      <ChatInput onSend={handleSend} disabled={streaming} />
     </div>
   );
 }

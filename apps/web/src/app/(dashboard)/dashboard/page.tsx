@@ -2,10 +2,16 @@ import { ContinueSessionsWidget } from "@/components/sessions/continue-sessions-
 
 export default function Page() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
-      </div>
+    <div className="zs-surface">
+      <header className="zs-surface__head">
+        <p className="zs-surface__eyebrow">Dashboard</p>
+        <h1 className="zs-surface__title">
+          Welcome <em>back</em>.
+        </h1>
+        <p className="zs-surface__subtitle">
+          Pick up where you left off, or start a new session.
+        </p>
+      </header>
       <ContinueSessionsWidget />
     </div>
   );

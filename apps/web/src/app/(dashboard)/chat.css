@@ -1,0 +1,853 @@
+/* =======================================================================
+   Mentor chat surface — header, progress, messages, input.
+   Governed by .impeccable.md — Principle 1: Chat is the product; chrome
+   recedes. Every pixel below earns its place.
+   ======================================================================= */
+
+.zs-chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  isolation: isolate;
+}
+
+/* Atmospheric wash — a single violet halo at the top of the session surface.
+   Fades to pure bg within 360px. No animation, no gradient text — just
+   perceived depth behind the title. Mirrors the Dedalus lineage noted in
+   .impeccable.md (atmospheric dark, one strong accent). */
+.zs-chat::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 360px;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 140% at 50% -40%,
+    color-mix(in oklab, var(--color-accent) 14%, transparent) 0%,
+    transparent 72%
+  );
+  z-index: 0;
+}
+
+.zs-chat__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ---------- Header ---------- */
+
+.zs-chat__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem) 0 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.zs-chat__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.zs-chat__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-chat__title {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.zs-chat__title em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.zs-chat__subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  max-width: 50ch;
+}
+
+/* ---------- Chat menu (three-dots dropdown) ---------- */
+
+.zs-chat-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.zs-chat-menu__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    border-color 140ms ease-out,
+    color 140ms ease-out,
+    background 140ms ease-out;
+}
+
+.zs-chat-menu__toggle:hover:not([disabled]) {
+  border-color: var(--color-border-interactive);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+.zs-chat-menu__toggle[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zs-chat-menu__toggle:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.zs-chat-menu__panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: 20;
+  min-width: 14rem;
+  padding: 0.375rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 20px 40px -12px oklch(0 0 0 / 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.zs-chat-menu__item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 120ms ease-out, color 120ms ease-out;
+}
+
+.zs-chat-menu__item:hover {
+  background: var(--color-surface);
+}
+
+.zs-chat-menu__item[data-destructive] {
+  color: var(--color-signal-neg);
+}
+
+.zs-chat-menu__item[data-destructive]:hover {
+  background: color-mix(in oklab, var(--color-signal-neg) 12%, transparent);
+}
+
+/* ---------- Session progress ---------- */
+
+.zs-chat-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.zs-chat-progress__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.zs-chat-progress__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-chat-progress__count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+  letter-spacing: 0.04em;
+}
+
+.zs-chat-progress__count-pct {
+  color: var(--color-accent);
+  margin-left: 0.5rem;
+}
+
+.zs-chat-progress__track {
+  position: relative;
+  height: 1px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.zs-chat-progress__fill {
+  position: absolute;
+  inset: 0 0 0 0;
+  transform-origin: left center;
+  transform: scaleX(var(--zs-progress, 0));
+  background: var(--color-signal-pos);
+  box-shadow: 0 0 8px oklch(0.74 0.14 160 / 0.4);
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.zs-chat-progress__signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.125rem 0 0;
+}
+
+.zs-chat-progress__signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-chat-progress__signal[data-covered] {
+  color: var(--color-signal-pos);
+}
+
+.zs-chat-progress__signal-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--color-border-interactive);
+  flex-shrink: 0;
+}
+
+.zs-chat-progress__signal[data-covered] .zs-chat-progress__signal-dot {
+  background: var(--color-signal-pos);
+  border-color: var(--color-signal-pos);
+}
+
+/* ---------- Message list ---------- */
+
+.zs-chat-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.75rem 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  scroll-behavior: smooth;
+  /* Scroll fade — content dissolves under the progress bar instead of
+     slamming against a hard edge. */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 1.25rem,
+    #000 calc(100% - 0.5rem),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 1.25rem,
+    #000 calc(100% - 0.5rem),
+    transparent 100%
+  );
+}
+
+/* Message rhythm — tighter between same-role consecutive messages, looser
+   between role-changes. Creates breathing in a long thread. */
+.zs-chat-msg + .zs-chat-msg {
+  margin-top: -0.125rem;
+}
+
+.zs-chat-msg[data-role="assistant"] + .zs-chat-msg[data-role="user"],
+.zs-chat-msg[data-role="user"] + .zs-chat-msg[data-role="assistant"] {
+  margin-top: 0.625rem;
+}
+
+.zs-chat-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: 100%;
+}
+
+.zs-chat-msg[data-role="user"] {
+  align-items: flex-end;
+}
+
+.zs-chat-msg__role {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-chat-msg[data-role="user"] .zs-chat-msg__role {
+  color: var(--color-accent);
+}
+
+/* Assistant bubble: editorial, no pill, generous line-height */
+.zs-chat-msg[data-role="assistant"] .zs-chat-msg__body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.62;
+  color: var(--color-text);
+  max-width: 62ch;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  /* Editorial typesetting — ligatures, contextual alternates, proper apostrophes. */
+  font-feature-settings: "calt", "liga", "kern";
+  text-wrap: pretty;
+}
+
+/* Expressive opening — the very first mentor reply gets a display-font
+   drop cap. One Bodoni Moda moment per session, reserved for the hero
+   arrival. Not a gradient, not an orb — a single, confident letter. */
+.zs-chat-list > .zs-chat-msg[data-role="assistant"]:first-of-type
+  .zs-chat-msg__body::first-letter {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2.75em;
+  line-height: 0.92;
+  float: left;
+  padding: 0.1em 0.14em 0 0;
+  color: var(--color-accent);
+  /* Optical compensation — Bodoni's high stroke contrast reads as lighter
+     than it should at display size; nudge up a hair. */
+  letter-spacing: -0.02em;
+}
+
+/* User bubble: compact pill, right-aligned */
+.zs-chat-msg[data-role="user"] .zs-chat-msg__body {
+  background: color-mix(in oklab, var(--color-accent) 16%, transparent);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  padding: 0.625rem 0.875rem;
+  border-radius: 12px 12px 4px 12px;
+  max-width: min(90%, 36rem);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 22%, transparent);
+}
+
+.zs-chat-msg__cites {
+  margin-top: 0.25rem;
+}
+
+/* ---------- Typing indicator (typographic, no pulse orbs) ---------- */
+
+.zs-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-typing__label {
+  opacity: 0.7;
+}
+
+.zs-typing__cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: var(--color-accent);
+  animation: zs-caret 960ms steps(1, end) infinite;
+}
+
+@keyframes zs-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zs-typing__cursor {
+    animation: none;
+  }
+}
+
+/* ---------- Starter questions ---------- */
+
+.zs-starters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  padding: 0.5rem 0 1rem;
+}
+
+@media (min-width: 560px) {
+  .zs-starters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.zs-starters__heading {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin: 0 0 0.25rem;
+}
+
+.zs-starters__item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  transition:
+    border-color 140ms ease-out,
+    background 140ms ease-out,
+    transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.zs-starters__item:hover {
+  border-color: var(--color-accent);
+  background: color-mix(in oklab, var(--color-accent) 8%, transparent);
+  transform: translateY(-1px);
+}
+
+.zs-starters__item:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.zs-starters__num {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+}
+
+/* ---------- Completion banner ---------- */
+
+.zs-complete {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.125rem;
+  margin: 1rem 0 0;
+  background: color-mix(in oklab, var(--color-signal-pos) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-signal-pos) 32%, transparent);
+  border-radius: 12px;
+}
+
+.zs-complete__title {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.zs-complete__text {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.zs-complete__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.zs-btn-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    background 140ms ease-out,
+    border-color 140ms ease-out,
+    color 140ms ease-out;
+}
+
+.zs-btn-sm[data-variant="primary"] {
+  background: var(--color-signal-pos);
+  color: oklch(0.2 0.04 160);
+  border-color: var(--color-signal-pos);
+}
+
+.zs-btn-sm[data-variant="primary"]:hover:not([disabled]) {
+  background: oklch(0.78 0.14 160);
+  border-color: oklch(0.78 0.14 160);
+}
+
+.zs-btn-sm[data-variant="ghost"] {
+  border-color: var(--color-border-interactive);
+  color: var(--color-text-muted);
+}
+
+.zs-btn-sm[data-variant="ghost"]:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.zs-btn-sm[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Input bar ---------- */
+
+.zs-chat-input {
+  position: sticky;
+  bottom: 0;
+  padding: 0.75rem 0 clamp(0.75rem, 2vw, 1.25rem);
+  border-top: 1px solid var(--color-border);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-bg) 0%, transparent) 0%,
+    var(--color-bg) 40%
+  );
+  flex-shrink: 0;
+}
+
+.zs-chat-input__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  transition: border-color 160ms ease-out;
+}
+
+.zs-chat-input__row:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 14%, transparent);
+}
+
+.zs-chat-input__textarea {
+  flex: 1;
+  resize: none;
+  background: transparent;
+  border: 0;
+  outline: none;
+  padding: 0.375rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  min-height: 1.5rem;
+  max-height: 10rem;
+}
+
+.zs-chat-input__textarea::placeholder {
+  color: var(--color-text-dim);
+}
+
+.zs-chat-input__textarea:disabled {
+  opacity: 0.5;
+}
+
+.zs-chat-input__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: 1px solid var(--color-accent);
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition:
+    background 140ms ease-out,
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms ease-out,
+    opacity 140ms ease-out;
+}
+
+.zs-chat-input__send > svg {
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.zs-chat-input__send:hover:not([disabled]) {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px -6px var(--color-accent-glow);
+}
+
+.zs-chat-input__send:hover:not([disabled]) > svg {
+  transform: translateX(1.5px) translateY(-1px) rotate(-6deg);
+}
+
+.zs-chat-input__send:active:not([disabled]) > svg {
+  transform: translateX(4px) translateY(-3px) rotate(-14deg);
+}
+
+.zs-chat-input__send:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.zs-chat-input__send[disabled] {
+  background: var(--color-surface);
+  color: var(--color-text-dim);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+.zs-chat-input__hint {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.375rem 0.25rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.zs-chat-input__hint kbd {
+  font-family: var(--font-mono);
+  padding: 0.0625rem 0.375rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0;
+}
+
+/* ---------- Empty/loading shell ---------- */
+
+.zs-chat-pending {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 100dvh;
+  color: var(--color-text-dim);
+  background: var(--color-bg);
+  position: relative;
+}
+
+.zs-chat-pending::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 360px;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 140% at 50% -40%,
+    color-mix(in oklab, var(--color-accent) 10%, transparent) 0%,
+    transparent 72%
+  );
+}
+
+.zs-chat-pending__label {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+/* Honest progress bar instead of a pulsing orb. Reveals a violet sweep
+   left-to-right in a thin hairline — same treatment as session progress,
+   no glow, no orb. */
+.zs-chat-pending__bar {
+  position: relative;
+  width: clamp(10rem, 24vw, 18rem);
+  height: 1px;
+  background: var(--color-border);
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.zs-chat-pending__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 0;
+  width: 40%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent-glow);
+  transform: translateX(-100%);
+  animation: zs-pending-sweep 1500ms cubic-bezier(0.4, 0, 0.4, 1) infinite;
+}
+
+@keyframes zs-pending-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zs-chat-pending__bar::after {
+    animation: none;
+    transform: translateX(0);
+    width: 20%;
+  }
+}
+
+/* ---------- Citation chips (RAG) ------------------------------------- */
+/* Token-native replacement for the old sky-400 variant. Citation chips
+   appear inline under mentor messages; active chip reveals a paper-title
+   card with snippet. Violet accent for active, hairline for inactive. */
+
+.zs-citation-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--color-surface) 55%, transparent);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    color 140ms ease-out,
+    background 140ms ease-out,
+    border-color 140ms ease-out;
+}
+
+.zs-citation-chip:hover {
+  color: var(--color-text);
+  border-color: var(--color-border-interactive);
+}
+
+.zs-citation-chip[data-active] {
+  color: var(--color-accent);
+  background: color-mix(in oklab, var(--color-accent) 14%, transparent);
+  border-color: color-mix(in oklab, var(--color-accent) 50%, transparent);
+}
+
+.zs-citation-chip:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.zs-citation-card {
+  margin-top: 0.5rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--color-surface) 50%, transparent);
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.zs-citation-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.zs-citation-card__title {
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+.zs-citation-card__section {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+}
+
+.zs-citation-card__snippet {
+  color: var(--color-text-muted);
+  margin: 0;
+}

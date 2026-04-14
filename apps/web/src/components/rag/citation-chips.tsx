@@ -25,11 +25,8 @@ export function CitationChips({ citations, compact = false }: CitationChipsProps
               key={c.index}
               type="button"
               onClick={() => setOpenIndex(active ? null : c.index)}
-              className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[11px] font-medium tabular-nums transition ${
-                active
-                  ? "border-sky-400/60 bg-sky-400/15 text-sky-200"
-                  : "border-white/15 bg-white/5 text-white/70 hover:border-white/30 hover:text-white/90"
-              }`}
+              className="zs-citation-chip"
+              data-active={active || undefined}
               aria-expanded={active}
               aria-label={`Citation ${c.index}: ${c.paper_title}`}
             >
@@ -39,16 +36,14 @@ export function CitationChips({ citations, compact = false }: CitationChipsProps
         })}
       </div>
       {open && (
-        <div className="mt-2 rounded-md border border-white/10 bg-black/30 p-2.5 text-[12px] leading-relaxed text-white/75">
-          <div className="mb-1 flex items-baseline justify-between gap-2">
-            <div className="font-medium text-white/90">{open.paper_title}</div>
+        <div className="zs-citation-card">
+          <div className="zs-citation-card__head">
+            <div className="zs-citation-card__title">{open.paper_title}</div>
             {open.section && (
-              <div className="shrink-0 text-[10px] uppercase tracking-wide text-white/40">
-                {open.section}
-              </div>
+              <div className="zs-citation-card__section">{open.section}</div>
             )}
           </div>
-          <p className="text-white/70">{open.snippet}</p>
+          <p className="zs-citation-card__snippet">{open.snippet}</p>
         </div>
       )}
     </div>

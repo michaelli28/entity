@@ -28,35 +28,41 @@ export function InviteCofounderSection() {
   };
 
   return (
-    <div className="rounded-lg border border-white/10 p-4">
-      <h2 className="mb-2 font-medium">Co-founder</h2>
-      <p className="mb-3 text-sm text-white/60">
-        Invite a co-founder to join your workspace. They&apos;ll have access to
-        the same AI mentor and signal dashboard.
-      </p>
+    <section className="zs-card">
+      <div>
+        <h2 className="zs-card__title">Co-founder</h2>
+        <p className="zs-card__subtitle">
+          Invite a co-founder to join your workspace. They&rsquo;ll have
+          access to the same mentor and signal dashboard.
+        </p>
+      </div>
       {url ? (
-        <div className="flex flex-col gap-2">
-          <code className="break-all rounded bg-white/5 px-2 py-1 text-xs text-white/80">
-            {url}
-          </code>
+        <>
+          <div className="zs-url-block">
+            <code>{url}</code>
+          </div>
           <button
             type="button"
             onClick={() => void copy()}
-            className="self-start rounded border border-white/10 px-3 py-1 text-xs hover:bg-white/5"
+            className="zs-button"
+            data-variant="ghost"
+            style={{ alignSelf: "flex-start" }}
           >
             {copied ? "Copied!" : "Copy link"}
           </button>
-        </div>
+        </>
       ) : (
         <button
           type="button"
           onClick={() => void generate()}
           disabled={loading}
-          className="rounded border border-white/10 px-3 py-1.5 text-sm hover:bg-white/5 disabled:opacity-50"
+          className="zs-button"
+          data-variant="ghost"
+          style={{ alignSelf: "flex-start" }}
         >
           {loading ? "Generating…" : "Invite co-founder"}
         </button>
       )}
-    </div>
+    </section>
   );
 }

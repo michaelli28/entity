@@ -1,0 +1,78 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e6]
+  - generic [ref=e183]:
+    - complementary [ref=e184]:
+      - generic [ref=e185]:
+        - link "ZStar" [ref=e186] [cursor=pointer]:
+          - /url: /dashboard
+        - generic [ref=e187]:
+          - link "Go to dashboard" [ref=e188] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e189]
+          - button "Collapse sidebar" [ref=e192]:
+            - img [ref=e193]
+      - navigation [ref=e196]:
+        - link "Sessions 0/4" [ref=e197] [cursor=pointer]:
+          - /url: /dashboard/sessions
+          - img [ref=e199]
+          - generic [ref=e202]:
+            - generic [ref=e203]: Sessions
+            - generic [ref=e204]: 0/4
+        - link "Scores" [ref=e205] [cursor=pointer]:
+          - /url: /dashboard/scores
+          - img [ref=e207]
+          - generic [ref=e211]: Scores
+        - link "Profile" [ref=e212] [cursor=pointer]:
+          - /url: /dashboard/profile
+          - img [ref=e214]
+          - generic [ref=e218]: Profile
+        - link "Settings" [ref=e219] [cursor=pointer]:
+          - /url: /dashboard/settings
+          - img [ref=e221]
+          - generic [ref=e225]: Settings
+        - button "Fill test data" [ref=e228]:
+          - img [ref=e229]
+          - generic [ref=e232]: Fill test data
+      - button "Open user menu" [ref=e235] [cursor=pointer]:
+        - img "'s logo" [ref=e238]
+    - main [ref=e240]:
+      - generic [ref=e241]:
+        - generic [ref=e242]:
+          - heading "Mentor sessions" [level=1] [ref=e243]
+          - paragraph [ref=e244]: Work through your pitch, one session at a time.
+        - generic [ref=e245]:
+          - generic [ref=e246]:
+            - link "The Big Picture Recommended Who you are, what you're building, who it's for, why now. Not started" [ref=e247] [cursor=pointer]:
+              - /url: /dashboard/chat/big-picture
+              - generic [ref=e248]:
+                - generic [ref=e249]:
+                  - generic [ref=e250]:
+                    - heading "The Big Picture" [level=3] [ref=e251]
+                    - generic [ref=e252]: Recommended
+                  - paragraph [ref=e253]: Who you are, what you're building, who it's for, why now.
+                - generic "Not started" [ref=e254]
+            - link "The Problem & Market The pain, the size, the competition, and your edge. Not started" [ref=e255] [cursor=pointer]:
+              - /url: /dashboard/chat/problem-market
+              - generic [ref=e256]:
+                - generic [ref=e257]:
+                  - heading "The Problem & Market" [level=3] [ref=e259]
+                  - paragraph [ref=e260]: The pain, the size, the competition, and your edge.
+                - generic "Not started" [ref=e261]
+            - link "The Business Pricing, traction, go-to-market, and team. Not started" [ref=e262] [cursor=pointer]:
+              - /url: /dashboard/chat/business
+              - generic [ref=e263]:
+                - generic [ref=e264]:
+                  - heading "The Business" [level=3] [ref=e266]
+                  - paragraph [ref=e267]: Pricing, traction, go-to-market, and team.
+                - generic "Not started" [ref=e268]
+            - link "The Ask How much, on what terms, and what else you need. Not started" [ref=e269] [cursor=pointer]:
+              - /url: /dashboard/chat/ask
+              - generic [ref=e270]:
+                - generic [ref=e271]:
+                  - heading "The Ask" [level=3] [ref=e273]
+                  - paragraph [ref=e274]: How much, on what terms, and what else you need.
+                - generic "Not started" [ref=e275]
+          - generic [ref=e276]:
+            - 'heading "Deep Dive: Problem" [level=4] [ref=e277]'
+            - paragraph [ref=e278]: Rebuild your problem story. (we picked this as a starting default — you can change after)
+            - button "Start Deep Dive" [ref=e280]

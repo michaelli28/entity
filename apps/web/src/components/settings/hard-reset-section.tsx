@@ -22,31 +22,57 @@ export function HardResetSection() {
   });
 
   return (
-    <div className="rounded-lg border border-red-500/30 bg-red-500/[0.04] p-4">
-      <h2 className="mb-1 font-medium text-red-300">Danger zone</h2>
-      <p className="mb-3 text-sm text-white/60">
-        Hard reset wipes every mentor session, message, score, cold read, and
-        summary tied to your account. Your profile stays so you can start
-        fresh.
-      </p>
+    <section className="zs-card zs-card--danger">
+      <div>
+        <p
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.625rem",
+            fontWeight: 500,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "var(--color-signal-neg)",
+            margin: 0,
+          }}
+        >
+          Danger zone
+        </p>
+        <h2 className="zs-card__title" style={{ marginTop: "0.375rem" }}>
+          Hard reset
+        </h2>
+        <p className="zs-card__subtitle">
+          Wipes every mentor session, message, score, cold read, and summary
+          tied to your account. Your profile stays so you can start fresh.
+        </p>
+      </div>
       {!confirming ? (
         <button
           type="button"
           onClick={() => setConfirming(true)}
-          className="rounded-md border border-red-500/40 bg-red-500/10 px-3 py-1.5 text-sm text-red-200 hover:border-red-500/70"
+          className="zs-button"
+          data-variant="danger"
+          style={{ alignSelf: "flex-start" }}
         >
           Hard reset my account
         </button>
       ) : (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm text-white/80">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.625rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <span style={{ fontSize: "0.875rem", color: "var(--color-text)" }}>
             This cannot be undone. Proceed?
           </span>
           <button
             type="button"
             onClick={() => reset.mutate()}
             disabled={reset.isPending}
-            className="rounded-md border border-red-500/60 bg-red-500/20 px-3 py-1.5 text-sm text-red-100 hover:border-red-400 disabled:opacity-60"
+            className="zs-button"
+            data-variant="danger"
           >
             {reset.isPending ? "Resetting…" : "Yes, wipe everything"}
           </button>
@@ -54,17 +80,18 @@ export function HardResetSection() {
             type="button"
             onClick={() => setConfirming(false)}
             disabled={reset.isPending}
-            className="rounded-md border border-white/15 bg-white/5 px-3 py-1.5 text-sm text-white/80 hover:border-white/30"
+            className="zs-button"
+            data-variant="ghost"
           >
             Cancel
           </button>
         </div>
       )}
       {reset.error && (
-        <p className="mt-2 text-sm text-red-300">
+        <p className="zs-input-error" style={{ marginTop: "0.5rem" }}>
           Failed: {reset.error.message}
         </p>
       )}
-    </div>
+    </section>
   );
 }

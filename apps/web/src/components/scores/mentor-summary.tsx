@@ -30,13 +30,13 @@ export function MentorSummarySection({
   const citations: Citation[] = summary?.citations ?? [];
 
   return (
-    <section className="rounded-xl border border-white/10 bg-neutral-900/30 p-6">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <h2 className="text-lg font-semibold text-white">
-            What your mentor thinks
+    <section className="zs-panel zs-summary">
+      <header className="zs-summary__head">
+        <div className="zs-summary__title-group">
+          <h2 className="zs-summary__title">
+            What your mentor <em>thinks</em>.
           </h2>
-          <p className="text-xs text-white/50">
+          <p className="zs-summary__subtitle">
             Brutally honest read across every session. No corporate-speak.
           </p>
         </div>
@@ -44,18 +44,30 @@ export function MentorSummarySection({
           type="button"
           onClick={() => generate.mutate()}
           disabled={generate.isPending}
-          className="shrink-0 rounded-md border border-white/15 bg-white/5 px-3 py-1.5 text-sm text-white hover:border-white/30 disabled:opacity-60"
+          className="zs-summary__generate"
+          data-variant={summary ? "regen" : undefined}
         >
           {generate.isPending
             ? "Thinking…"
             : summary
               ? "Regenerate"
               : "Generate summary"}
+          {!generate.isPending && (
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+              <path
+                d="M3.5 8h9m0 0L8.5 4m4 4l-4 4"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </button>
-      </div>
+      </header>
 
       {generate.error && (
-        <p className="mb-3 text-sm text-red-400">
+        <p className="zs-summary__error">
           {generate.error.message.includes("No session transcripts")
             ? "Start a mentor session first — there's nothing to summarize yet."
             : `Failed: ${generate.error.message}`}
@@ -63,39 +75,21 @@ export function MentorSummarySection({
       )}
 
       {summary ? (
-        <div className="space-y-5">
-          <p className="text-base leading-relaxed text-white">
-            {summary.headline}
-          </p>
-
-          <SummaryList
-            title="Strengths"
-            items={summary.strengths}
-            accent="text-emerald-300"
-          />
-          <SummaryList
-            title="Weaknesses"
-            items={summary.weaknesses}
-            accent="text-red-300"
-          />
-          <SummaryList
-            title="This week"
-            items={summary.tips}
-            accent="text-amber-300"
-          />
-
+        <>
+          <p className="zs-summary__headline">{summary.headline}</p>
+          <SummaryList title="Strengths" items={summary.strengths} tone="pos" />
+          <SummaryList title="Weaknesses" items={summary.weaknesses} tone="neg" />
+          <SummaryList title="This week" items={summary.tips} tone="warn" />
           {citations.length > 0 && (
-            <div>
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/50">
-                Sources
-              </h3>
+            <div className="zs-sources">
+              <h3 className="zs-sources__label">Sources</h3>
               <CitationChips citations={citations} />
             </div>
           )}
-        </div>
+        </>
       ) : !generate.isPending ? (
-        <p className="text-sm text-white/50">
-          Click <span className="font-medium text-white/80">Generate summary</span>{" "}
+        <p className="zs-summary__empty">
+          Click <strong style={{ color: "var(--color-text)", fontWeight: 500 }}>Generate summary</strong>{" "}
           to get a full read on where you stand across every session.
         </p>
       ) : null}
@@ -106,24 +100,19 @@ export function MentorSummarySection({
 function SummaryList({
   title,
   items,
-  accent,
+  tone,
 }: {
   title: string;
   items: string[];
-  accent: string;
+  tone: "pos" | "neg" | "warn";
 }) {
   return (
-    <div>
-      <h3 className={`mb-2 text-xs font-semibold uppercase tracking-wide ${accent}`}>
-        {title}
-      </h3>
-      <ul className="space-y-1.5">
+    <div className="zs-list" data-tone={tone}>
+      <h3 className="zs-list__heading">{title}</h3>
+      <ul className="zs-list__items">
         {items.map((item, i) => (
-          <li
-            key={i}
-            className="flex gap-2 text-sm leading-relaxed text-white/85"
-          >
-            <span className={`mt-1 shrink-0 ${accent}`}>•</span>
+          <li key={i} className="zs-list__item">
+            <span className="zs-list__marker" aria-hidden="true" />
             <span>{item}</span>
           </li>
         ))}

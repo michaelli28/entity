@@ -1,6 +1,4 @@
 "use client";
-import { Check, Circle } from "@phosphor-icons/react";
-
 import { useSessionCoverage } from "@/lib/hooks/use-sessions";
 
 interface Props {
@@ -16,39 +14,43 @@ export function SessionProgress({ sessionId }: Props) {
   const pct = total === 0 ? 0 : Math.round((coveredCount / total) * 100);
 
   return (
-    <div className="mb-4 space-y-2">
-      <div className="flex items-center justify-between text-xs text-neutral-400">
-        <span>
-          Progress · {coveredCount}/{total} covered
+    <div
+      className="zs-chat-progress"
+      role="group"
+      aria-label={`Coverage: ${coveredCount} of ${total} signals`}
+    >
+      <div className="zs-chat-progress__row">
+        <span className="zs-chat-progress__label">Coverage</span>
+        <span className="zs-chat-progress__count">
+          {String(coveredCount).padStart(2, "0")} /{" "}
+          {String(total).padStart(2, "0")}
+          <span className="zs-chat-progress__count-pct">{pct}%</span>
         </span>
-        <span className="font-mono text-neutral-300">{pct}%</span>
       </div>
       <div
-        className="h-1.5 w-full overflow-hidden rounded-full bg-white/5"
+        className="zs-chat-progress__track"
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className="h-full rounded-full bg-emerald-500 transition-[width] duration-500"
-          style={{ width: `${pct}%` }}
+          className="zs-chat-progress__fill"
+          style={{ "--zs-progress": pct / 100 } as React.CSSProperties}
         />
       </div>
-      <ul className="flex flex-wrap gap-x-3 gap-y-1.5 pt-1">
+      <ul className="zs-chat-progress__signals">
         {data.target_signals.map((sig) => (
           <li
             key={sig.key}
-            className={`flex items-center gap-1.5 text-xs ${
-              sig.covered ? "text-emerald-300" : "text-neutral-500"
-            }`}
+            className="zs-chat-progress__signal"
+            data-covered={sig.covered || undefined}
             title={sig.key}
           >
-            {sig.covered ? (
-              <Check weight="bold" size={12} />
-            ) : (
-              <Circle weight="regular" size={12} />
-            )}
+            <span
+              className="zs-chat-progress__signal-dot"
+              aria-hidden="true"
+            />
             <span>{sig.label}</span>
           </li>
         ))}

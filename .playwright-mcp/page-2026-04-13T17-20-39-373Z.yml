@@ -1,0 +1,60 @@
+- generic [active] [ref=e2]:
+  - alert [ref=e1]
+  - generic [ref=e52]:
+    - heading "ZStar is invite-only" [level=1] [ref=e53]
+    - paragraph [ref=e54]:
+      - text: If you have an invite link, click it to continue. Otherwise,
+      - link "join the waitlist" [ref=e55] [cursor=pointer]:
+        - /url: /waitlist
+      - text: .
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e60]:
+          - heading "Create your account" [level=1] [ref=e61]
+          - paragraph [ref=e62]: Welcome! Please fill in the details to get started.
+        - generic [ref=e63]:
+          - button "Sign in with Google Continue with Google" [ref=e66] [cursor=pointer]:
+            - generic [ref=e67]:
+              - img "Sign in with Google" [ref=e69]
+              - generic [ref=e70]: Continue with Google
+          - paragraph [ref=e73]: or
+          - generic [ref=e75]:
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]:
+                    - generic [ref=e81]: First name
+                    - generic [ref=e82]: Optional
+                  - textbox "First name" [ref=e83]
+                - generic [ref=e86]:
+                  - generic [ref=e87]:
+                    - generic [ref=e88]: Last name
+                    - generic [ref=e89]: Optional
+                  - textbox "Last name" [ref=e90]
+              - generic [ref=e94]:
+                - generic [ref=e96]: Email address
+                - textbox "Email address" [ref=e97]:
+                  - /placeholder: Enter your email address
+              - generic [ref=e101]:
+                - generic [ref=e103]: Password
+                - generic [ref=e104]:
+                  - textbox "Password" [ref=e105]:
+                    - /placeholder: Enter your password
+                  - button "Show password" [ref=e106] [cursor=pointer]:
+                    - img [ref=e107]
+            - button "Continue" [ref=e113] [cursor=pointer]:
+              - generic [ref=e114]:
+                - text: Continue
+                - img [ref=e115]
+      - generic [ref=e117]:
+        - generic [ref=e118]:
+          - generic [ref=e119]: Already have an account?
+          - link "Sign in" [ref=e120] [cursor=pointer]:
+            - /url: https://zstar-web.vercel.app/sign-in
+        - generic [ref=e122]:
+          - generic [ref=e124]:
+            - paragraph [ref=e125]: Secured by
+            - link "Clerk logo" [ref=e126] [cursor=pointer]:
+              - /url: https://go.clerk.com/components
+              - img [ref=e127]
+          - paragraph [ref=e132]: Development mode

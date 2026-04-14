@@ -1,0 +1,33 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e5]:
+    - heading "Tell me about you and your startup" [level=1] [ref=e10]
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - text: Your name
+        - textbox [ref=e13]
+      - generic [ref=e14]:
+        - text: Company name
+        - textbox [ref=e15]
+      - generic [ref=e16]:
+        - text: One-liner (what you do in one sentence)
+        - textbox [ref=e17]
+      - generic [ref=e18]:
+        - text: Stage
+        - combobox [ref=e19]:
+          - option "Idea" [selected]
+          - option "Pre-seed"
+          - option "Seed"
+          - option "Series A"
+          - option "Series B+"
+      - generic [ref=e20]:
+        - text: What would make this a 10/10 for you?
+        - combobox [ref=e21]:
+          - option "Better investor intros" [selected]
+          - option "Better coaching on my pitch"
+          - option "Signal scoring / readiness assessment"
+          - option "Peer founder network"
+          - option "Other"
+      - button "Continue" [ref=e22] [cursor=pointer]: Continue
+  - button "Open Next.js Dev Tools" [ref=e33] [cursor=pointer]:
+    - img [ref=e34]
+  - alert [ref=e37]

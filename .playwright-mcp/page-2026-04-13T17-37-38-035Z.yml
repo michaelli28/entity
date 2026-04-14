@@ -1,0 +1,15 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e6]
+  - generic [ref=e163]:
+    - heading "Before we start" [level=1] [ref=e168]
+    - paragraph [ref=e169]: Your conversations are processed by Anthropic (Claude) under their commercial terms and stored encrypted. We've requested Zero Data Retention. Don't paste social security numbers, credit cards, or other people's personal information. ZStar provides general startup guidance — not investment, legal, or tax advice.
+    - paragraph [ref=e170]:
+      - link "Privacy policy" [ref=e171] [cursor=pointer]:
+        - /url: /privacy
+      - text: ·
+      - link "Terms" [ref=e172] [cursor=pointer]:
+        - /url: /terms
+    - generic [ref=e173] [cursor=pointer]:
+      - checkbox "I understand" [ref=e174]
+      - generic [ref=e175]: I understand
+    - button "Start my first conversation" [disabled] [ref=e176] [cursor=pointer]: Start my first conversation

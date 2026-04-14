@@ -51,3 +51,19 @@
 @media (prefers-reduced-motion: reduce) {
   .zstar-scroll-reveal { animation: none; opacity: 1; transform: none; }
 }
+
+/* Aurora gradient drift — used by <AuroraBackground/> on the onboarding
+   surface. Long period (60s) so the motion feels atmospheric, not busy. */
+@keyframes aurora {
+  0%   { background-position: 0% 50%, 0%   50%; }
+  50%  { background-position: 100% 50%, 100% 50%; }
+  100% { background-position: 0% 50%, 0%   50%; }
+}
+
+.animate-aurora {
+  animation: aurora 60s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora { animation: none; }
+}

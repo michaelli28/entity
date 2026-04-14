@@ -60,71 +60,80 @@ export function ProfileLinksForm() {
 
   if (loading) {
     return (
-      <div className="rounded-lg border border-white/10 p-4 text-sm text-white/60">
-        Loading profile…
+      <div className="zs-card">
+        <span className="zs-card__eyebrow">Loading profile…</span>
       </div>
     );
   }
 
   return (
-    <form
-      onSubmit={handleSave}
-      className="space-y-4 rounded-lg border border-white/10 p-4"
-    >
+    <form onSubmit={handleSave} className="zs-card zs-surface-form">
       <div>
-        <h2 className="mb-1 font-medium">Public links</h2>
-        <p className="text-sm text-white/60">
-          Share where your mentor should look. These get passed into the mentor&apos;s
-          system prompt so it can reason about your background.
+        <h2 className="zs-card__title">Public links</h2>
+        <p className="zs-card__subtitle">
+          Share where your mentor should look. These get passed into the
+          mentor&rsquo;s system prompt so it can reason about your background.
         </p>
       </div>
 
-      <label className="block">
-        <span className="text-sm text-white/70">LinkedIn URL</span>
+      <label className="zs-input-field">
+        <span className="zs-input-field__label">LinkedIn URL</span>
         <input
           type="url"
           value={linkedinUrl}
           onChange={(e) => setLinkedinUrl(e.target.value)}
           placeholder="https://www.linkedin.com/in/yourhandle"
-          className="mt-1 block w-full rounded-md border border-white/15 bg-neutral-900 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-emerald-500/60 focus:outline-none"
+          className="zs-input"
+          autoComplete="url"
         />
       </label>
 
-      <label className="block">
-        <span className="text-sm text-white/70">GitHub username</span>
+      <label className="zs-input-field">
+        <span className="zs-input-field__label">GitHub username</span>
         <input
           type="text"
           value={githubUsername}
           onChange={(e) => setGithubUsername(e.target.value)}
           placeholder="yourhandle"
-          className="mt-1 block w-full rounded-md border border-white/15 bg-neutral-900 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-emerald-500/60 focus:outline-none"
+          className="zs-input"
+          autoComplete="username"
         />
-        <span className="mt-1 block text-xs text-white/40">
-          We&apos;ll fetch your public GitHub profile and top repos to enrich your mentor context.
+        <span className="zs-input-field__hint">
+          We&rsquo;ll fetch your public GitHub profile and top repos to enrich
+          your mentor context.
         </span>
       </label>
 
-      <label className="block">
-        <span className="text-sm text-white/70">Website URL</span>
+      <label className="zs-input-field">
+        <span className="zs-input-field__label">Website URL</span>
         <input
           type="url"
           value={websiteUrl}
           onChange={(e) => setWebsiteUrl(e.target.value)}
           placeholder="https://yourproduct.com"
-          className="mt-1 block w-full rounded-md border border-white/15 bg-neutral-900 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-emerald-500/60 focus:outline-none"
+          className="zs-input"
+          autoComplete="url"
         />
       </label>
 
-      <div className="flex items-center gap-3">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.875rem",
+          flexWrap: "wrap",
+        }}
+      >
         <button
           type="submit"
           disabled={saving}
-          className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-medium text-black disabled:opacity-50"
+          className="zs-button"
+          data-variant="primary"
         >
           {saving ? "Saving…" : "Save"}
         </button>
-        {saved && <span className="text-sm text-emerald-400">Saved</span>}
-        {error && <span className="text-sm text-red-400">{error}</span>}
+        {saved && <span className="zs-input-ok">Saved</span>}
+        {error && <span className="zs-input-error">{error}</span>}
       </div>
     </form>
   );

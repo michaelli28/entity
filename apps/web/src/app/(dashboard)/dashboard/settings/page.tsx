@@ -6,28 +6,58 @@ import { ProfileLinksForm } from "@/components/settings/profile-links-form";
 
 export default function SettingsPage() {
   return (
-    <div className="max-w-2xl p-8">
-      <h1 className="mb-6 text-2xl font-semibold">Settings</h1>
-      <section className="space-y-4">
-        <ProfileLinksForm />
-        <InviteCofounderSection />
-        <div className="rounded-lg border border-white/10 p-4">
-          <h2 className="mb-2 font-medium">Privacy</h2>
-          <p className="text-sm text-white/60">
+    <div className="zs-surface zs-surface--narrow">
+      <header className="zs-surface__head">
+        <p className="zs-surface__eyebrow">Settings</p>
+        <h1 className="zs-surface__title">
+          Configure <em>how the mentor sees you</em>.
+        </h1>
+      </header>
+
+      <ProfileLinksForm />
+
+      <InviteCofounderSection />
+
+      <section className="zs-card">
+        <div>
+          <h2 className="zs-card__title">Privacy</h2>
+          <p className="zs-card__subtitle">
             Your conversations are processed by Anthropic and stored encrypted.
             See our{" "}
-            <a href="/privacy" className="underline">
+            <a
+              href="/privacy"
+              style={{
+                color: "var(--color-accent)",
+                textDecoration: "underline",
+              }}
+            >
               privacy policy
             </a>
             .
           </p>
         </div>
-        <div className="rounded-lg border border-white/10 p-4">
-          <h2 className="mb-2 font-medium">Account</h2>
-          <SignOutButton>Sign out</SignOutButton>
-        </div>
-        <HardResetSection />
       </section>
+
+      <section className="zs-card">
+        <div>
+          <h2 className="zs-card__title">Account</h2>
+          <p className="zs-card__subtitle">
+            Signed in via Clerk. Sign out ends your session on this device.
+          </p>
+        </div>
+        <SignOutButton>
+          <button
+            type="button"
+            className="zs-button"
+            data-variant="ghost"
+            style={{ alignSelf: "flex-start" }}
+          >
+            Sign out
+          </button>
+        </SignOutButton>
+      </section>
+
+      <HardResetSection />
     </div>
   );
 }

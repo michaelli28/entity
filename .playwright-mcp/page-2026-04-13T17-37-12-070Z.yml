@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - alert [ref=e6]
+  - generic [ref=e140]:
+    - heading "Tell me about you and your startup" [level=1] [ref=e145]
+    - generic [ref=e146]:
+      - generic [ref=e147]:
+        - text: Your name
+        - textbox [ref=e148]
+      - generic [ref=e149]:
+        - text: Company name
+        - textbox [ref=e150]
+      - generic [ref=e151]:
+        - text: One-liner (what you do in one sentence)
+        - textbox [ref=e152]
+      - generic [ref=e153]:
+        - text: Stage
+        - combobox [ref=e154]:
+          - option "Idea" [selected]
+          - option "Pre-seed"
+          - option "Seed"
+          - option "Series A"
+          - option "Series B+"
+      - generic [ref=e155]:
+        - text: What would make this a 10/10 for you?
+        - combobox [ref=e156]:
+          - option "Better investor intros" [selected]
+          - option "Better coaching on my pitch"
+          - option "Signal scoring / readiness assessment"
+          - option "Peer founder network"
+          - option "Other"
+      - button "Continue" [ref=e157] [cursor=pointer]: Continue

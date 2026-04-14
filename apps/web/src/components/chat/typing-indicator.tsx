@@ -1,13 +1,16 @@
 export function TypingIndicator() {
   return (
-    <div className="flex gap-1 px-4 py-2">
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          className="bg-primary h-2 w-2 animate-pulse rounded-full"
-          style={{ animationDelay: `${i * 150}ms` }}
-        />
-      ))}
+    <div
+      className="zs-chat-msg"
+      data-role="assistant"
+      aria-live="polite"
+      aria-label="Mentor is thinking"
+    >
+      <span className="zs-chat-msg__role">Mentor</span>
+      <span className="zs-typing">
+        <span className="zs-typing__label">Thinking</span>
+        <span className="zs-typing__cursor" aria-hidden="true" />
+      </span>
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import "@/app/(dashboard)/scores.css";
+
 import { useState } from "react";
 
 import { useLatestScores } from "@/lib/hooks/use-scores";
@@ -7,63 +9,103 @@ import { MentorSummarySection } from "./mentor-summary";
 import type { CategoryKey, MentorSummaryData } from "./mentor-summary-types";
 import { ScoreRadar } from "./score-radar";
 
+const CATEGORY_LABELS: Record<string, string> = {
+  founder: "Founder",
+  market: "Market",
+  problem: "Problem",
+  competition: "Competition",
+  product: "Product",
+  traction: "Traction",
+  pricing: "Pricing",
+  team: "Team",
+};
+
 export function ScoresView() {
   const { data, isLoading, error } = useLatestScores();
   const [summary, setSummary] = useState<MentorSummaryData | null>(null);
 
-  if (isLoading) return <div className="text-white/60">Loading scores…</div>;
-  if (error) return <div className="text-red-400">Failed to load scores.</div>;
+  if (isLoading) {
+    return (
+      <div className="zs-scores">
+        <p className="zs-scores__eyebrow">Loading…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="zs-scores">
+        <p className="zs-summary__error">Failed to load scores.</p>
+      </div>
+    );
+  }
+
   if (!data) return null;
 
   const rationales = summary?.category_rationales ?? {};
 
   return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-semibold">Signal scores</h1>
-        <p className="mt-1 text-sm text-white/60">
-          How your story reads across the 8 categories investors look for.
+    <div className="zs-scores">
+      <header className="zs-scores__head">
+        <p className="zs-scores__eyebrow">Signal scores</p>
+        <h1 className="zs-scores__title">
+          How you <em>read</em> to investors.
+        </h1>
+        <p className="zs-scores__subtitle">
+          Eight categories, one overall read. Scored off every mentor session
+          and any decks you&rsquo;ve shared.
         </p>
       </header>
 
       {!data.present ? (
-        <div className="rounded-xl border border-dashed border-white/10 p-6 text-center">
-          <p className="text-white/70">
-            No score computed yet. Complete a mentor session or upload your
-            deck to generate your first scoring pass.
+        <div className="zs-empty">
+          <span className="zs-empty__label">Nothing to score yet</span>
+          <p className="zs-empty__text">
+            Finish one mentor session — or drop in a deck — and we&rsquo;ll
+            generate your first read across the eight categories.
           </p>
         </div>
       ) : (
-        <section className="rounded-xl border border-white/10 bg-neutral-900/30 p-6">
-          <div className="mb-4 flex items-baseline justify-between">
-            <div>
-              <div className="text-sm text-white/50">Overall</div>
-              <div className="text-4xl font-semibold tabular-nums">
+        <section className="zs-panel">
+          <div className="zs-overall">
+            <div className="zs-overall__stat">
+              <span className="zs-overall__label">Overall</span>
+              <div className="zs-overall__value">
                 {data.overall_score ?? "—"}
-                <span className="ml-1 text-base text-white/40">/100</span>
+                <span className="zs-overall__suffix">/ 100</span>
               </div>
+              {data.computed_at && (
+                <span className="zs-overall__meta">
+                  Updated {new Date(data.computed_at).toLocaleString()}
+                </span>
+              )}
             </div>
-            {data.computed_at && (
-              <div className="text-xs text-white/40">
-                Updated {new Date(data.computed_at).toLocaleString()}
-              </div>
-            )}
+            <div className="zs-overall__chart">
+              <ScoreRadar scores={data.category_scores} />
+            </div>
           </div>
-          <ScoreRadar scores={data.category_scores} />
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {Object.entries(data.category_scores).map(([k, v]) => (
-              <CategoryCard
-                key={k}
-                name={k}
-                score={v}
-                rationale={rationales[k as CategoryKey]}
-              />
-            ))}
+
+          <div style={{ marginTop: "1.75rem" }}>
+            <div className="zs-cats">
+              {Object.entries(data.category_scores).map(([k, v]) => (
+                <CategoryCard
+                  key={k}
+                  name={CATEGORY_LABELS[k] ?? k}
+                  score={v}
+                  rationale={rationales[k as CategoryKey]}
+                />
+              ))}
+            </div>
           </div>
+
           {!summary && (
-            <p className="mt-4 text-xs text-white/40">
-              Generate a mentor summary below to see why you were scored the
-              way you were in each category.
+            <p
+              className="zs-overall__meta"
+              style={{ marginTop: "1.25rem", textTransform: "none", letterSpacing: 0 }}
+            >
+              <span style={{ color: "var(--color-text-muted)", fontFamily: "var(--font-sans)", fontSize: "0.8125rem" }}>
+                Generate a mentor summary below to see the reasoning behind each score.
+              </span>
             </p>
           )}
         </section>
@@ -83,32 +125,37 @@ interface CategoryCardProps {
 function CategoryCard({ name, score, rationale }: CategoryCardProps) {
   const [expanded, setExpanded] = useState(false);
   const hasRationale = Boolean(rationale && rationale.trim().length > 0);
+  const isLong = Boolean(rationale && rationale.length > 160);
+  const pct = Math.max(0, Math.min(100, score));
 
   return (
-    <div className="rounded-lg border border-white/10 bg-neutral-900/60 p-3">
-      <div className="flex items-baseline justify-between gap-2">
-        <div className="text-xs uppercase tracking-wide text-white/40">
-          {name}
-        </div>
-        <div className="text-xl font-semibold tabular-nums">
+    <div className="zs-cat">
+      <div className="zs-cat__row">
+        <span className="zs-cat__name">{name}</span>
+        <span className="zs-cat__score">
           {score}
-          <span className="ml-1 text-xs text-white/40">/100</span>
-        </div>
+          <span className="zs-cat__score-suffix">/ 100</span>
+        </span>
+      </div>
+      <div className="zs-cat__bar" aria-hidden="true">
+        <div
+          className="zs-cat__bar-fill"
+          style={{ "--zs-progress": pct / 100 } as React.CSSProperties}
+        />
       </div>
       {hasRationale && rationale && (
         <>
           <p
-            className={`mt-2 text-xs leading-relaxed text-white/70 ${
-              expanded ? "" : "line-clamp-3"
-            }`}
+            className="zs-cat__rationale"
+            data-clamped={expanded ? undefined : true}
           >
             {rationale}
           </p>
-          {rationale.length > 160 && (
+          {isLong && (
             <button
               type="button"
+              className="zs-cat__more"
               onClick={() => setExpanded((e) => !e)}
-              className="mt-1 text-[11px] font-medium text-sky-300/80 hover:text-sky-200"
             >
               {expanded ? "Show less" : "Show more"}
             </button>

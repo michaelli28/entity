@@ -5,7 +5,6 @@ import {
   CaretRight,
   ChartPieSlice,
   GearSix,
-  House,
   IdentificationCard,
   Sparkle,
 } from "@phosphor-icons/react";
@@ -27,76 +26,67 @@ export function Sidebar() {
   ).length;
 
   return (
-    <aside
-      className={`bg-[var(--color-bg)] flex flex-col border-r border-white/10 transition-[width] ${
-        collapsed ? "w-16" : "w-60"
-      }`}
-    >
-      <div className="flex items-center justify-between p-4">
-        {!collapsed && (
-          <Link
-            href="/dashboard"
-            className="font-semibold text-white hover:text-white/80"
-          >
-            ZStar
-          </Link>
-        )}
-        <div className="flex items-center gap-1">
-          <Link
-            href="/dashboard"
-            aria-label="Go to dashboard"
-            className="rounded p-1 text-white/60 hover:bg-white/5 hover:text-white"
-          >
-            <House weight="duotone" size={18} />
-          </Link>
-          <button
-            type="button"
-            onClick={() => setCollapsed((c) => !c)}
-            className="rounded p-1 text-white/60 hover:bg-white/5 hover:text-white"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {collapsed ? (
-              <CaretRight weight="duotone" />
-            ) : (
-              <CaretLeft weight="duotone" />
-            )}
-          </button>
-        </div>
+    <aside className="zs-sidebar" data-collapsed={collapsed || undefined}>
+      <div className="zs-sidebar__head">
+        <Link
+          href="/dashboard"
+          className="zs-sidebar__mark"
+          aria-label="ZStar — dashboard"
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+        <Link
+          href="/dashboard"
+          className="zs-wordmark"
+          aria-label="ZStar — dashboard"
+        >
+          ZStar
+        </Link>
+        <button
+          type="button"
+          onClick={() => setCollapsed((c) => !c)}
+          className="zs-icon-btn"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <CaretRight size={16} /> : <CaretLeft size={16} />}
+        </button>
       </div>
-      <nav className="flex-1 space-y-1 p-2">
+
+      <nav className="zs-sidebar__nav" aria-label="Primary">
+        <p className="zs-eyebrow">Workspace</p>
         <NavItem
           href="/dashboard/sessions"
-          icon={<Sparkle weight="duotone" size={20} />}
+          icon={<Sparkle weight="duotone" size={18} />}
           label="Sessions"
           collapsed={collapsed}
           badge={core.length > 0 ? `${doneCount}/${core.length}` : undefined}
         />
         <NavItem
           href="/dashboard/scores"
-          icon={<ChartPieSlice weight="duotone" size={20} />}
+          icon={<ChartPieSlice weight="duotone" size={18} />}
           label="Scores"
           collapsed={collapsed}
         />
         <NavItem
           href="/dashboard/profile"
-          icon={<IdentificationCard weight="duotone" size={20} />}
+          icon={<IdentificationCard weight="duotone" size={18} />}
           label="Profile"
           collapsed={collapsed}
         />
         <NavItem
           href="/dashboard/settings"
-          icon={<GearSix weight="duotone" size={20} />}
+          icon={<GearSix weight="duotone" size={18} />}
           label="Settings"
           collapsed={collapsed}
         />
-        {!collapsed && (
-          <div className="px-1 pt-2">
-            <SeedDemoButton />
-          </div>
-        )}
+        <div className="zs-sidebar__seed">
+          <SeedDemoButton />
+        </div>
       </nav>
-      <div className="border-t border-white/10 p-3">
+
+      <div className="zs-sidebar__foot">
         <UserButton afterSignOutUrl="/sign-in" />
+        <span className="zs-sidebar__foot-label">Account</span>
       </div>
     </aside>
   );

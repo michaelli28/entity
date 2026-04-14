@@ -10,29 +10,30 @@ interface MessageBubbleProps {
   citations?: Citation[];
 }
 
-export function MessageBubble({ role, content, citations }: MessageBubbleProps) {
-  const isUser = role === "user";
+export function MessageBubble({
+  role,
+  content,
+  citations,
+}: MessageBubbleProps) {
   const showCitations =
-    !isUser && Array.isArray(citations) && citations.length > 0;
+    role === "assistant" && Array.isArray(citations) && citations.length > 0;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.25 }}
-      className={`flex ${isUser ? "justify-end" : "justify-start"}`}
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
+      className="zs-chat-msg"
+      data-role={role}
     >
-      <div
-        className={`max-w-[75%] rounded-2xl px-4 py-2 ${
-          isUser
-            ? "bg-primary text-primary-foreground"
-            : "bg-[var(--color-bg)] border border-white/10"
-        }`}
-      >
-        <div className="whitespace-pre-wrap">{content}</div>
-        {showCitations && citations && (
+      <span className="zs-chat-msg__role">
+        {role === "user" ? "You" : "Mentor"}
+      </span>
+      <div className="zs-chat-msg__body">{content}</div>
+      {showCitations && citations && (
+        <div className="zs-chat-msg__cites">
           <CitationChips citations={citations} compact />
-        )}
-      </div>
+        </div>
+      )}
     </motion.div>
   );
 }

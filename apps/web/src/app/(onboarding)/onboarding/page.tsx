@@ -2,8 +2,6 @@
 import Link from "next/link";
 import { useEffect } from "react";
 
-import { ShimmerButton } from "@zstar/ui";
-
 import { StepIndicator } from "@/components/onboarding/step-indicator";
 import { WizardCard } from "@/components/onboarding/wizard-card";
 import { posthog } from "@/lib/posthog";
@@ -16,14 +14,35 @@ export default function WelcomeStep() {
   return (
     <WizardCard>
       <StepIndicator step={1} />
-      <h1 className="mb-3 text-3xl font-semibold text-white">Welcome to ZStar</h1>
-      <p className="mb-8 text-white/70">
-        I&apos;m your AI mentor. I&apos;ll help you sharpen your fundraising
-        narrative, identify gaps investors will push on, and build a clearer
-        picture of where your startup stands. Two minutes to set up.
+      <p className="zs-onboard-eyebrow">Welcome</p>
+      <h1 className="zs-onboard-headline">
+        A peer-reviewer for the next <em>hour</em> of your day.
+      </h1>
+      <p className="zs-onboard-lede">
+        I&rsquo;m your AI mentor. I&rsquo;ll sharpen your fundraising narrative,
+        surface the gaps investors will push on, and help you leave every
+        session clearer about what to do next. Two minutes to set up.
       </p>
-      <Link href="/onboarding/profile">
-        <ShimmerButton className="w-full">Let&apos;s go</ShimmerButton>
+      <Link
+        href="/onboarding/profile"
+        className="zs-btn"
+        data-variant="primary"
+      >
+        Let&rsquo;s go
+        <svg
+          className="zs-btn__arrow"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M3.5 8h9m0 0L8.5 4m4 4l-4 4"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </Link>
     </WizardCard>
   );

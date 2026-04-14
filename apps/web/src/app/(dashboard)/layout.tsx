@@ -1,5 +1,10 @@
 import { TheatricsProvider } from "@/lib/theatrics/tier-context";
 
+import "./dashboard-shell.css";
+import "./surfaces.css";
+import "./chat.css";
+import "./scores.css";
+
 export default function DashboardLayout({
   children,
 }: {

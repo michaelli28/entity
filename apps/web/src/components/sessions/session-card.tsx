@@ -19,7 +19,12 @@ const SESSION_TYPE_TO_SLUG: Record<string, string> = {
   ask: "ask",
 };
 
-export function SessionCard({ blueprint, session, recommended, hrefOverride }: Props) {
+export function SessionCard({
+  blueprint,
+  session,
+  recommended,
+  hrefOverride,
+}: Props) {
   const slug = SESSION_TYPE_TO_SLUG[blueprint.key];
   const href =
     hrefOverride ??
@@ -27,24 +32,29 @@ export function SessionCard({ blueprint, session, recommended, hrefOverride }: P
       ? `/dashboard/chat/${slug}?session=${session.id}`
       : `/dashboard/chat/${slug}`);
 
+  const completed = Boolean(session?.completed_at);
+  const statusLabel = completed
+    ? "Completed"
+    : session?.started_at
+      ? "In progress"
+      : "Not started";
+
   return (
     <Link
       href={href}
-      className={`block rounded-xl p-5 border transition-colors ${
-        recommended
-          ? "border-emerald-500/50 bg-emerald-500/5"
-          : "border-neutral-800 bg-neutral-900/60 hover:bg-neutral-900"
-      }`}
+      className="zs-session-card"
+      data-recommended={recommended || undefined}
     >
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold">{blueprint.title}</h3>
+      <div className="zs-session-card__head">
+        <div className="zs-session-card__title-group">
+          <div className="zs-session-card__eyebrow-row">
+            <span className="zs-session-card__eyebrow">{statusLabel}</span>
             {recommended && (
-              <span className="text-xs text-emerald-400">Recommended</span>
+              <span className="zs-session-card__recommended">Recommended</span>
             )}
           </div>
-          <p className="text-sm text-neutral-400 mt-1">{blueprint.subtitle}</p>
+          <h3 className="zs-session-card__title">{blueprint.title}</h3>
+          <p className="zs-session-card__subtitle">{blueprint.subtitle}</p>
         </div>
         <SessionProgressRing
           startedAt={session?.started_at ?? null}
@@ -52,6 +62,9 @@ export function SessionCard({ blueprint, session, recommended, hrefOverride }: P
           coverageScore={session?.coverage_score ?? 0}
         />
       </div>
+      <span className="zs-session-card__cta" aria-hidden>
+        {completed ? "Review" : session ? "Continue" : "Begin"} →
+      </span>
     </Link>
   );
 }

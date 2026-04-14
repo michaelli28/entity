@@ -3,8 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { ShimmerButton } from "@zstar/ui";
-
 import { StepIndicator } from "@/components/onboarding/step-indicator";
 import { WizardCard } from "@/components/onboarding/wizard-card";
 import { posthog } from "@/lib/posthog";
@@ -24,39 +22,57 @@ export default function ReadyStep() {
   return (
     <WizardCard>
       <StepIndicator step={3} />
-      <h1 className="mb-3 text-2xl font-semibold text-white">Before we start</h1>
-      <p className="mb-4 text-sm text-white/70">
+      <p className="zs-onboard-eyebrow">Before we start</p>
+      <h1 className="zs-onboard-headline">
+        The <em>ground rules</em>.
+      </h1>
+      <p className="zs-onboard-fineprint">
         Your conversations are processed by Anthropic (Claude) under their
-        commercial terms and stored encrypted. We&apos;ve requested Zero Data
-        Retention. Don&apos;t paste social security numbers, credit cards, or
-        other people&apos;s personal information. ZStar provides general startup
-        guidance — not investment, legal, or tax advice.
+        commercial terms and stored encrypted. We&rsquo;ve requested Zero Data
+        Retention. Don&rsquo;t paste social security numbers, credit cards, or
+        other people&rsquo;s personal information. ZStar provides general
+        startup guidance — not investment, legal, or tax advice.
       </p>
-      <p className="mb-6 text-xs text-white/50">
-        <Link href="/privacy" className="underline">
-          Privacy policy
-        </Link>{" "}
-        ·{" "}
-        <Link href="/terms" className="underline">
-          Terms
-        </Link>
+      <p className="zs-onboard-fineprint">
+        <Link href="/privacy">Privacy policy</Link>
+        {"  ·  "}
+        <Link href="/terms">Terms</Link>
       </p>
-      <label className="mb-6 flex cursor-pointer items-start gap-2">
+      <label className="zs-check">
         <input
           type="checkbox"
           checked={ack}
           onChange={(e) => setAck(e.target.checked)}
-          className="mt-1"
         />
-        <span className="text-sm text-white/80">I understand</span>
+        <span className="zs-check__label">
+          I understand and agree to the terms above.
+        </span>
       </label>
-      <ShimmerButton
+      <button
+        type="button"
+        className="zs-btn"
+        data-variant="primary"
         disabled={!ack || loading}
         onClick={start}
-        className="w-full"
       >
-        {loading ? "Starting..." : "Start my first conversation"}
-      </ShimmerButton>
+        {loading ? "Starting…" : "Start my first conversation"}
+        {!loading && (
+          <svg
+            className="zs-btn__arrow"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3.5 8h9m0 0L8.5 4m4 4l-4 4"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
+      </button>
     </WizardCard>
   );
 }
