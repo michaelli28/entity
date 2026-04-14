@@ -170,7 +170,13 @@ async def hard_reset_my_account(
                 "DELETE FROM mentor_sessions WHERE founder_id = $1", fid
             )
             await conn.execute(
-                "DELETE FROM signal_scores WHERE founder_id = $1", fid
+                """
+                DELETE FROM signal_scores
+                WHERE startup_profile_id IN (
+                    SELECT id FROM startup_profiles WHERE founder_id = $1
+                )
+                """,
+                fid,
             )
             await conn.execute(
                 "DELETE FROM cold_reads WHERE founder_id = $1", fid

@@ -16,7 +16,7 @@ export default function SignUpPage() {
 
       <SignUp
         appearance={clerkAuthAppearance}
-        fallbackRedirectUrl="/onboarding"
+        forceRedirectUrl="/onboarding"
       />
 
       <p className="zs-auth-widget__switch">

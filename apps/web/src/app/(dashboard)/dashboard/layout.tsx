@@ -3,24 +3,27 @@ import { redirect } from "next/navigation";
 
 import { Sidebar } from "@/components/sidebar";
 
+type OnboardCheck = "onboarded" | "needs-onboarding" | "unknown";
+
 async function checkOnboarded(
   token: string | null | undefined,
-): Promise<boolean> {
-  if (!token) return false;
+): Promise<OnboardCheck> {
+  if (!token) return "unknown";
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!apiUrl) return false;
+  if (!apiUrl) return "unknown";
   try {
     const res = await fetch(`${apiUrl}/api/founders/me`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
-    if (!res.ok) return false;
+    if (res.status === 404) return "needs-onboarding";
+    if (!res.ok) return "unknown";
     const body = (await res.json()) as {
       onboarding_completed_at?: string | null;
     };
-    return Boolean(body.onboarding_completed_at);
+    return body.onboarding_completed_at ? "onboarded" : "needs-onboarding";
   } catch {
-    return false;
+    return "unknown";
   }
 }
 
@@ -31,9 +34,14 @@ export default async function DashboardLayout({
 }) {
   const { userId, getToken } = await auth();
   if (!userId) redirect("/sign-in");
-  const token = await getToken({ template: "backend" });
-  const onboarded = await checkOnboarded(token);
-  if (!onboarded) redirect("/onboarding");
+  let token: string | null = null;
+  try {
+    token = await getToken({ template: "backend" });
+  } catch {
+    token = null;
+  }
+  const status = await checkOnboarded(token);
+  if (status === "needs-onboarding") redirect("/onboarding");
   return (
     <div className="bg-[var(--color-bg)] flex min-h-screen">
       <Sidebar />
