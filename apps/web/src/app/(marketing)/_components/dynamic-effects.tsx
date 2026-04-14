@@ -72,6 +72,23 @@ export function DynamicEffects() {
     const pinTrack = document.querySelector<HTMLElement>(".mkt-pin-track");
     let rafScroll: number | null = null;
 
+    // Cache layout measurements so the scroll RAF never forces a
+    // synchronous reflow. offsetHeight + getBoundingClientRect() on every
+    // scroll frame were the root cause of scroll-up jank near the pinned
+    // icosahedron — the layout read on each frame stalls the compositor.
+    let trackHeight = pinTrack?.offsetHeight ?? 0;
+    let trackTopAbs =
+      pinTrack ? pinTrack.getBoundingClientRect().top + window.scrollY : 0;
+    let stageHeight = window.innerHeight;
+    let lastOpacity = -1;
+
+    const measure = () => {
+      if (!pinTrack) return;
+      trackHeight = pinTrack.offsetHeight;
+      trackTopAbs = pinTrack.getBoundingClientRect().top + window.scrollY;
+      stageHeight = window.innerHeight;
+    };
+
     const onScroll = () => {
       if (rafScroll !== null) return;
       rafScroll = requestAnimationFrame(() => {
@@ -85,24 +102,30 @@ export function DynamicEffects() {
         }
 
         // Pin-stage release fade: opacity 1 for the first 70% of the pin
-        // track scroll progress, then linearly fades to 0 by the end. The
-        // sticky element naturally unsticks at the same time, so by the time
-        // it scrolls away it is already invisible.
-        if (pinStage && pinTrack) {
-          const trackRect = pinTrack.getBoundingClientRect();
-          const trackHeight = pinTrack.offsetHeight;
-          const stageHeight = window.innerHeight;
+        // track scroll progress, then linearly fades to 0 by the end.
+        // Uses cached layout (trackHeight / trackTopAbs / stageHeight) to
+        // avoid per-frame reflow; only style writes happen here.
+        if (pinStage) {
           const pinRange = Math.max(1, trackHeight - stageHeight);
-          const scrolledIntoTrack = Math.max(0, -trackRect.top);
+          const scrolledIntoTrack = Math.max(0, y - trackTopAbs);
           const progress = Math.min(1, scrolledIntoTrack / pinRange);
           const opacity =
             progress <= 0.7 ? 1 : Math.max(0, 1 - (progress - 0.7) / 0.3);
-          pinStage.style.setProperty("--pin-opacity", String(opacity));
+          // Skip style writes when opacity hasn't meaningfully changed.
+          if (Math.abs(opacity - lastOpacity) > 0.001) {
+            lastOpacity = opacity;
+            pinStage.style.setProperty("--pin-opacity", String(opacity));
+          }
         }
       });
     };
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+    measure();
     onScroll();
 
     // ── Section-aware nav ──────────────────────────────────────────────
@@ -144,7 +167,7 @@ export function DynamicEffects() {
     return () => {
       magnetic.forEach((m) => m.cleanup());
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
       if (rafScroll !== null) cancelAnimationFrame(rafScroll);
       sectionIO.disconnect();
       setActive(null);

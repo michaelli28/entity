@@ -253,13 +253,16 @@ export function AnomalousScene({ className }: AnomalousSceneProps) {
     document.addEventListener("visibilitychange", onVisibility);
 
     // ── IntersectionObserver: pause when scrolled off-screen ───────────
+    // rootMargin wakes the RAF ~40% of viewport before the canvas re-enters
+    // view, so the first rendered frame on scroll-up happens off-screen
+    // rather than stuttering visibly at the transition boundary.
     const io = new IntersectionObserver(
       ([entry]) => {
         inView = entry.isIntersecting;
         if (inView && visible) start();
         else stop();
       },
-      { threshold: 0.05 },
+      { threshold: 0, rootMargin: "40% 0px 40% 0px" },
     );
     io.observe(mount);
 
