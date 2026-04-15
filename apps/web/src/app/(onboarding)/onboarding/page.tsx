@@ -14,23 +14,23 @@ export default function WelcomeStep() {
   return (
     <WizardCard>
       <StepIndicator step={1} />
-      <p className="zs-onboard-eyebrow">Welcome</p>
-      <h1 className="zs-onboard-headline">
+      <p className="en-onboard-eyebrow">Welcome</p>
+      <h1 className="en-onboard-headline">
         A peer-reviewer for the next <em>hour</em> of your day.
       </h1>
-      <p className="zs-onboard-lede">
+      <p className="en-onboard-lede">
         I&rsquo;m your AI mentor. I&rsquo;ll sharpen your fundraising narrative,
         surface the gaps investors will push on, and help you leave every
         session clearer about what to do next. Two minutes to set up.
       </p>
       <Link
         href="/onboarding/profile"
-        className="zs-btn"
+        className="en-btn"
         data-variant="primary"
       >
         Let&rsquo;s go
         <svg
-          className="zs-btn__arrow"
+          className="en-btn__arrow"
           viewBox="0 0 16 16"
           fill="none"
           aria-hidden="true"

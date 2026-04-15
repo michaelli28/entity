@@ -2,21 +2,21 @@ import "../../../(dashboard)/surfaces.css";
 
 export default function ArtifactPreviewPage() {
   return (
-    <article className="zs-surface zs-surface--narrow">
-      <header className="zs-surface__head">
-        <p className="zs-surface__eyebrow">Cold read</p>
-        <h1 className="zs-surface__title">
+    <article className="en-surface en-surface--narrow">
+      <header className="en-surface__head">
+        <p className="en-surface__eyebrow">Cold read</p>
+        <h1 className="en-surface__title">
           Your mentor&rsquo;s first <em>read</em>.
         </h1>
-        <p className="zs-surface__subtitle">
+        <p className="en-surface__subtitle">
           What I heard, what investors will press on, and what you can&rsquo;t
           yet answer.
         </p>
       </header>
 
-      <section className="zs-prose">
+      <section className="en-prose">
         <div>
-          <p className="zs-prose__eyebrow">What I heard</p>
+          <p className="en-prose__eyebrow">What I heard</p>
           <p>
             You&rsquo;re building a tool that replaces weekly investor updates
             for seed-stage founders. Your wedge is saving 90 minutes per update
@@ -28,7 +28,7 @@ export default function ArtifactPreviewPage() {
         </div>
 
         <div>
-          <p className="zs-prose__eyebrow">What investors will push on</p>
+          <p className="en-prose__eyebrow">What investors will push on</p>
           <ul>
             <li>
               <span>
@@ -53,7 +53,7 @@ export default function ArtifactPreviewPage() {
         </div>
 
         <div>
-          <p className="zs-prose__eyebrow">Three questions you can&rsquo;t yet answer</p>
+          <p className="en-prose__eyebrow">Three questions you can&rsquo;t yet answer</p>
           <ul>
             <li>
               <span>
@@ -84,7 +84,7 @@ export default function ArtifactPreviewPage() {
             color: "var(--color-text-dim)",
           }}
         >
-          Share link · <code>zstar.ai/cold-read/happy-raven-01</code>
+          Share link · <code>entity.ai/cold-read/happy-raven-01</code>
         </p>
       </section>
     </article>

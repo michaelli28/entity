@@ -39,7 +39,7 @@ export function Hero({ isAuthed }: HeroProps) {
               transition={{ duration: 0.7, delay: 0.24, ease }}
               className="mkt-hero-sub"
             >
-              ZStar is a private thinking partner for founders. Talk through
+              Entity is a private thinking partner for founders. Talk through
               the knot in your head, surface the signal buried in it, and leave
               with the next hour's work decided. No dashboards to decorate.
               No advice-column theatre.

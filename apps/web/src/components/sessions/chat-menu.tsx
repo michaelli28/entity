@@ -34,7 +34,7 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
   };
 
   return (
-    <div className="zs-chat-menu" ref={ref}>
+    <div className="en-chat-menu" ref={ref}>
       <button
         type="button"
         aria-label="Chat options"
@@ -42,7 +42,7 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
         aria-expanded={open}
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
-        className="zs-chat-menu__toggle"
+        className="en-chat-menu__toggle"
       >
         <svg
           width="16"
@@ -57,11 +57,11 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
         </svg>
       </button>
       {open && (
-        <div role="menu" className="zs-chat-menu__panel">
+        <div role="menu" className="en-chat-menu__panel">
           <button
             type="button"
             role="menuitem"
-            className="zs-chat-menu__item"
+            className="en-chat-menu__item"
             onClick={() => run(onReset)}
           >
             Reset this chat
@@ -69,7 +69,7 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
           <button
             type="button"
             role="menuitem"
-            className="zs-chat-menu__item"
+            className="en-chat-menu__item"
             onClick={() => run(onPivot)}
           >
             I&rsquo;m pivoting…
@@ -78,7 +78,7 @@ export function ChatMenu({ onReset, onPivot, onDeleteAll, disabled }: Props) {
             type="button"
             role="menuitem"
             data-destructive
-            className="zs-chat-menu__item"
+            className="en-chat-menu__item"
             onClick={() => run(onDeleteAll)}
           >
             Delete all history

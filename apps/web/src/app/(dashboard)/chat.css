@@ -4,7 +4,7 @@
    recedes. Every pixel below earns its place.
    ======================================================================= */
 
-.zs-chat {
+.en-chat {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
    Fades to pure bg within 360px. No animation, no gradient text — just
    perceived depth behind the title. Mirrors the Dedalus lineage noted in
    .impeccable.md (atmospheric dark, one strong accent). */
-.zs-chat::before {
+.en-chat::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -33,7 +33,7 @@
   z-index: 0;
 }
 
-.zs-chat__inner {
+.en-chat__inner {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -48,7 +48,7 @@
 
 /* ---------- Header ---------- */
 
-.zs-chat__head {
+.en-chat__head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -57,14 +57,14 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.zs-chat__title-group {
+.en-chat__title-group {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   min-width: 0;
 }
 
-.zs-chat__eyebrow {
+.en-chat__eyebrow {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 500;
@@ -73,7 +73,7 @@
   color: var(--color-text-dim);
 }
 
-.zs-chat__title {
+.en-chat__title {
   margin: 0;
   font-family: var(--font-sans);
   font-size: 1.5rem;
@@ -84,13 +84,13 @@
   text-wrap: balance;
 }
 
-.zs-chat__title em {
+.en-chat__title em {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
 }
 
-.zs-chat__subtitle {
+.en-chat__subtitle {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.45;
@@ -100,12 +100,12 @@
 
 /* ---------- Chat menu (three-dots dropdown) ---------- */
 
-.zs-chat-menu {
+.en-chat-menu {
   position: relative;
   flex-shrink: 0;
 }
 
-.zs-chat-menu__toggle {
+.en-chat-menu__toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -122,23 +122,23 @@
     background 140ms ease-out;
 }
 
-.zs-chat-menu__toggle:hover:not([disabled]) {
+.en-chat-menu__toggle:hover:not([disabled]) {
   border-color: var(--color-border-interactive);
   color: var(--color-text);
   background: var(--color-surface);
 }
 
-.zs-chat-menu__toggle[disabled] {
+.en-chat-menu__toggle[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.zs-chat-menu__toggle:focus-visible {
+.en-chat-menu__toggle:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
-.zs-chat-menu__panel {
+.en-chat-menu__panel {
   position: absolute;
   right: 0;
   top: calc(100% + 0.5rem);
@@ -154,7 +154,7 @@
   gap: 1px;
 }
 
-.zs-chat-menu__item {
+.en-chat-menu__item {
   display: block;
   width: 100%;
   padding: 0.5rem 0.75rem;
@@ -169,21 +169,21 @@
   transition: background 120ms ease-out, color 120ms ease-out;
 }
 
-.zs-chat-menu__item:hover {
+.en-chat-menu__item:hover {
   background: var(--color-surface);
 }
 
-.zs-chat-menu__item[data-destructive] {
+.en-chat-menu__item[data-destructive] {
   color: var(--color-signal-neg);
 }
 
-.zs-chat-menu__item[data-destructive]:hover {
+.en-chat-menu__item[data-destructive]:hover {
   background: color-mix(in oklab, var(--color-signal-neg) 12%, transparent);
 }
 
 /* ---------- Session progress ---------- */
 
-.zs-chat-progress {
+.en-chat-progress {
   display: flex;
   flex-direction: column;
   gap: 0.625rem;
@@ -191,14 +191,14 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.zs-chat-progress__row {
+.en-chat-progress__row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
 }
 
-.zs-chat-progress__label {
+.en-chat-progress__label {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 500;
@@ -207,7 +207,7 @@
   color: var(--color-text-dim);
 }
 
-.zs-chat-progress__count {
+.en-chat-progress__count {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
@@ -215,30 +215,30 @@
   letter-spacing: 0.04em;
 }
 
-.zs-chat-progress__count-pct {
+.en-chat-progress__count-pct {
   color: var(--color-accent);
   margin-left: 0.5rem;
 }
 
-.zs-chat-progress__track {
+.en-chat-progress__track {
   position: relative;
   height: 1px;
   background: var(--color-border);
   overflow: hidden;
 }
 
-.zs-chat-progress__fill {
+.en-chat-progress__fill {
   position: absolute;
   inset: 0 0 0 0;
   transform-origin: left center;
-  transform: scaleX(var(--zs-progress, 0));
+  transform: scaleX(var(--en-progress, 0));
   background: var(--color-signal-pos);
   box-shadow: 0 0 8px oklch(0.74 0.14 160 / 0.4);
   transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
 }
 
-.zs-chat-progress__signals {
+.en-chat-progress__signals {
   display: flex;
   flex-wrap: wrap;
   gap: 0.375rem 0.75rem;
@@ -247,7 +247,7 @@
   margin: 0.125rem 0 0;
 }
 
-.zs-chat-progress__signal {
+.en-chat-progress__signal {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -258,11 +258,11 @@
   color: var(--color-text-dim);
 }
 
-.zs-chat-progress__signal[data-covered] {
+.en-chat-progress__signal[data-covered] {
   color: var(--color-signal-pos);
 }
 
-.zs-chat-progress__signal-dot {
+.en-chat-progress__signal-dot {
   display: inline-block;
   width: 6px;
   height: 6px;
@@ -272,14 +272,14 @@
   flex-shrink: 0;
 }
 
-.zs-chat-progress__signal[data-covered] .zs-chat-progress__signal-dot {
+.en-chat-progress__signal[data-covered] .en-chat-progress__signal-dot {
   background: var(--color-signal-pos);
   border-color: var(--color-signal-pos);
 }
 
 /* ---------- Message list ---------- */
 
-.zs-chat-list {
+.en-chat-list {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -309,27 +309,27 @@
 
 /* Message rhythm — tighter between same-role consecutive messages, looser
    between role-changes. Creates breathing in a long thread. */
-.zs-chat-msg + .zs-chat-msg {
+.en-chat-msg + .en-chat-msg {
   margin-top: -0.125rem;
 }
 
-.zs-chat-msg[data-role="assistant"] + .zs-chat-msg[data-role="user"],
-.zs-chat-msg[data-role="user"] + .zs-chat-msg[data-role="assistant"] {
+.en-chat-msg[data-role="assistant"] + .en-chat-msg[data-role="user"],
+.en-chat-msg[data-role="user"] + .en-chat-msg[data-role="assistant"] {
   margin-top: 0.625rem;
 }
 
-.zs-chat-msg {
+.en-chat-msg {
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
   max-width: 100%;
 }
 
-.zs-chat-msg[data-role="user"] {
+.en-chat-msg[data-role="user"] {
   align-items: flex-end;
 }
 
-.zs-chat-msg__role {
+.en-chat-msg__role {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   font-weight: 500;
@@ -338,12 +338,12 @@
   color: var(--color-text-dim);
 }
 
-.zs-chat-msg[data-role="user"] .zs-chat-msg__role {
+.en-chat-msg[data-role="user"] .en-chat-msg__role {
   color: var(--color-accent);
 }
 
 /* Assistant bubble: editorial, no pill, generous line-height */
-.zs-chat-msg[data-role="assistant"] .zs-chat-msg__body {
+.en-chat-msg[data-role="assistant"] .en-chat-msg__body {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.62;
@@ -359,8 +359,8 @@
 /* Expressive opening — the very first mentor reply gets a display-font
    drop cap. One Bodoni Moda moment per session, reserved for the hero
    arrival. Not a gradient, not an orb — a single, confident letter. */
-.zs-chat-list > .zs-chat-msg[data-role="assistant"]:first-of-type
-  .zs-chat-msg__body::first-letter {
+.en-chat-list > .en-chat-msg[data-role="assistant"]:first-of-type
+  .en-chat-msg__body::first-letter {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
@@ -375,7 +375,7 @@
 }
 
 /* User bubble: compact pill, right-aligned */
-.zs-chat-msg[data-role="user"] .zs-chat-msg__body {
+.en-chat-msg[data-role="user"] .en-chat-msg__body {
   background: color-mix(in oklab, var(--color-accent) 16%, transparent);
   color: var(--color-text);
   font-family: var(--font-sans);
@@ -389,13 +389,13 @@
   border: 1px solid color-mix(in oklab, var(--color-accent) 22%, transparent);
 }
 
-.zs-chat-msg__cites {
+.en-chat-msg__cites {
   margin-top: 0.25rem;
 }
 
 /* ---------- Typing indicator (typographic, no pulse orbs) ---------- */
 
-.zs-typing {
+.en-typing {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -407,32 +407,32 @@
   color: var(--color-text-dim);
 }
 
-.zs-typing__label {
+.en-typing__label {
   opacity: 0.7;
 }
 
-.zs-typing__cursor {
+.en-typing__cursor {
   display: inline-block;
   width: 7px;
   height: 14px;
   background: var(--color-accent);
-  animation: zs-caret 960ms steps(1, end) infinite;
+  animation: en-caret 960ms steps(1, end) infinite;
 }
 
-@keyframes zs-caret {
+@keyframes en-caret {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .zs-typing__cursor {
+  .en-typing__cursor {
     animation: none;
   }
 }
 
 /* ---------- Starter questions ---------- */
 
-.zs-starters {
+.en-starters {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.5rem;
@@ -440,12 +440,12 @@
 }
 
 @media (min-width: 560px) {
-  .zs-starters {
+  .en-starters {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-.zs-starters__heading {
+.en-starters__heading {
   grid-column: 1 / -1;
   font-family: var(--font-mono);
   font-size: 0.625rem;
@@ -456,7 +456,7 @@
   margin: 0 0 0.25rem;
 }
 
-.zs-starters__item {
+.en-starters__item {
   display: flex;
   gap: 0.75rem;
   padding: 0.75rem 0.875rem;
@@ -475,18 +475,18 @@
     transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.zs-starters__item:hover {
+.en-starters__item:hover {
   border-color: var(--color-accent);
   background: color-mix(in oklab, var(--color-accent) 8%, transparent);
   transform: translateY(-1px);
 }
 
-.zs-starters__item:focus-visible {
+.en-starters__item:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
-.zs-starters__num {
+.en-starters__num {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   letter-spacing: 0.08em;
@@ -498,7 +498,7 @@
 
 /* ---------- Completion banner ---------- */
 
-.zs-complete {
+.en-complete {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -509,7 +509,7 @@
   border-radius: 12px;
 }
 
-.zs-complete__title {
+.en-complete__title {
   font-family: var(--font-sans);
   font-size: 0.9375rem;
   font-weight: 500;
@@ -517,19 +517,19 @@
   margin: 0;
 }
 
-.zs-complete__text {
+.en-complete__text {
   margin: 0;
   font-size: 0.8125rem;
   line-height: 1.5;
   color: var(--color-text-muted);
 }
 
-.zs-complete__actions {
+.en-complete__actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.zs-btn-sm {
+.en-btn-sm {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -548,35 +548,35 @@
     color 140ms ease-out;
 }
 
-.zs-btn-sm[data-variant="primary"] {
+.en-btn-sm[data-variant="primary"] {
   background: var(--color-signal-pos);
   color: oklch(0.2 0.04 160);
   border-color: var(--color-signal-pos);
 }
 
-.zs-btn-sm[data-variant="primary"]:hover:not([disabled]) {
+.en-btn-sm[data-variant="primary"]:hover:not([disabled]) {
   background: oklch(0.78 0.14 160);
   border-color: oklch(0.78 0.14 160);
 }
 
-.zs-btn-sm[data-variant="ghost"] {
+.en-btn-sm[data-variant="ghost"] {
   border-color: var(--color-border-interactive);
   color: var(--color-text-muted);
 }
 
-.zs-btn-sm[data-variant="ghost"]:hover {
+.en-btn-sm[data-variant="ghost"]:hover {
   color: var(--color-text);
   border-color: var(--color-text);
 }
 
-.zs-btn-sm[disabled] {
+.en-btn-sm[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* ---------- Input bar ---------- */
 
-.zs-chat-input {
+.en-chat-input {
   position: sticky;
   bottom: 0;
   padding: 0.75rem 0 clamp(0.75rem, 2vw, 1.25rem);
@@ -589,7 +589,7 @@
   flex-shrink: 0;
 }
 
-.zs-chat-input__row {
+.en-chat-input__row {
   display: flex;
   align-items: flex-end;
   gap: 0.625rem;
@@ -600,12 +600,12 @@
   transition: border-color 160ms ease-out;
 }
 
-.zs-chat-input__row:focus-within {
+.en-chat-input__row:focus-within {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 14%, transparent);
 }
 
-.zs-chat-input__textarea {
+.en-chat-input__textarea {
   flex: 1;
   resize: none;
   background: transparent;
@@ -620,15 +620,15 @@
   max-height: 10rem;
 }
 
-.zs-chat-input__textarea::placeholder {
+.en-chat-input__textarea::placeholder {
   color: var(--color-text-dim);
 }
 
-.zs-chat-input__textarea:disabled {
+.en-chat-input__textarea:disabled {
   opacity: 0.5;
 }
 
-.zs-chat-input__send {
+.en-chat-input__send {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -648,37 +648,37 @@
     opacity 140ms ease-out;
 }
 
-.zs-chat-input__send > svg {
+.en-chat-input__send > svg {
   transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.zs-chat-input__send:hover:not([disabled]) {
+.en-chat-input__send:hover:not([disabled]) {
   background: var(--color-accent-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 18px -6px var(--color-accent-glow);
 }
 
-.zs-chat-input__send:hover:not([disabled]) > svg {
+.en-chat-input__send:hover:not([disabled]) > svg {
   transform: translateX(1.5px) translateY(-1px) rotate(-6deg);
 }
 
-.zs-chat-input__send:active:not([disabled]) > svg {
+.en-chat-input__send:active:not([disabled]) > svg {
   transform: translateX(4px) translateY(-3px) rotate(-14deg);
 }
 
-.zs-chat-input__send:focus-visible {
+.en-chat-input__send:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
-.zs-chat-input__send[disabled] {
+.en-chat-input__send[disabled] {
   background: var(--color-surface);
   color: var(--color-text-dim);
   border-color: var(--color-border);
   cursor: not-allowed;
 }
 
-.zs-chat-input__hint {
+.en-chat-input__hint {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -691,11 +691,11 @@
   color: var(--color-text-dim);
 }
 
-.zs-chat-input__hint-sep {
+.en-chat-input__hint-sep {
   opacity: 0.5;
 }
 
-.zs-chat-input__hint kbd {
+.en-chat-input__hint kbd {
   font-family: var(--font-mono);
   padding: 0.0625rem 0.375rem;
   background: var(--color-surface);
@@ -708,7 +708,7 @@
 
 /* ---------- Empty/loading shell ---------- */
 
-.zs-chat-pending {
+.en-chat-pending {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -720,7 +720,7 @@
   position: relative;
 }
 
-.zs-chat-pending::before {
+.en-chat-pending::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -733,7 +733,7 @@
   );
 }
 
-.zs-chat-pending__label {
+.en-chat-pending__label {
   position: relative;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -745,7 +745,7 @@
 /* Honest progress bar instead of a pulsing orb. Reveals a violet sweep
    left-to-right in a thin hairline — same treatment as session progress,
    no glow, no orb. */
-.zs-chat-pending__bar {
+.en-chat-pending__bar {
   position: relative;
   width: clamp(10rem, 24vw, 18rem);
   height: 1px;
@@ -754,7 +754,7 @@
   border-radius: 1px;
 }
 
-.zs-chat-pending__bar::after {
+.en-chat-pending__bar::after {
   content: "";
   position: absolute;
   inset: 0 0 0 0;
@@ -762,16 +762,16 @@
   background: var(--color-accent);
   box-shadow: 0 0 10px var(--color-accent-glow);
   transform: translateX(-100%);
-  animation: zs-pending-sweep 1500ms cubic-bezier(0.4, 0, 0.4, 1) infinite;
+  animation: en-pending-sweep 1500ms cubic-bezier(0.4, 0, 0.4, 1) infinite;
 }
 
-@keyframes zs-pending-sweep {
+@keyframes en-pending-sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(350%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .zs-chat-pending__bar::after {
+  .en-chat-pending__bar::after {
     animation: none;
     transform: translateX(0);
     width: 20%;
@@ -783,7 +783,7 @@
    appear inline under mentor messages; active chip reveals a paper-title
    card with snippet. Violet accent for active, hairline for inactive. */
 
-.zs-citation-chip {
+.en-citation-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -803,23 +803,23 @@
     border-color 140ms ease-out;
 }
 
-.zs-citation-chip:hover {
+.en-citation-chip:hover {
   color: var(--color-text);
   border-color: var(--color-border-interactive);
 }
 
-.zs-citation-chip[data-active] {
+.en-citation-chip[data-active] {
   color: var(--color-accent);
   background: color-mix(in oklab, var(--color-accent) 14%, transparent);
   border-color: color-mix(in oklab, var(--color-accent) 50%, transparent);
 }
 
-.zs-citation-chip:focus-visible {
+.en-citation-chip:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
-.zs-citation-card {
+.en-citation-card {
   margin-top: 0.5rem;
   padding: 0.625rem 0.75rem;
   border: 1px solid var(--color-border);
@@ -830,7 +830,7 @@
   line-height: 1.5;
 }
 
-.zs-citation-card__head {
+.en-citation-card__head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -838,13 +838,13 @@
   margin-bottom: 0.25rem;
 }
 
-.zs-citation-card__title {
+.en-citation-card__title {
   color: var(--color-text);
   font-weight: 500;
   font-size: 0.8125rem;
 }
 
-.zs-citation-card__section {
+.en-citation-card__section {
   font-family: var(--font-mono);
   font-size: 0.625rem;
   letter-spacing: 0.12em;
@@ -853,7 +853,7 @@
   flex-shrink: 0;
 }
 
-.zs-citation-card__snippet {
+.en-citation-card__snippet {
   color: var(--color-text-muted);
   margin: 0;
 }

@@ -26,34 +26,34 @@ export function Sidebar() {
   ).length;
 
   return (
-    <aside className="zs-sidebar" data-collapsed={collapsed || undefined}>
-      <div className="zs-sidebar__head">
+    <aside className="en-sidebar" data-collapsed={collapsed || undefined}>
+      <div className="en-sidebar__head">
         <Link
           href="/dashboard"
-          className="zs-sidebar__mark"
-          aria-label="ZStar — dashboard"
+          className="en-sidebar__mark"
+          aria-label="Entity — dashboard"
           aria-hidden="true"
           tabIndex={-1}
         />
         <Link
           href="/dashboard"
-          className="zs-wordmark"
-          aria-label="ZStar — dashboard"
+          className="en-wordmark"
+          aria-label="Entity — dashboard"
         >
-          ZStar
+          Entity
         </Link>
         <button
           type="button"
           onClick={() => setCollapsed((c) => !c)}
-          className="zs-icon-btn"
+          className="en-icon-btn"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? <CaretRight size={16} /> : <CaretLeft size={16} />}
         </button>
       </div>
 
-      <nav className="zs-sidebar__nav" aria-label="Primary">
-        <p className="zs-eyebrow">Workspace</p>
+      <nav className="en-sidebar__nav" aria-label="Primary">
+        <p className="en-eyebrow">Workspace</p>
         <NavItem
           href="/dashboard/sessions"
           icon={<Sparkle weight="duotone" size={18} />}
@@ -79,14 +79,14 @@ export function Sidebar() {
           label="Settings"
           collapsed={collapsed}
         />
-        <div className="zs-sidebar__seed">
+        <div className="en-sidebar__seed">
           <SeedDemoButton />
         </div>
       </nav>
 
-      <div className="zs-sidebar__foot">
+      <div className="en-sidebar__foot">
         <UserButton afterSignOutUrl="/sign-in" />
-        <span className="zs-sidebar__foot-label">Account</span>
+        <span className="en-sidebar__foot-label">Account</span>
       </div>
     </aside>
   );

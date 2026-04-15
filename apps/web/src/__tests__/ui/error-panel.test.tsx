@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
-import { ErrorPanel } from "@zstar/ui/surface/error-panel";
+import { ErrorPanel } from "@entity/ui/surface/error-panel";
 
 describe("ErrorPanel", () => {
   it("renders role=alert", () => {

@@ -1,5 +1,5 @@
 /*
- * ZStar design tokens — impeccable revision
+ * Entity design tokens — impeccable revision
  * System: OKLCH violet-tinted monochrome, single rare vivid accent.
  * All values defined in OKLCH. No pure black, no pure white.
  * Tokens consumed as Tailwind utilities via @theme; also readable as var().
@@ -7,39 +7,39 @@
 
 @theme {
   /* ── Surfaces (violet-tinted neutrals, chroma 0.01–0.025) ───────────── */
-  --color-bg:                  oklch(0.145 0.012 290);
-  --color-bg-elevated:         oklch(0.185 0.018 290);
-  --color-surface:             oklch(0.22  0.022 288);
-  --color-surface-high:        oklch(0.26  0.024 288);
+  --color-bg:                  oklch(0.145 0.012 258);
+  --color-bg-elevated:         oklch(0.185 0.018 258);
+  --color-surface:             oklch(0.22  0.022 258);
+  --color-surface-high:        oklch(0.26  0.024 258);
 
-  --color-border:              oklch(0.28  0.020 290);
-  --color-border-interactive:  oklch(0.38  0.025 290);
-  --color-border-strong:       oklch(0.44  0.030 290);
+  --color-border:              oklch(0.28  0.020 258);
+  --color-border-interactive:  oklch(0.38  0.025 258);
+  --color-border-strong:       oklch(0.44  0.030 258);
 
   /* ── Text ───────────────────────────────────────────────────────────── */
-  --color-text:                oklch(0.965 0.005 290);
-  --color-text-muted:          oklch(0.72  0.012 290);
-  --color-text-dim:            oklch(0.52  0.018 290);
-  --color-muted:               oklch(0.72  0.012 290); /* backcompat alias */
+  --color-text:                oklch(0.965 0.005 258);
+  --color-text-muted:          oklch(0.72  0.012 258);
+  --color-text-dim:            oklch(0.52  0.018 258);
+  --color-muted:               oklch(0.72  0.012 258); /* backcompat alias */
 
   /* ── Accent (the 10%): vivid violet, used rarely ─────────────────────── */
-  --color-accent:              oklch(0.68  0.220 295);
-  --color-accent-hover:        oklch(0.74  0.235 295);
-  --color-accent-soft:         oklch(0.42  0.150 295);
-  --color-accent-muted:        oklch(0.24  0.090 295);
-  --color-accent-foreground:   oklch(0.98  0.006 290);
-  --color-accent-glow:         oklch(0.68  0.220 295 / 0.22);
+  --color-accent:              oklch(0.68  0.220 258);
+  --color-accent-hover:        oklch(0.74  0.235 258);
+  --color-accent-soft:         oklch(0.42  0.150 258);
+  --color-accent-muted:        oklch(0.24  0.090 258);
+  --color-accent-foreground:   oklch(0.98  0.006 258);
+  --color-accent-glow:         oklch(0.68  0.220 258 / 0.22);
 
   /* Backcompat aliases (existing components reference these) */
-  --color-primary:             oklch(0.68  0.220 295);
-  --color-primary-foreground:  oklch(0.98  0.006 290);
-  --color-card-foreground:     oklch(0.965 0.005 290);
+  --color-primary:             oklch(0.68  0.220 258);
+  --color-primary-foreground:  oklch(0.98  0.006 258);
+  --color-card-foreground:     oklch(0.965 0.005 258);
 
   /* Brand ramp — preserved names, retuned to OKLCH + tinted neutrals */
-  --color-brand-purple:        oklch(0.68  0.220 295);
+  --color-brand-purple:        oklch(0.68  0.220 258);
   --color-brand-indigo:        oklch(0.58  0.200 285);
   --color-brand-blue:          oklch(0.58  0.180 255);
-  --color-brand-purple-light:  oklch(0.78  0.170 295);
+  --color-brand-purple-light:  oklch(0.78  0.170 258);
   --color-brand-indigo-light:  oklch(0.74  0.160 285);
   --color-brand-blue-light:    oklch(0.74  0.150 255);
 
@@ -53,20 +53,20 @@
   /* ── Gradients — reserved for atmospheric backdrops, NEVER text ─────── */
   --gradient-brand: linear-gradient(
     135deg,
-    oklch(0.68 0.22 295) 0%,
+    oklch(0.68 0.22 258) 0%,
     oklch(0.58 0.20 285) 55%,
     oklch(0.46 0.18 270) 100%
   );
   --gradient-flow: linear-gradient(
     135deg,
     oklch(0.72 0.20 300) 0%,
-    oklch(0.60 0.22 290) 35%,
+    oklch(0.60 0.22 258) 35%,
     oklch(0.52 0.20 275) 70%,
-    oklch(0.38 0.14 260) 100%
+    oklch(0.38 0.14 258) 100%
   );
   --gradient-mesh-hero: radial-gradient(
     ellipse 80% 60% at 30% 20%,
-    oklch(0.38 0.18 295 / 0.45) 0%,
+    oklch(0.38 0.18 258 / 0.45) 0%,
     transparent 60%
   ),
   radial-gradient(
@@ -76,7 +76,7 @@
   );
 
   /* ── Focus ring ─────────────────────────────────────────────────────── */
-  --color-focus-ring:          oklch(0.78 0.22 295);
+  --color-focus-ring:          oklch(0.78 0.22 258);
 
   /* ── Typography ─────────────────────────────────────────────────────── */
   /* Geist Sans (Vercel, OFL) for body + UI. Geist Mono for data.
@@ -155,13 +155,13 @@
   --motion-hover-fill:        var(--dur-slow);
 
   /* ── Shadows (tinted, restrained — no generic drop shadows) ─────────── */
-  --shadow-hairline: 0 0 0 1px oklch(0.28 0.020 290 / 0.6);
+  --shadow-hairline: 0 0 0 1px oklch(0.28 0.020 258 / 0.6);
   --shadow-lifted:
-    0 1px 0  oklch(0.40 0.03 290 / 0.08) inset,
-    0 8px 24px -12px oklch(0.05 0.04 290 / 0.7);
+    0 1px 0  oklch(0.40 0.03 258 / 0.08) inset,
+    0 8px 24px -12px oklch(0.05 0.04 258 / 0.7);
   --shadow-floating:
-    0 1px 0  oklch(0.45 0.03 290 / 0.10) inset,
-    0 24px 60px -24px oklch(0.04 0.06 295 / 0.85);
+    0 1px 0  oklch(0.45 0.03 258 / 0.10) inset,
+    0 24px 60px -24px oklch(0.04 0.06 258 / 0.85);
 
   /* ── Grain (for atmospheric surfaces — SVG noise, subtle) ───────────── */
   --grain-opacity: 0.025;

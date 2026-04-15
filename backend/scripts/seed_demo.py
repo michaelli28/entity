@@ -73,7 +73,7 @@ BIG_PICTURE_TRANSCRIPT: list[tuple[str, str]] = [
     (
         "user",
         "I'm Ada. Ten years as a software engineer, led infra at a Series B fintech for three of "
-        "them, shipped Linux kernel patches before that. I'm prepping to raise a $3M seed for ZStar.",
+        "them, shipped Linux kernel patches before that. I'm prepping to raise a $3M seed for Entity.",
     ),
     (
         "assistant",
@@ -85,7 +85,7 @@ BIG_PICTURE_TRANSCRIPT: list[tuple[str, str]] = [
     (
         "user",
         "Fair. The kernel work taught me how to debug systems I didn't build; the fintech years "
-        "taught me how to ship to paying customers under compliance pressure. ZStar is a structured "
+        "taught me how to ship to paying customers under compliance pressure. Entity is a structured "
         "AI mentor plus signal-scoring layer for pre-seed founders — it runs the prep conversation "
         "a good angel would, then scores the founder on eight investor-facing dimensions.",
     ),
@@ -293,11 +293,11 @@ async def upsert_founder(conn: asyncpg.Connection, clerk_user_id: str) -> tuple[
             RETURNING id
             """,
             clerk_user_id,
-            "ada@zstar.dev",
+            "ada@entity.dev",
             "Ada Lovelace",
             "https://www.linkedin.com/in/adalovelace",
             "torvalds",
-            "https://zstar.dev",
+            "https://entity.dev",
             json.dumps(GITHUB_DATA_SAMPLE),
             "Close a $3M seed in the next 90 days with two tier-1 funds leading.",
         )
@@ -318,7 +318,7 @@ async def upsert_founder(conn: asyncpg.Connection, clerk_user_id: str) -> tuple[
             "Ada Lovelace",
             "https://www.linkedin.com/in/adalovelace",
             "torvalds",
-            "https://zstar.dev",
+            "https://entity.dev",
             json.dumps(GITHUB_DATA_SAMPLE),
             "Close a $3M seed in the next 90 days with two tier-1 funds leading.",
         )
@@ -343,7 +343,7 @@ async def upsert_startup_profile(conn: asyncpg.Connection, founder_id: str) -> s
             RETURNING id
             """,
             founder_id,
-            "ZStar",
+            "Entity",
             "AI mentor and signal scoring for pre-seed founders",
             "pre_seed",
             3_000_000,
@@ -359,7 +359,7 @@ async def upsert_startup_profile(conn: asyncpg.Connection, founder_id: str) -> s
         WHERE id = $1
         """,
         existing["id"],
-        "ZStar",
+        "Entity",
         "AI mentor and signal scoring for pre-seed founders",
         "pre_seed",
         3_000_000,
@@ -449,7 +449,7 @@ async def run(clerk_user_id: str, clean: bool) -> None:
             print(f"✓ {verb} founder: Ada Lovelace (id={founder_id}, clerk={clerk_user_id})")
 
             startup_profile_id = await upsert_startup_profile(conn, founder_id)
-            print(f"✓ Upserted startup_profile: ZStar (id={startup_profile_id})")
+            print(f"✓ Upserted startup_profile: Entity (id={startup_profile_id})")
 
             if clean:
                 await clean_demo_data(conn, founder_id)

@@ -19,8 +19,8 @@ export function SessionProgressRing({
   return <NumericRing value={coverageScore} />;
 }
 
-const ACCENT = "oklch(0.68 0.22 295)";
-const TRACK = "oklch(0.28 0.020 290)";
+const ACCENT = "oklch(0.68 0.22 258)";
+const TRACK = "oklch(0.28 0.020 258)";
 const POS = "oklch(0.74 0.14 160)";
 
 function Checkmark() {
@@ -72,7 +72,7 @@ function Analyzing() {
         borderRadius: "50%",
         border: "1.5px solid var(--color-border-interactive)",
         borderTopColor: ACCENT,
-        animation: "zs-spin 900ms linear infinite",
+        animation: "en-spin 900ms linear infinite",
         flexShrink: 0,
       }}
     />

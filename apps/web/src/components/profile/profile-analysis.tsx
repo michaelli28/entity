@@ -85,7 +85,7 @@ export function ProfileAnalysis() {
 
   if (loading) {
     return (
-      <p className="zs-surface__eyebrow" style={{ padding: "2rem 0" }}>
+      <p className="en-surface__eyebrow" style={{ padding: "2rem 0" }}>
         Loading profile…
       </p>
     );
@@ -93,7 +93,7 @@ export function ProfileAnalysis() {
   if (error || !me) {
     return (
       <div
-        className="zs-card zs-card--danger"
+        className="en-card en-card--danger"
         role="alert"
         style={{ padding: "1rem 1.25rem" }}
       >
@@ -113,27 +113,27 @@ export function ProfileAnalysis() {
 
   return (
     <>
-      <header className="zs-surface__head zs-surface__head--row">
+      <header className="en-surface__head en-surface__head--row">
         <div>
-          <p className="zs-surface__eyebrow">Profile</p>
-          <h1 className="zs-surface__title">
+          <p className="en-surface__eyebrow">Profile</p>
+          <h1 className="en-surface__title">
             What your mentor <em>knows about you</em>.
           </h1>
-          <p className="zs-surface__subtitle">
+          <p className="en-surface__subtitle">
             The more signals you connect, the sharper the coaching. Everything
             here stays on your server.
           </p>
         </div>
         <Link
           href="/dashboard/settings"
-          className="zs-button"
+          className="en-button"
           data-variant="ghost"
         >
           Edit in settings
         </Link>
       </header>
 
-      <div className="zs-sources-grid">
+      <div className="en-sources-grid">
         <SourceCard
           title="Identity"
           connected={Boolean(me.name)}
@@ -222,10 +222,10 @@ export function ProfileAnalysis() {
 
       <DeckUploader initial={deck} onUploaded={setDeck} />
 
-      <section className="zs-card">
+      <section className="en-card">
         <div>
-          <h2 className="zs-card__title">Signals your mentor uses</h2>
-          <p className="zs-card__subtitle">
+          <h2 className="en-card__title">Signals your mentor uses</h2>
+          <p className="en-card__subtitle">
             {connectedCount} of 3 public links connected.
           </p>
         </div>
@@ -273,11 +273,11 @@ function SourceCard({
   body: React.ReactNode;
 }) {
   return (
-    <div className="zs-source">
-      <div className="zs-source__head">
-        <span className="zs-source__label">{title}</span>
+    <div className="en-source">
+      <div className="en-source__head">
+        <span className="en-source__label">{title}</span>
         <span
-          className="zs-dot"
+          className="en-dot"
           data-on={connected || undefined}
           aria-label={connected ? "connected" : "not connected"}
         />
@@ -306,7 +306,7 @@ function SignalRow({
         color: "var(--color-text-muted)",
       }}
     >
-      <span className="zs-dot" data-on={on || undefined} aria-hidden />
+      <span className="en-dot" data-on={on || undefined} aria-hidden />
       <span style={{ color: "var(--color-text)" }}>{label}</span>
       <span
         style={{
@@ -333,9 +333,9 @@ function GithubPanel({
 }) {
   if (!username) {
     return (
-      <section className="zs-card zs-card--dashed">
-        <h2 className="zs-card__title">GitHub</h2>
-        <p className="zs-card__subtitle">
+      <section className="en-card en-card--dashed">
+        <h2 className="en-card__title">GitHub</h2>
+        <p className="en-card__subtitle">
           Add a GitHub username in{" "}
           <Link
             href="/dashboard/settings"
@@ -353,9 +353,9 @@ function GithubPanel({
   }
   if (!data) {
     return (
-      <section className="zs-card">
-        <h2 className="zs-card__title">GitHub · @{username}</h2>
-        <p className="zs-card__subtitle">
+      <section className="en-card">
+        <h2 className="en-card__title">GitHub · @{username}</h2>
+        <p className="en-card__subtitle">
           Fetching your public profile… reload in a few seconds.
         </p>
       </section>
@@ -365,7 +365,7 @@ function GithubPanel({
   const repos = data.top_repos ?? [];
 
   return (
-    <section className="zs-card">
+    <section className="en-card">
       <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
         {data.avatar_url && (
           <img
@@ -382,7 +382,7 @@ function GithubPanel({
         )}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap" }}>
-            <h2 className="zs-card__title">{data.name ?? data.login ?? username}</h2>
+            <h2 className="en-card__title">{data.name ?? data.login ?? username}</h2>
             <a
               href={data.html_url ?? `https://github.com/${username}`}
               target="_blank"
@@ -431,7 +431,7 @@ function GithubPanel({
 
       {repos.length > 0 && (
         <div>
-          <p className="zs-card__eyebrow" style={{ marginBottom: "0.625rem" }}>
+          <p className="en-card__eyebrow" style={{ marginBottom: "0.625rem" }}>
             Top repos
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>

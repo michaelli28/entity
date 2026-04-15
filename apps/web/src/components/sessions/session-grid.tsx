@@ -45,7 +45,7 @@ export function SessionGrid() {
 
   if (bpLoading || sLoading) {
     return (
-      <p className="zs-surface__eyebrow" style={{ padding: "2rem 0" }}>
+      <p className="en-surface__eyebrow" style={{ padding: "2rem 0" }}>
         Loading…
       </p>
     );
@@ -53,7 +53,7 @@ export function SessionGrid() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      <MotionStagger className="zs-session-grid" stagger={0.06} delay={0.05}>
+      <MotionStagger className="en-session-grid" stagger={0.06} delay={0.05}>
         {coreBlueprints.map((bp: Blueprint) => (
           <MotionStaggerItem key={bp.key}>
             <SessionCard
@@ -83,12 +83,12 @@ function DeepDiveCard({
     recommendation.target_category.charAt(0).toUpperCase() +
     recommendation.target_category.slice(1);
   return (
-    <div className="zs-deepdive">
-      <span className="zs-deepdive__eyebrow">Suggested deep dive</span>
-      <h4 className="zs-deepdive__title">
+    <div className="en-deepdive">
+      <span className="en-deepdive__eyebrow">Suggested deep dive</span>
+      <h4 className="en-deepdive__title">
         Rebuild your <em>{category.toLowerCase()}</em> story
       </h4>
-      <p className="zs-deepdive__subtitle">
+      <p className="en-deepdive__subtitle">
         Focused probe on {recommendation.target_category}.
         {recommendation.is_default &&
           " We picked this as a starting default — you can switch after."}
@@ -99,7 +99,7 @@ function DeepDiveCard({
       >
         <button
           type="submit"
-          className="zs-button"
+          className="en-button"
           data-variant="primary"
           style={{ marginTop: "0.25rem" }}
         >

@@ -28,16 +28,16 @@ export function ScoresView() {
 
   if (isLoading) {
     return (
-      <div className="zs-scores">
-        <p className="zs-scores__eyebrow">Loading…</p>
+      <div className="en-scores">
+        <p className="en-scores__eyebrow">Loading…</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="zs-scores">
-        <p className="zs-summary__error">Failed to load scores.</p>
+      <div className="en-scores">
+        <p className="en-summary__error">Failed to load scores.</p>
       </div>
     );
   }
@@ -47,18 +47,18 @@ export function ScoresView() {
   const rationales = summary?.category_rationales ?? {};
 
   return (
-    <MotionSurface className="zs-scores">
-      <header className="zs-scores__head">
+    <MotionSurface className="en-scores">
+      <header className="en-scores__head">
         <MotionItem>
-          <p className="zs-scores__eyebrow">Signal scores</p>
+          <p className="en-scores__eyebrow">Signal scores</p>
         </MotionItem>
         <MotionItem>
-          <h1 className="zs-scores__title">
+          <h1 className="en-scores__title">
             How you <em>read</em> to investors.
           </h1>
         </MotionItem>
         <MotionItem>
-          <p className="zs-scores__subtitle">
+          <p className="en-scores__subtitle">
             Eight categories, one overall read. Scored off every mentor session
             and any decks you&rsquo;ve shared.
           </p>
@@ -67,9 +67,9 @@ export function ScoresView() {
 
       {!data.present ? (
         <MotionItem>
-          <div className="zs-empty">
-            <span className="zs-empty__label">Nothing to score yet</span>
-            <p className="zs-empty__text">
+          <div className="en-empty">
+            <span className="en-empty__label">Nothing to score yet</span>
+            <p className="en-empty__text">
               Finish one mentor session — or drop in a deck — and we&rsquo;ll
               generate your first read across the eight categories.
             </p>
@@ -77,31 +77,31 @@ export function ScoresView() {
         </MotionItem>
       ) : (
         <MotionItem>
-          <section className="zs-panel">
-          <div className="zs-overall">
-            <div className="zs-overall__stat">
-              <span className="zs-overall__label">Overall</span>
-              <div className="zs-overall__value">
+          <section className="en-panel">
+          <div className="en-overall">
+            <div className="en-overall__stat">
+              <span className="en-overall__label">Overall</span>
+              <div className="en-overall__value">
                 {data.overall_score != null ? (
                   <CountUp value={data.overall_score} />
                 ) : (
                   "—"
                 )}
-                <span className="zs-overall__suffix">/ 100</span>
+                <span className="en-overall__suffix">/ 100</span>
               </div>
               {data.computed_at && (
-                <span className="zs-overall__meta">
+                <span className="en-overall__meta">
                   Updated {new Date(data.computed_at).toLocaleString()}
                 </span>
               )}
             </div>
-            <div className="zs-overall__chart">
+            <div className="en-overall__chart">
               <ScoreRadar scores={data.category_scores} />
             </div>
           </div>
 
           <div style={{ marginTop: "1.75rem" }}>
-            <div className="zs-cats">
+            <div className="en-cats">
               {Object.entries(data.category_scores).map(([k, v]) => (
                 <CategoryCard
                   key={k}
@@ -115,7 +115,7 @@ export function ScoresView() {
 
           {!summary && (
             <p
-              className="zs-overall__meta"
+              className="en-overall__meta"
               style={{ marginTop: "1.25rem", textTransform: "none", letterSpacing: 0 }}
             >
               <span style={{ color: "var(--color-text-muted)", fontFamily: "var(--font-sans)", fontSize: "0.8125rem" }}>
@@ -147,24 +147,24 @@ function CategoryCard({ name, score, rationale }: CategoryCardProps) {
   const pct = Math.max(0, Math.min(100, score));
 
   return (
-    <div className="zs-cat">
-      <div className="zs-cat__row">
-        <span className="zs-cat__name">{name}</span>
-        <span className="zs-cat__score">
+    <div className="en-cat">
+      <div className="en-cat__row">
+        <span className="en-cat__name">{name}</span>
+        <span className="en-cat__score">
           {score}
-          <span className="zs-cat__score-suffix">/ 100</span>
+          <span className="en-cat__score-suffix">/ 100</span>
         </span>
       </div>
-      <div className="zs-cat__bar" aria-hidden="true">
+      <div className="en-cat__bar" aria-hidden="true">
         <div
-          className="zs-cat__bar-fill"
-          style={{ "--zs-progress": pct / 100 } as React.CSSProperties}
+          className="en-cat__bar-fill"
+          style={{ "--en-progress": pct / 100 } as React.CSSProperties}
         />
       </div>
       {hasRationale && rationale && (
         <>
           <p
-            className="zs-cat__rationale"
+            className="en-cat__rationale"
             data-clamped={expanded ? undefined : true}
           >
             {rationale}
@@ -172,7 +172,7 @@ function CategoryCard({ name, score, rationale }: CategoryCardProps) {
           {isLong && (
             <button
               type="button"
-              className="zs-cat__more"
+              className="en-cat__more"
               onClick={() => setExpanded((e) => !e)}
             >
               {expanded ? "Show less" : "Show more"}

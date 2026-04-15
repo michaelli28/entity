@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { Eyebrow } from "@zstar/ui/typographic/eyebrow";
+import { Eyebrow } from "@entity/ui/typographic/eyebrow";
 
 describe("Eyebrow", () => {
   it("renders uppercase mono text", () => {

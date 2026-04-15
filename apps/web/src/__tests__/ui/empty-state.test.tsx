@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { EmptyState } from "@zstar/ui/surface/empty-state";
+import { EmptyState } from "@entity/ui/surface/empty-state";
 
 describe("EmptyState", () => {
   it("renders title always", () => {

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { Display } from "@zstar/ui/typographic/display";
+import { Display } from "@entity/ui/typographic/display";
 
 describe("Display", () => {
   it("renders children as h1 by default", () => {

@@ -1,4 +1,4 @@
-# Deploying ZStar
+# Deploying Entity
 
 Three services. Each has a different home:
 
@@ -25,14 +25,14 @@ You'll also need production **Clerk** keys — go to https://dashboard.clerk.com
 Push this repo to GitHub if it isn't already:
 
 ```bash
-gh repo create zstar --private --source=. --remote=origin --push
+gh repo create entity --private --source=. --remote=origin --push
 ```
 
 ---
 
 ## 1. Supabase — production database (10 min)
 
-1. Dashboard → **New project** → name: `zstar-prod` → strong DB password → region closest to your users.
+1. Dashboard → **New project** → name: `entity-prod` → strong DB password → region closest to your users.
 2. Wait ~2 min for provisioning.
 3. Grab these from **Project Settings**:
    - **Project URL** → `SUPABASE_URL` (e.g. `https://xxxx.supabase.co`)
@@ -45,7 +45,7 @@ gh repo create zstar --private --source=. --remote=origin --push
    ```
 5. Run migrations from your laptop (links local CLI to cloud project):
    ```bash
-   cd /Users/possible/Documents/Zstar
+   cd /Users/possible/Documents/Entity
    supabase link --project-ref <your-project-ref>
    supabase db push
    ```
@@ -72,7 +72,7 @@ gh repo create zstar --private --source=. --remote=origin --push
 
 ## 3. Railway — backend deploy (15 min)
 
-1. https://railway.com/new → **Deploy from GitHub repo** → pick your `zstar` repo.
+1. https://railway.com/new → **Deploy from GitHub repo** → pick your `entity` repo.
 2. Railway detects multiple services. Configure **only** the backend:
    - Settings → **Root Directory**: `backend`
    - Settings → **Builder**: Dockerfile (it'll auto-detect `backend/Dockerfile`)
@@ -84,13 +84,13 @@ gh repo create zstar --private --source=. --remote=origin --push
    SUPABASE_SERVICE_ROLE_KEY=<from Supabase step 1.3>
    CLERK_SECRET_KEY=<from Clerk step 2.2>
    CLERK_JWKS_URL=<from Clerk step 2.4>
-   CLERK_ISSUER=<your-clerk-frontend-api-url, e.g. https://clerk.zstar.ai>
+   CLERK_ISSUER=<your-clerk-frontend-api-url, e.g. https://clerk.entity.ai>
    CLERK_WEBHOOK_SECRET=<will be filled in step 5>
    ANTHROPIC_API_KEY=<your Anthropic prod key>
    FRONTEND_URL=https://<your-vercel-domain>.vercel.app   # update after step 4
    ```
-4. **Networking** tab → **Generate Domain** — you'll get something like `zstar-api.up.railway.app`. Copy it.
-5. Railway will build + deploy automatically. Watch the logs. Once `/health` returns 200 (check: `curl https://zstar-api.up.railway.app/health`) you're live.
+4. **Networking** tab → **Generate Domain** — you'll get something like `entity-api.up.railway.app`. Copy it.
+5. Railway will build + deploy automatically. Watch the logs. Once `/health` returns 200 (check: `curl https://entity-api.up.railway.app/health`) you're live.
 
 ✅ Backend is live on Railway at `https://<your-railway-domain>`.
 
@@ -98,7 +98,7 @@ gh repo create zstar --private --source=. --remote=origin --push
 
 ## 4. Vercel — frontend deploy (10 min)
 
-1. https://vercel.com/new → **Import Git Repository** → pick `zstar`.
+1. https://vercel.com/new → **Import Git Repository** → pick `entity`.
 2. Configuration:
    - **Root Directory**: `apps/web`
    - **Framework preset**: Next.js (auto-detected)
@@ -116,7 +116,7 @@ gh repo create zstar --private --source=. --remote=origin --push
    NEXT_PUBLIC_API_URL=https://<your-railway-domain>
    ```
 4. **Deploy**. First build takes ~3 min.
-5. Vercel gives you `zstar.vercel.app` (or similar). Open it → click sign-in → should redirect to Clerk → back to `/dashboard`.
+5. Vercel gives you `entity.vercel.app` (or similar). Open it → click sign-in → should redirect to Clerk → back to `/dashboard`.
 
 ✅ Frontend is live.
 
@@ -139,8 +139,8 @@ Now Clerk needs to tell Railway about new signups.
 Clerk Dashboard → **Domains & URLs**:
 
 - **Frontend API**: your production Clerk frontend (auto-set)
-- **Allowed Origins**: add `https://zstar.vercel.app` (or your custom domain)
-- **Redirect URLs** (both sign-in and sign-up): `https://zstar.vercel.app/dashboard`, `https://zstar.vercel.app/onboarding`
+- **Allowed Origins**: add `https://entity.vercel.app` (or your custom domain)
+- **Redirect URLs** (both sign-in and sign-up): `https://entity.vercel.app/dashboard`, `https://entity.vercel.app/onboarding`
 
 ---
 
@@ -151,7 +151,7 @@ curl https://<your-railway-domain>/health
 # {"status":"ok"}
 
 # In browser:
-open https://zstar.vercel.app
+open https://entity.vercel.app
 # → /sign-in → sign up with a fresh account → /onboarding → /dashboard
 ```
 
@@ -161,13 +161,13 @@ Click **Fill test data** (sidebar, dev only — will 403 in production because `
 
 ## 8. Custom domain (optional, 10 min)
 
-If you own `zstar.ai`:
+If you own `entity.ai`:
 
-1. Vercel → Project → Domains → add `zstar.ai` → follow DNS instructions (A/CNAME).
-2. Railway → Backend → Networking → Custom Domain → `api.zstar.ai`.
-3. Update Vercel env: `NEXT_PUBLIC_API_URL=https://api.zstar.ai`, redeploy.
+1. Vercel → Project → Domains → add `entity.ai` → follow DNS instructions (A/CNAME).
+2. Railway → Backend → Networking → Custom Domain → `api.entity.ai`.
+3. Update Vercel env: `NEXT_PUBLIC_API_URL=https://api.entity.ai`, redeploy.
 4. Update Clerk allowed origins/redirect URLs to the new domain.
-5. Update Clerk webhook endpoint to `https://api.zstar.ai/api/webhooks/clerk`.
+5. Update Clerk webhook endpoint to `https://api.entity.ai/api/webhooks/clerk`.
 
 ---
 
@@ -183,7 +183,7 @@ Every deploy on both Vercel and Railway is a frozen artifact. If something break
 ## Recurring gotchas
 
 - **Vercel build fails on pnpm workspace**: `vercel.json` already handles this (`cd ../..` trick). If you change the workspace root, update the `buildCommand`.
-- **CORS error from Railway**: `backend/src/core/cors.py` reads origins from env — add `FRONTEND_URL=https://zstar.vercel.app` to Railway vars if it's not auto-inferring.
+- **CORS error from Railway**: `backend/src/core/cors.py` reads origins from env — add `FRONTEND_URL=https://entity.vercel.app` to Railway vars if it's not auto-inferring.
 - **Clerk JWT verification fails**: `CLERK_JWKS_URL` must match your production instance, not dev.
 - **Stream endpoint times out**: Railway's default request timeout is 5 min — should be plenty for SSE. If you see gateway 524s, bump it in Railway Settings.
 - **Supabase connection exhaustion**: use the *Session pooler* URL, not the *Transaction pooler*, for FastAPI — asyncpg holds connections for the pool lifetime.

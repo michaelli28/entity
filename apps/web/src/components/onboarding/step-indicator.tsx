@@ -16,15 +16,15 @@ export function StepIndicator({
 
   return (
     <div
-      className="zs-step"
+      className="en-step"
       role="group"
       aria-label={`Step ${step} of ${total}: ${current}`}
       style={{ "--step-progress": String(progress) } as React.CSSProperties}
     >
-      <span className="zs-step__count">
+      <span className="en-step__count">
         {String(step).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </span>
-      <span className="zs-step__track" aria-hidden="true" />
+      <span className="en-step__track" aria-hidden="true" />
       <span>{current}</span>
     </div>
   );

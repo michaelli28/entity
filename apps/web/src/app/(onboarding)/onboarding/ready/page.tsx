@@ -22,35 +22,35 @@ export default function ReadyStep() {
   return (
     <WizardCard>
       <StepIndicator step={3} />
-      <p className="zs-onboard-eyebrow">Before we start</p>
-      <h1 className="zs-onboard-headline">
+      <p className="en-onboard-eyebrow">Before we start</p>
+      <h1 className="en-onboard-headline">
         The <em>ground rules</em>.
       </h1>
-      <p className="zs-onboard-fineprint">
+      <p className="en-onboard-fineprint">
         Your conversations are processed by Anthropic (Claude) under their
         commercial terms and stored encrypted. We&rsquo;ve requested Zero Data
         Retention. Don&rsquo;t paste social security numbers, credit cards, or
-        other people&rsquo;s personal information. ZStar provides general
+        other people&rsquo;s personal information. Entity provides general
         startup guidance — not investment, legal, or tax advice.
       </p>
-      <p className="zs-onboard-fineprint">
+      <p className="en-onboard-fineprint">
         <Link href="/privacy">Privacy policy</Link>
         {"  ·  "}
         <Link href="/terms">Terms</Link>
       </p>
-      <label className="zs-check">
+      <label className="en-check">
         <input
           type="checkbox"
           checked={ack}
           onChange={(e) => setAck(e.target.checked)}
         />
-        <span className="zs-check__label">
+        <span className="en-check__label">
           I understand and agree to the terms above.
         </span>
       </label>
       <button
         type="button"
-        className="zs-btn"
+        className="en-btn"
         data-variant="primary"
         disabled={!ack || loading}
         onClick={start}
@@ -58,7 +58,7 @@ export default function ReadyStep() {
         {loading ? "Starting…" : "Start my first conversation"}
         {!loading && (
           <svg
-            className="zs-btn__arrow"
+            className="en-btn__arrow"
             viewBox="0 0 16 16"
             fill="none"
             aria-hidden="true"

@@ -3,7 +3,7 @@ import { ProfileAnalysis } from "@/components/profile/profile-analysis";
 
 export default function Page() {
   return (
-    <MotionSurface className="zs-surface">
+    <MotionSurface className="en-surface">
       <ProfileAnalysis />
     </MotionSurface>
   );

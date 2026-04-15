@@ -1,4 +1,4 @@
-# ZStar (PitchFlow) - Project Guidelines
+# Entity (PitchFlow) - Project Guidelines
 
 ## Project Overview
 
@@ -26,9 +26,9 @@ AI-powered founder profiling and deal flow platform. Phase 1: AI mentor + signal
 ## Monorepo Structure
 
 ```
-zstar/
+entity/
 ├── apps/web/          # Next.js 15+ (the frontend)
-├── packages/ui/       # Shared UI components (source package, @zstar/ui)
+├── packages/ui/       # Shared UI components (source package, @entity/ui)
 ├── backend/           # FastAPI Python service
 ├── supabase/          # Migrations, seeds, config
 ├── .github/workflows/ # CI/CD
@@ -80,7 +80,7 @@ When building frontend components, follow this pipeline in order:
 8. **`21st.dev` logo search** — SVG/TSX company logos (LinkedIn, GitHub, Google for OAuth)
 9. **Playwright** — screenshot every screen, verify visually, catch regressions
 
-### Installed Design Packages (`@zstar/web`)
+### Installed Design Packages (`@entity/web`)
 
 - `motion` v12 (formerly framer-motion) — animation engine, OKLCH-native, used by Aceternity + Magic UI
 - `@phosphor-icons/react` — 9k+ icons, 6 weights, duotone for dark themes

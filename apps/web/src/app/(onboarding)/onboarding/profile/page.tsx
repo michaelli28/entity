@@ -55,63 +55,63 @@ export default function ProfileStep() {
   return (
     <WizardCard>
       <StepIndicator step={2} />
-      <p className="zs-onboard-eyebrow">About you</p>
-      <h1 className="zs-onboard-headline">
+      <p className="en-onboard-eyebrow">About you</p>
+      <h1 className="en-onboard-headline">
         Who you are, what you&rsquo;re <em>building</em>.
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="zs-form" noValidate>
-        <div className="zs-field">
-          <label className="zs-field__label" htmlFor="f-name">
+      <form onSubmit={handleSubmit(onSubmit)} className="en-form" noValidate>
+        <div className="en-field">
+          <label className="en-field__label" htmlFor="f-name">
             Your name
           </label>
           <input
             id="f-name"
-            className="zs-field__input"
+            className="en-field__input"
             autoComplete="name"
             {...register("name")}
           />
           {errors.name && (
-            <p className="zs-field__error">{errors.name.message}</p>
+            <p className="en-field__error">{errors.name.message}</p>
           )}
         </div>
 
-        <div className="zs-field">
-          <label className="zs-field__label" htmlFor="f-company">
+        <div className="en-field">
+          <label className="en-field__label" htmlFor="f-company">
             Company name
           </label>
           <input
             id="f-company"
-            className="zs-field__input"
+            className="en-field__input"
             autoComplete="organization"
             {...register("company_name")}
           />
           {errors.company_name && (
-            <p className="zs-field__error">{errors.company_name.message}</p>
+            <p className="en-field__error">{errors.company_name.message}</p>
           )}
         </div>
 
-        <div className="zs-field">
-          <label className="zs-field__label" htmlFor="f-oneliner">
+        <div className="en-field">
+          <label className="en-field__label" htmlFor="f-oneliner">
             One-liner
           </label>
           <input
             id="f-oneliner"
-            className="zs-field__input"
+            className="en-field__input"
             placeholder="What you do in one sentence"
             {...register("one_liner")}
           />
           {errors.one_liner && (
-            <p className="zs-field__error">{errors.one_liner.message}</p>
+            <p className="en-field__error">{errors.one_liner.message}</p>
           )}
         </div>
 
-        <div className="zs-field">
-          <label className="zs-field__label" htmlFor="f-stage">
+        <div className="en-field">
+          <label className="en-field__label" htmlFor="f-stage">
             Stage
           </label>
           <select
             id="f-stage"
-            className="zs-field__select"
+            className="en-field__select"
             defaultValue="idea"
             {...register("stage")}
           >
@@ -123,13 +123,13 @@ export default function ProfileStep() {
           </select>
         </div>
 
-        <div className="zs-field">
-          <label className="zs-field__label" htmlFor="f-10x">
+        <div className="en-field">
+          <label className="en-field__label" htmlFor="f-10x">
             What would make this a 10/10 for you?
           </label>
           <select
             id="f-10x"
-            className="zs-field__select"
+            className="en-field__select"
             defaultValue="better_coaching"
             {...register("what_would_make_10x")}
           >
@@ -143,14 +143,14 @@ export default function ProfileStep() {
 
         <button
           type="submit"
-          className="zs-btn"
+          className="en-btn"
           data-variant="primary"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Saving…" : "Continue"}
           {!isSubmitting && (
             <svg
-              className="zs-btn__arrow"
+              className="en-btn__arrow"
               viewBox="0 0 16 16"
               fill="none"
               aria-hidden="true"

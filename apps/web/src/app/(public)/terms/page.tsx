@@ -5,7 +5,7 @@ export default function Terms() {
       <p>Last updated: 2026-04-12</p>
       <h2>Not financial, legal, or tax advice</h2>
       <p>
-        ZStar provides general startup coaching. It is NOT investment advice,
+        Entity provides general startup coaching. It is NOT investment advice,
         legal advice, or tax advice. For specific decisions involving money,
         securities, or legal matters, consult a licensed professional.
       </p>

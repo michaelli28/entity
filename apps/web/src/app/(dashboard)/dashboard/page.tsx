@@ -3,18 +3,18 @@ import { ContinueSessionsWidget } from "@/components/sessions/continue-sessions-
 
 export default function Page() {
   return (
-    <MotionSurface className="zs-surface">
-      <header className="zs-surface__head">
+    <MotionSurface className="en-surface">
+      <header className="en-surface__head">
         <MotionItem>
-          <p className="zs-surface__eyebrow">Dashboard</p>
+          <p className="en-surface__eyebrow">Dashboard</p>
         </MotionItem>
         <MotionItem>
-          <h1 className="zs-surface__title">
+          <h1 className="en-surface__title">
             Welcome <em>back</em>.
           </h1>
         </MotionItem>
         <MotionItem>
-          <p className="zs-surface__subtitle">
+          <p className="en-surface__subtitle">
             Pick up where you left off, or start a new session.
           </p>
         </MotionItem>

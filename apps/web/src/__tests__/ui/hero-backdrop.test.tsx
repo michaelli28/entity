@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { HeroBackdrop } from "@zstar/ui/surface/hero-backdrop";
+import { HeroBackdrop } from "@entity/ui/surface/hero-backdrop";
 
 describe("HeroBackdrop", () => {
   it("renders children on top", () => {

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { ChatComposerShell } from "@zstar/ui/surface/chat-composer-shell";
+import { ChatComposerShell } from "@entity/ui/surface/chat-composer-shell";
 
 describe("ChatComposerShell", () => {
   it("renders an HTML form element", () => {

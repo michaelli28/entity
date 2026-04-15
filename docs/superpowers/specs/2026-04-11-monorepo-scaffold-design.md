@@ -1,4 +1,4 @@
-# ZStar Monorepo Scaffold Design
+# Entity Monorepo Scaffold Design
 
 **Date:** 2026-04-11
 **Status:** Approved
@@ -8,12 +8,12 @@
 
 ## Overview
 
-Scaffold the ZStar (PitchFlow) monorepo — a flat monorepo with pnpm workspaces for TypeScript and uv for Python, unified by a root Makefile. Sets up structure and tooling only; no feature code.
+Scaffold the Entity (PitchFlow) monorepo — a flat monorepo with pnpm workspaces for TypeScript and uv for Python, unified by a root Makefile. Sets up structure and tooling only; no feature code.
 
 ## Repository Structure
 
 ```
-zstar/
+entity/
 ├── apps/
 │   └── web/                          # Next.js 15+ App Router
 │       ├── src/
@@ -33,7 +33,7 @@ zstar/
 │       │   ├── lib/                  # Utilities, API client, constants
 │       │   └── styles/              # Global CSS with Tailwind 4 @theme config
 │       ├── public/
-│       ├── next.config.ts            # Includes transpilePackages: ['@zstar/ui']
+│       ├── next.config.ts            # Includes transpilePackages: ['@entity/ui']
 │       ├── tsconfig.json
 │       └── package.json
 │
@@ -46,7 +46,7 @@ zstar/
 │       │   ├── charts/              # Recharts wrappers (radar, scores)
 │       │   └── utils.ts             # cn() helper (clsx + tailwind-merge)
 │       ├── tsconfig.json
-│       ├── package.json              # name: @zstar/ui, exports: { ".": "./src/index.ts" }
+│       ├── package.json              # name: @entity/ui, exports: { ".": "./src/index.ts" }
 │       └── index.ts                  # Barrel export
 │
 ├── backend/                          # FastAPI Python service
@@ -109,7 +109,7 @@ zstar/
 ### Key structural decisions
 
 - **`apps/web/src/app/api/`** — Next.js API routes act as a proxy layer to FastAPI, attaching Clerk JWTs server-side. This avoids CORS for most calls and keeps auth token handling on the server.
-- **`packages/ui` is a source package** — no build step, no compiled output. `apps/web` consumes it via `transpilePackages: ['@zstar/ui']` in `next.config.ts`. The package exports raw TypeScript via `"exports": { ".": "./src/index.ts" }`.
+- **`packages/ui` is a source package** — no build step, no compiled output. `apps/web` consumes it via `transpilePackages: ['@entity/ui']` in `next.config.ts`. The package exports raw TypeScript via `"exports": { ".": "./src/index.ts" }`.
 - **shadcn/ui initialization** — run `npx shadcn@latest init` inside `apps/web`, then move generated components to `packages/ui/src/components/` and update import paths. The shadcn CLI requires a Next.js context; it cannot run directly in `packages/ui`.
 - **`backend/src/main.py`** — the FastAPI `app` object lives here. uvicorn entry: `uvicorn src.main:app --reload`. Defined in `pyproject.toml` under `[tool.uv.scripts]`.
 - **All Python packages include `__init__.py`** — required for Python to treat directories as packages.
@@ -236,7 +236,7 @@ The `@source` directive is critical — without it, Tailwind purges utility clas
 - `strict: true` everywhere
 - Path aliases: `@/` maps to `src/`
 - Target: ES2022, module: ESNext
-- `apps/web/next.config.ts` includes `transpilePackages: ['@zstar/ui']`
+- `apps/web/next.config.ts` includes `transpilePackages: ['@entity/ui']`
 
 ### Python config
 
@@ -542,9 +542,9 @@ During frontend development, the following tools are used:
 ### IN (scaffold delivers)
 
 - Monorepo structure with all directories
-- pnpm workspace config with `@zstar/ui` source package
+- pnpm workspace config with `@entity/ui` source package
 - Next.js 15+ with App Router, TypeScript strict, Tailwind 4 (CSS-first config)
-- `transpilePackages` configured for `@zstar/ui` in `next.config.ts`
+- `transpilePackages` configured for `@entity/ui` in `next.config.ts`
 - Clerk auth wired up (middleware, sign-in/sign-up, provider)
 - Next.js API routes (`app/api/`) for proxying to FastAPI
 - shadcn/ui initialized (init in `apps/web`, components moved to `packages/ui`)

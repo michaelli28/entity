@@ -7,13 +7,13 @@ import { ProfileLinksForm } from "@/components/settings/profile-links-form";
 
 export default function SettingsPage() {
   return (
-    <MotionSurface className="zs-surface zs-surface--narrow">
-      <header className="zs-surface__head">
+    <MotionSurface className="en-surface en-surface--narrow">
+      <header className="en-surface__head">
         <MotionItem>
-          <p className="zs-surface__eyebrow">Settings</p>
+          <p className="en-surface__eyebrow">Settings</p>
         </MotionItem>
         <MotionItem>
-          <h1 className="zs-surface__title">
+          <h1 className="en-surface__title">
             Configure <em>how the mentor sees you</em>.
           </h1>
         </MotionItem>
@@ -28,10 +28,10 @@ export default function SettingsPage() {
       </MotionItem>
 
       <MotionItem>
-        <section className="zs-card">
+        <section className="en-card">
           <div>
-            <h2 className="zs-card__title">Privacy</h2>
-            <p className="zs-card__subtitle">
+            <h2 className="en-card__title">Privacy</h2>
+            <p className="en-card__subtitle">
               Your conversations are processed by Anthropic and stored
               encrypted. See our{" "}
               <a
@@ -50,17 +50,17 @@ export default function SettingsPage() {
       </MotionItem>
 
       <MotionItem>
-        <section className="zs-card">
+        <section className="en-card">
           <div>
-            <h2 className="zs-card__title">Account</h2>
-            <p className="zs-card__subtitle">
+            <h2 className="en-card__title">Account</h2>
+            <p className="en-card__subtitle">
               Signed in via Clerk. Sign out ends your session on this device.
             </p>
           </div>
           <SignOutButton>
             <button
               type="button"
-              className="zs-button"
+              className="en-button"
               data-variant="ghost"
               style={{ alignSelf: "flex-start" }}
             >

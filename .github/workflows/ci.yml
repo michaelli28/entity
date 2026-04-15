@@ -32,13 +32,13 @@ jobs:
         run: cd backend && uv sync
 
       - name: Lint frontend
-        run: pnpm --filter @zstar/web lint
+        run: pnpm --filter @entity/web lint
 
       - name: Lint backend
         run: cd backend && uv run ruff check .
 
       - name: Typecheck frontend
-        run: pnpm --filter @zstar/web exec tsc --noEmit
+        run: pnpm --filter @entity/web exec tsc --noEmit
 
       - name: Typecheck backend
         run: cd backend && uv run pyright
@@ -60,11 +60,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run @zstar/ui tests
-        run: pnpm --filter @zstar/ui test
+      - name: Run @entity/ui tests
+        run: pnpm --filter @entity/ui test
 
-      - name: Run @zstar/web tests with coverage
-        run: pnpm --filter @zstar/web exec vitest run --coverage
+      - name: Run @entity/web tests with coverage
+        run: pnpm --filter @entity/web exec vitest run --coverage
 
       - name: Ban `as any` on motion imports
         run: |
@@ -106,10 +106,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm --filter @zstar/web exec playwright install --with-deps chromium
+        run: pnpm --filter @entity/web exec playwright install --with-deps chromium
 
       - name: Run Playwright
-        run: pnpm --filter @zstar/web test:e2e
+        run: pnpm --filter @entity/web test:e2e
         env:
           PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder

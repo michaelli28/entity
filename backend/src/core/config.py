@@ -20,7 +20,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "ZStar API"
+    app_name: str = "Entity API"
     debug: bool = False
 
     database_url: str = ""

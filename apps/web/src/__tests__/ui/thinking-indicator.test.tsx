@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ThinkingIndicator } from "@zstar/ui/surface/thinking-indicator";
+import { ThinkingIndicator } from "@entity/ui/surface/thinking-indicator";
 
-vi.mock("@zstar/ui/hooks/use-reduced-motion", () => ({
+vi.mock("@entity/ui/hooks/use-reduced-motion", () => ({
   useReducedMotion: vi.fn(() => false),
 }));
 
-import * as motionHook from "@zstar/ui/hooks/use-reduced-motion";
+import * as motionHook from "@entity/ui/hooks/use-reduced-motion";
 
 describe("ThinkingIndicator", () => {
   beforeEach(() => {

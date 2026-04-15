@@ -33,7 +33,7 @@ def _render_html(
         f"<ul>{qs}</ul>"
         "<p>Your commitment from last session:</p>"
         f"<ul>{commits}</ul>"
-        '<p><a href="https://zstar.ai/dashboard/chat" '
+        '<p><a href="https://entity.ai/dashboard/chat" '
         'style="color:#a78bfa;">Continue the conversation →</a></p>'
         "</body></html>"
     )

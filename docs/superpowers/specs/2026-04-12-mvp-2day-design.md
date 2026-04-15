@@ -651,7 +651,7 @@ Session 2 prompt uses a different system prompt variant that focuses on problem 
 - OAuth enrichment (LinkedIn/GitHub data pull)
 - Session 3-4 (Business, The Ask) — add when Session 2 validates
 - Scoring engine (Sub-project 4)
-- Public ZStar Score embed/badge
+- Public Entity Score embed/badge
 - Interactive landing page demo (highly recommended but deferred)
 - Dashboard overview / profile / sessions pages (hidden from nav until scores exist)
 - Recharts install
@@ -709,7 +709,7 @@ Session 2 prompt uses a different system prompt variant that focuses on problem 
 
 Not implementation work — but spec'd because "launch-then-silence" was a top-5 failure mode.
 
-- **Day 2 end**: waitlist page live at `zstar.ai/waitlist`
+- **Day 2 end**: waitlist page live at `entity.ai/waitlist`
 - **Week 1**: hand-picked list of 100 target design partners (named, with outreach owner)
 - **Week 2**: direct outreach to first 30 via DM/email
 - **Communities targeted**: YC Startup School alumni, Indie Hackers, founder Slack groups

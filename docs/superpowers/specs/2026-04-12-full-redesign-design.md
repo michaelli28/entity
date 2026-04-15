@@ -1,4 +1,4 @@
-# ZStar Full Redesign — Editorial Design Language
+# Entity Full Redesign — Editorial Design Language
 
 **Date:** 2026-04-12
 **Status:** Approved (brainstorming phase)
@@ -106,13 +106,13 @@ Theatrics are tiered by surface to match the user's cognitive load. Three tiers:
 
 ## 4. Component Library
 
-Location: `packages/ui/src/`. Exported via `@zstar/ui`. Existing `components/button.tsx`, `aceternity/aurora-background.tsx`, `magic/shimmer-button.tsx` remain.
+Location: `packages/ui/src/`. Exported via `@entity/ui`. Existing `components/button.tsx`, `aceternity/aurora-background.tsx`, `magic/shimmer-button.tsx` remain.
 
 ### 4.1 Layout primitives
 
 - `NavPill` — floating pill nav: animated gradient logo, link list (tabs), CTA button. Used by marketing/public shell.
 - `SidebarShell` — primitive (in `packages/ui`): 240px, hairline right border, slots for brand/nav/footer, collapses to NavPill below `lg`. Knows nothing about nav items.
-- `AppSidebar` — domain composition (in `apps/web/src/components/sidebar.tsx`): wraps `SidebarShell`, injects ZStar-specific nav config (Dashboard, Sessions, Scores, Profile, Settings), active-item styling, user block.
+- `AppSidebar` — domain composition (in `apps/web/src/components/sidebar.tsx`): wraps `SidebarShell`, injects Entity-specific nav config (Dashboard, Sessions, Scores, Profile, Settings), active-item styling, user block.
 - `Shell` — route-group-aware wrapper that picks NavPill vs AppSidebar vs minimal shell.
 - `CustomCursor` — global 8px screen-blended cursor. Gating:
   - `"use client"` + mounted only after hydration (`useEffect`)
@@ -245,7 +245,7 @@ Three shells, selected by Next.js route group.
   - Font weights trimmed: DM Serif Display (regular + italic only), Syne (400/600/800 only — not the full 300–800 range), JetBrains Mono (400 only).
   - Preload: display + sans. Mono is lazy (only used in labels, not above-the-fold hero).
   - Gradient animations use `background-position` (cheap, GPU-compositable); Full-tier surfaces cap at 8 concurrent animated elements, Medium tier caps at 2.
-  - `@source` glob for Tailwind 4 uses the `@zstar/ui` package export path, not relative `../` paths, so `apps/web` can be moved without breaking token resolution.
+  - `@source` glob for Tailwind 4 uses the `@entity/ui` package export path, not relative `../` paths, so `apps/web` can be moved without breaking token resolution.
 
 ---
 

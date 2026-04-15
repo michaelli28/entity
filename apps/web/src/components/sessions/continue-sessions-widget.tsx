@@ -17,16 +17,16 @@ export function ContinueSessionsWidget() {
   );
 
   return (
-    <Link href="/dashboard/sessions" className="zs-continue">
-      <span className="zs-continue__left">
-        <span className="zs-continue__label">Continue mentor sessions</span>
-        <span className="zs-continue__title">
+    <Link href="/dashboard/sessions" className="en-continue">
+      <span className="en-continue__left">
+        <span className="en-continue__label">Continue mentor sessions</span>
+        <span className="en-continue__title">
           {nextBlueprint
             ? `Next · ${nextBlueprint.title}`
             : "All core sessions done — try a deep dive"}
         </span>
       </span>
-      <span className="zs-continue__count">
+      <span className="en-continue__count">
         {String(doneCount).padStart(2, "0")} /{" "}
         {String(core.length).padStart(2, "0")}
       </span>

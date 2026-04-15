@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { HairlineCard } from "@zstar/ui/surface/hairline-card";
+import { HairlineCard } from "@entity/ui/surface/hairline-card";
 
 describe("HairlineCard", () => {
   it("renders children", () => {

@@ -15,40 +15,40 @@ export function SessionProgress({ sessionId }: Props) {
 
   return (
     <div
-      className="zs-chat-progress"
+      className="en-chat-progress"
       role="group"
       aria-label={`Coverage: ${coveredCount} of ${total} signals`}
     >
-      <div className="zs-chat-progress__row">
-        <span className="zs-chat-progress__label">Coverage</span>
-        <span className="zs-chat-progress__count">
+      <div className="en-chat-progress__row">
+        <span className="en-chat-progress__label">Coverage</span>
+        <span className="en-chat-progress__count">
           {String(coveredCount).padStart(2, "0")} /{" "}
           {String(total).padStart(2, "0")}
-          <span className="zs-chat-progress__count-pct">{pct}%</span>
+          <span className="en-chat-progress__count-pct">{pct}%</span>
         </span>
       </div>
       <div
-        className="zs-chat-progress__track"
+        className="en-chat-progress__track"
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className="zs-chat-progress__fill"
-          style={{ "--zs-progress": pct / 100 } as React.CSSProperties}
+          className="en-chat-progress__fill"
+          style={{ "--en-progress": pct / 100 } as React.CSSProperties}
         />
       </div>
-      <ul className="zs-chat-progress__signals">
+      <ul className="en-chat-progress__signals">
         {data.target_signals.map((sig) => (
           <li
             key={sig.key}
-            className="zs-chat-progress__signal"
+            className="en-chat-progress__signal"
             data-covered={sig.covered || undefined}
             title={sig.key}
           >
             <span
-              className="zs-chat-progress__signal-dot"
+              className="en-chat-progress__signal-dot"
               aria-hidden="true"
             />
             <span>{sig.label}</span>

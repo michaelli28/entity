@@ -13,7 +13,7 @@ import {
   ThinkingIndicator,
   HairlineCard,
   StatCard,
-} from "@zstar/ui";
+} from "@entity/ui";
 
 describe("a11y: primitive suite", () => {
   it("Chip has no axe violations", async () => {

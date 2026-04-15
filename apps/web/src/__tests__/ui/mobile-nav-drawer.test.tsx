@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
-import { MobileNavDrawer } from "@zstar/ui/surface/mobile-nav-drawer";
+import { MobileNavDrawer } from "@entity/ui/surface/mobile-nav-drawer";
 
 function renderDrawer(
   props: {

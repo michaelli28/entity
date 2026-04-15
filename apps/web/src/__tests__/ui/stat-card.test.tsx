@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { StatCard } from "@zstar/ui/surface/stat-card";
+import { StatCard } from "@entity/ui/surface/stat-card";
 
 describe("StatCard", () => {
   it("renders label, value, and fill bar", () => {

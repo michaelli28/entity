@@ -26,7 +26,7 @@ export function MessageList({ messages, isStreaming }: MessageListProps) {
 
   const last = messages[messages.length - 1];
   return (
-    <div className="zs-chat-list">
+    <div className="en-chat-list">
       {messages.map((m, i) => (
         <MessageBubble
           key={m.id ?? i}

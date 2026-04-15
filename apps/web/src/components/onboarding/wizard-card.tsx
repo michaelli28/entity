@@ -3,5 +3,5 @@ interface WizardCardProps {
 }
 
 export function WizardCard({ children }: WizardCardProps) {
-  return <div className="zs-onboard-panel">{children}</div>;
+  return <div className="en-onboard-panel">{children}</div>;
 }

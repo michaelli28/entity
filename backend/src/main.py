@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 
 app = FastAPI(
-    title="ZStar API",
+    title="Entity API",
     version="0.1.0",
     description="AI-powered founder profiling and deal flow",
     lifespan=lifespan,

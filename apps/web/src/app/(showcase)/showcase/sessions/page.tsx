@@ -54,20 +54,20 @@ const DEMO = [
 
 export default function SessionsPreviewPage() {
   return (
-    <div className="zs-surface">
-      <header className="zs-surface__head">
-        <p className="zs-surface__eyebrow">Mentor sessions</p>
-        <h1 className="zs-surface__title">
+    <div className="en-surface">
+      <header className="en-surface__head">
+        <p className="en-surface__eyebrow">Mentor sessions</p>
+        <h1 className="en-surface__title">
           Work through your pitch, <em>one session at a time</em>.
         </h1>
-        <p className="zs-surface__subtitle">
+        <p className="en-surface__subtitle">
           Four structured conversations cover the ground investors press on.
           Finish one, the mentor picks the next.
         </p>
       </header>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-        <div className="zs-session-grid">
+        <div className="en-session-grid">
           {DEMO.map((s) => {
             const completed = Boolean(s.completed_at);
             const statusLabel = completed
@@ -79,19 +79,19 @@ export default function SessionsPreviewPage() {
               <Link
                 key={s.key}
                 href="#"
-                className="zs-session-card"
+                className="en-session-card"
                 data-recommended={s.recommended || undefined}
               >
-                <div className="zs-session-card__head">
-                  <div className="zs-session-card__title-group">
-                    <div className="zs-session-card__eyebrow-row">
-                      <span className="zs-session-card__eyebrow">{statusLabel}</span>
+                <div className="en-session-card__head">
+                  <div className="en-session-card__title-group">
+                    <div className="en-session-card__eyebrow-row">
+                      <span className="en-session-card__eyebrow">{statusLabel}</span>
                       {s.recommended && (
-                        <span className="zs-session-card__recommended">Recommended</span>
+                        <span className="en-session-card__recommended">Recommended</span>
                       )}
                     </div>
-                    <h3 className="zs-session-card__title">{s.title}</h3>
-                    <p className="zs-session-card__subtitle">{s.subtitle}</p>
+                    <h3 className="en-session-card__title">{s.title}</h3>
+                    <p className="en-session-card__subtitle">{s.subtitle}</p>
                   </div>
                   <SessionProgressRing
                     startedAt={s.started_at}
@@ -99,7 +99,7 @@ export default function SessionsPreviewPage() {
                     coverageScore={s.coverage_score}
                   />
                 </div>
-                <span className="zs-session-card__cta" aria-hidden>
+                <span className="en-session-card__cta" aria-hidden>
                   {completed ? "Review" : s.started_at ? "Continue" : "Begin"} →
                 </span>
               </Link>
@@ -107,17 +107,17 @@ export default function SessionsPreviewPage() {
           })}
         </div>
 
-        <div className="zs-deepdive">
-          <span className="zs-deepdive__eyebrow">Suggested deep dive</span>
-          <h4 className="zs-deepdive__title">
+        <div className="en-deepdive">
+          <span className="en-deepdive__eyebrow">Suggested deep dive</span>
+          <h4 className="en-deepdive__title">
             Rebuild your <em>traction</em> story
           </h4>
-          <p className="zs-deepdive__subtitle">
+          <p className="en-deepdive__subtitle">
             Focused probe on traction. We picked this because it&rsquo;s your
             weakest category.
           </p>
           <form action="#" method="post">
-            <button type="submit" className="zs-button" data-variant="primary" style={{ marginTop: "0.25rem" }}>
+            <button type="submit" className="en-button" data-variant="primary" style={{ marginTop: "0.25rem" }}>
               Start deep dive
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
                 <path
@@ -134,12 +134,12 @@ export default function SessionsPreviewPage() {
       </div>
 
       <div>
-        <Link href="#" className="zs-continue">
-          <span className="zs-continue__left">
-            <span className="zs-continue__label">Continue mentor sessions</span>
-            <span className="zs-continue__title">Next · Business</span>
+        <Link href="#" className="en-continue">
+          <span className="en-continue__left">
+            <span className="en-continue__label">Continue mentor sessions</span>
+            <span className="en-continue__title">Next · Business</span>
           </span>
-          <span className="zs-continue__count">01 / 04</span>
+          <span className="en-continue__count">01 / 04</span>
         </Link>
       </div>
     </div>

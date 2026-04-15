@@ -25,7 +25,7 @@ export function CitationChips({ citations, compact = false }: CitationChipsProps
               key={c.index}
               type="button"
               onClick={() => setOpenIndex(active ? null : c.index)}
-              className="zs-citation-chip"
+              className="en-citation-chip"
               data-active={active || undefined}
               aria-expanded={active}
               aria-label={`Citation ${c.index}: ${c.paper_title}`}
@@ -36,14 +36,14 @@ export function CitationChips({ citations, compact = false }: CitationChipsProps
         })}
       </div>
       {open && (
-        <div className="zs-citation-card">
-          <div className="zs-citation-card__head">
-            <div className="zs-citation-card__title">{open.paper_title}</div>
+        <div className="en-citation-card">
+          <div className="en-citation-card__head">
+            <div className="en-citation-card__title">{open.paper_title}</div>
             {open.section && (
-              <div className="zs-citation-card__section">{open.section}</div>
+              <div className="en-citation-card__section">{open.section}</div>
             )}
           </div>
-          <p className="zs-citation-card__snippet">{open.snippet}</p>
+          <p className="en-citation-card__snippet">{open.snippet}</p>
         </div>
       )}
     </div>

@@ -21,7 +21,7 @@ import {
   ThinkingIndicator,
   MobileNavDrawer,
   ChatComposerShell,
-} from "@zstar/ui";
+} from "@entity/ui";
 
 const drawerNavItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -219,7 +219,7 @@ export default function ShowcasePage() {
             <SidebarShell
               header={
                 <span className="font-[family-name:var(--font-mono)] text-xs text-[var(--color-text-muted)] uppercase tracking-widest">
-                  ZStar
+                  Entity
                 </span>
               }
               nav={

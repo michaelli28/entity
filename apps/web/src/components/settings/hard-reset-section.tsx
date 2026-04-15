@@ -22,7 +22,7 @@ export function HardResetSection() {
   });
 
   return (
-    <section className="zs-card zs-card--danger">
+    <section className="en-card en-card--danger">
       <div>
         <p
           style={{
@@ -37,10 +37,10 @@ export function HardResetSection() {
         >
           Danger zone
         </p>
-        <h2 className="zs-card__title" style={{ marginTop: "0.375rem" }}>
+        <h2 className="en-card__title" style={{ marginTop: "0.375rem" }}>
           Hard reset
         </h2>
-        <p className="zs-card__subtitle">
+        <p className="en-card__subtitle">
           Wipes every mentor session, message, score, cold read, and summary
           tied to your account. Your profile stays so you can start fresh.
         </p>
@@ -49,7 +49,7 @@ export function HardResetSection() {
         <button
           type="button"
           onClick={() => setConfirming(true)}
-          className="zs-button"
+          className="en-button"
           data-variant="danger"
           style={{ alignSelf: "flex-start" }}
         >
@@ -71,7 +71,7 @@ export function HardResetSection() {
             type="button"
             onClick={() => reset.mutate()}
             disabled={reset.isPending}
-            className="zs-button"
+            className="en-button"
             data-variant="danger"
           >
             {reset.isPending ? "Resetting…" : "Yes, wipe everything"}
@@ -80,7 +80,7 @@ export function HardResetSection() {
             type="button"
             onClick={() => setConfirming(false)}
             disabled={reset.isPending}
-            className="zs-button"
+            className="en-button"
             data-variant="ghost"
           >
             Cancel
@@ -88,7 +88,7 @@ export function HardResetSection() {
         </div>
       )}
       {reset.error && (
-        <p className="zs-input-error" style={{ marginTop: "0.5rem" }}>
+        <p className="en-input-error" style={{ marginTop: "0.5rem" }}>
           Failed: {reset.error.message}
         </p>
       )}

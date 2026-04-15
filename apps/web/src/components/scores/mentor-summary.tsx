@@ -30,13 +30,13 @@ export function MentorSummarySection({
   const citations: Citation[] = summary?.citations ?? [];
 
   return (
-    <section className="zs-panel zs-summary">
-      <header className="zs-summary__head">
-        <div className="zs-summary__title-group">
-          <h2 className="zs-summary__title">
+    <section className="en-panel en-summary">
+      <header className="en-summary__head">
+        <div className="en-summary__title-group">
+          <h2 className="en-summary__title">
             What your mentor <em>thinks</em>.
           </h2>
-          <p className="zs-summary__subtitle">
+          <p className="en-summary__subtitle">
             Brutally honest read across every session. No corporate-speak.
           </p>
         </div>
@@ -44,7 +44,7 @@ export function MentorSummarySection({
           type="button"
           onClick={() => generate.mutate()}
           disabled={generate.isPending}
-          className="zs-summary__generate"
+          className="en-summary__generate"
           data-variant={summary ? "regen" : undefined}
         >
           {generate.isPending
@@ -67,7 +67,7 @@ export function MentorSummarySection({
       </header>
 
       {generate.error && (
-        <p className="zs-summary__error">
+        <p className="en-summary__error">
           {generate.error.message.includes("No session transcripts")
             ? "Start a mentor session first — there's nothing to summarize yet."
             : `Failed: ${generate.error.message}`}
@@ -76,19 +76,19 @@ export function MentorSummarySection({
 
       {summary ? (
         <>
-          <p className="zs-summary__headline">{summary.headline}</p>
+          <p className="en-summary__headline">{summary.headline}</p>
           <SummaryList title="Strengths" items={summary.strengths} tone="pos" />
           <SummaryList title="Weaknesses" items={summary.weaknesses} tone="neg" />
           <SummaryList title="This week" items={summary.tips} tone="warn" />
           {citations.length > 0 && (
-            <div className="zs-sources">
-              <h3 className="zs-sources__label">Sources</h3>
+            <div className="en-sources">
+              <h3 className="en-sources__label">Sources</h3>
               <CitationChips citations={citations} />
             </div>
           )}
         </>
       ) : !generate.isPending ? (
-        <p className="zs-summary__empty">
+        <p className="en-summary__empty">
           Click <strong style={{ color: "var(--color-text)", fontWeight: 500 }}>Generate summary</strong>{" "}
           to get a full read on where you stand across every session.
         </p>
@@ -107,12 +107,12 @@ function SummaryList({
   tone: "pos" | "neg" | "warn";
 }) {
   return (
-    <div className="zs-list" data-tone={tone}>
-      <h3 className="zs-list__heading">{title}</h3>
-      <ul className="zs-list__items">
+    <div className="en-list" data-tone={tone}>
+      <h3 className="en-list__heading">{title}</h3>
+      <ul className="en-list__items">
         {items.map((item, i) => (
-          <li key={i} className="zs-list__item">
-            <span className="zs-list__marker" aria-hidden="true" />
+          <li key={i} className="en-list__item">
+            <span className="en-list__marker" aria-hidden="true" />
             <span>{item}</span>
           </li>
         ))}

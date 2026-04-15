@@ -26,8 +26,8 @@ export default async function ArtifactPage({
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!token || !apiUrl) {
     return (
-      <div className="zs-surface zs-surface--narrow">
-        <p className="zs-surface__eyebrow">Not found</p>
+      <div className="en-surface en-surface--narrow">
+        <p className="en-surface__eyebrow">Not found</p>
       </div>
     );
   }
@@ -37,26 +37,26 @@ export default async function ArtifactPage({
   });
   if (!res.ok) {
     return (
-      <div className="zs-surface zs-surface--narrow">
-        <p className="zs-surface__eyebrow">Not found</p>
+      <div className="en-surface en-surface--narrow">
+        <p className="en-surface__eyebrow">Not found</p>
       </div>
     );
   }
   const cr = (await res.json()) as ColdRead;
 
   return (
-    <MotionSurface className="zs-surface zs-surface--narrow">
-      <header className="zs-surface__head">
+    <MotionSurface className="en-surface en-surface--narrow">
+      <header className="en-surface__head">
         <MotionItem>
-          <p className="zs-surface__eyebrow">Cold read</p>
+          <p className="en-surface__eyebrow">Cold read</p>
         </MotionItem>
         <MotionItem>
-          <h1 className="zs-surface__title">
+          <h1 className="en-surface__title">
             Your mentor&rsquo;s first <em>read</em>.
           </h1>
         </MotionItem>
         <MotionItem>
-          <p className="zs-surface__subtitle">
+          <p className="en-surface__subtitle">
             What I heard, what investors will press on, and what you
             can&rsquo;t yet answer.
           </p>
@@ -64,18 +64,18 @@ export default async function ArtifactPage({
       </header>
 
       <MotionItem>
-        <section className="zs-prose">
+        <section className="en-prose">
           <MotionStagger stagger={0.07} delay={0.1}>
             <MotionStaggerItem>
               <div>
-                <p className="zs-prose__eyebrow">What I heard</p>
+                <p className="en-prose__eyebrow">What I heard</p>
                 <p>{cr.what_i_heard}</p>
               </div>
             </MotionStaggerItem>
 
             <MotionStaggerItem>
               <div>
-                <p className="zs-prose__eyebrow">What investors will push on</p>
+                <p className="en-prose__eyebrow">What investors will push on</p>
                 <ul>
                   {cr.investor_pushback.map((p) => (
                     <li key={p}>
@@ -88,7 +88,7 @@ export default async function ArtifactPage({
 
             <MotionStaggerItem>
               <div>
-                <p className="zs-prose__eyebrow">
+                <p className="en-prose__eyebrow">
                   Three questions you can&rsquo;t yet answer
                 </p>
                 <ul>
@@ -111,7 +111,7 @@ export default async function ArtifactPage({
                     color: "var(--color-text-dim)",
                   }}
                 >
-                  Share link · <code>zstar.ai/cold-read/{cr.public_slug}</code>
+                  Share link · <code>entity.ai/cold-read/{cr.public_slug}</code>
                 </p>
               </MotionStaggerItem>
             )}

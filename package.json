@@ -1,11 +1,11 @@
 {
-  "name": "zstar",
+  "name": "entity",
   "private": true,
   "scripts": {
-    "dev:web": "pnpm --filter @zstar/web dev",
-    "build:web": "pnpm --filter @zstar/web build",
-    "lint:web": "pnpm --filter @zstar/web lint",
-    "test:web": "pnpm --filter @zstar/web test"
+    "dev:web": "pnpm --filter @entity/web dev",
+    "build:web": "pnpm --filter @entity/web build",
+    "lint:web": "pnpm --filter @entity/web lint",
+    "test:web": "pnpm --filter @entity/web test"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"

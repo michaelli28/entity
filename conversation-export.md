@@ -1,7 +1,7 @@
-# ZStar MVP Planning Session — Full Conversation Export
+# Entity MVP Planning Session — Full Conversation Export
 
 **Date:** 2026-04-11 to 2026-04-12
-**Project:** ZStar (PitchFlow) — AI founder profiling + deal flow platform
+**Project:** Entity (PitchFlow) — AI founder profiling + deal flow platform
 **Scope:** Design and plan Phase 1 MVP (auth + onboarding + dashboard + AI mentor chat)
 
 ---
@@ -48,7 +48,7 @@
 
 ## Product Vision (adapted from Beni AI research)
 
-ZStar differentiates from ChatGPT via:
+Entity differentiates from ChatGPT via:
 
 1. **Curated expert knowledge** — 150+ patterns from YC essays, Sequoia memos, Reforge, Lenny's Newsletter, First Round Review, SaaStr, David Sacks, each with source citation, confidence tier, and `when_it_fails` counter-example
 2. **Persistent founder memory** — mentor remembers across sessions ("last week you said retention was broken — what happened?")
@@ -257,7 +257,7 @@ Browser → Next.js (Clerk middleware + onboarding guard)
 - `magic` (via plugin) — 21st.dev builder/refiner/logo search
 - `playwright` (via plugin) — browser automation
 
-### Installed packages (`@zstar/web`)
+### Installed packages (`@entity/web`)
 - `motion` v12 (formerly framer-motion) — animation engine, OKLCH-native
 - `@phosphor-icons/react` — 9k+ icons, 6 weights, duotone for dark theme
 - `recharts` — radar charts, radial gauges, trend lines

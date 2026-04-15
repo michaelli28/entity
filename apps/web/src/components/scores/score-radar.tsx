@@ -25,10 +25,10 @@ const LABEL: Record<keyof CategoryScores, string> = {
   team: "Team",
 };
 
-const GRID_STROKE = "oklch(0.28 0.020 290)";
-const AXIS_COLOR = "oklch(0.72 0.012 290)";
-const TICK_COLOR = "oklch(0.52 0.018 290)";
-const ACCENT = "oklch(0.68 0.220 295)";
+const GRID_STROKE = "oklch(0.28 0.020 258)";
+const AXIS_COLOR = "oklch(0.72 0.012 258)";
+const TICK_COLOR = "oklch(0.52 0.018 258)";
+const ACCENT = "oklch(0.68 0.220 258)";
 
 export function ScoreRadar({ scores }: Props) {
   const data = (Object.keys(LABEL) as (keyof CategoryScores)[]).map((k) => ({

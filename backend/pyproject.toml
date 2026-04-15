@@ -1,7 +1,7 @@
 [project]
-name = "zstar-api"
+name = "entity-api"
 version = "0.1.0"
-description = "ZStar API — AI-powered founder profiling"
+description = "Entity API — AI-powered founder profiling"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

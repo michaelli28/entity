@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { SidebarShell } from "@zstar/ui/surface/sidebar-shell";
+import { SidebarShell } from "@entity/ui/surface/sidebar-shell";
 
 describe("SidebarShell", () => {
   it("renders role=navigation with aria-label=Sidebar", () => {

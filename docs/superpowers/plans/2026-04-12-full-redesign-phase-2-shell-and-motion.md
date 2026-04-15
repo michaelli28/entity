@@ -51,15 +51,15 @@ apps/web/src/lib/theatrics/
 ```
 packages/ui/src/styles/
 ├── tokens.css       # colors, typography, spacing, radii ONLY
-├── motion.css       # @keyframes zstar-dot-pulse, zstar-scroll-reveal, etc.
-└── cursor.css       # .zstar-cursor, html[data-theatrics="full"] * { cursor: none } etc.
+├── motion.css       # @keyframes entity-dot-pulse, entity-scroll-reveal, etc.
+└── cursor.css       # .entity-cursor, html[data-theatrics="full"] * { cursor: none } etc.
 ```
 
 Imported in order from `apps/web/src/app/globals.css`.
 
 ### Slot discipline (unchanged, universally praised)
 
-- `SidebarShell` knows nothing about ZStar nav — `AppSidebar` wraps it in Phase 3.
+- `SidebarShell` knows nothing about Entity nav — `AppSidebar` wraps it in Phase 3.
 - `MentorChatCard` redesign is **wrap-only**: Vitest contract test asserts `messages / streaming / endRef / hasHydratedRef` are untouched.
 
 ---
@@ -108,7 +108,7 @@ Tasks are ordered; parallel-safe groups marked. Each task = RED test → GREEN i
 - TDD: RTL keyboard-nav test (Tab cycles links, Enter activates); `vitest-axe` zero violations.
 - Est: 2 hrs.
 
-**Task B5. `SidebarShell`** (slot-based, no ZStar domain knowledge)
+**Task B5. `SidebarShell`** (slot-based, no Entity domain knowledge)
 - Slots: `header`, `nav`, `footer`. Accept `className`, `collapsed` prop.
 - Skip-link (`<a href="#main" class="sr-only focus:not-sr-only">Skip to content</a>`) rendered at top.
 - `role="navigation"`; focus trap optional (deferred until drawer variant).
@@ -118,7 +118,7 @@ Tasks are ordered; parallel-safe groups marked. Each task = RED test → GREEN i
 ### Group C — Kinetic layer (parallel; all honor `useReducedMotion` from Phase 1)
 
 **Task C1. `KineticHeadline` — reduced-motion correct**
-- Import `useReducedMotion` from `@zstar/ui/hooks` (Phase 1 hook — do NOT add a second one).
+- Import `useReducedMotion` from `@entity/ui/hooks` (Phase 1 hook — do NOT add a second one).
 - Fall back to plain `<Display>` when `reducedMotion === true` **OR** `tier === "calm"`.
 - TDD: mock `motion` module; assert variants passed when motion allowed; assert static render otherwise.
 - Est: 2 hrs.
@@ -211,7 +211,7 @@ Tasks are ordered; parallel-safe groups marked. Each task = RED test → GREEN i
 - Est: 1 hr (mostly mechanical).
 
 **Task H3. Upgrade verification gate**
-- `.github/workflows/ci.yml` runs: `pnpm -w typecheck && pnpm -w lint && pnpm -w test --coverage && pnpm -F @zstar/web test:e2e`.
+- `.github/workflows/ci.yml` runs: `pnpm -w typecheck && pnpm -w lint && pnpm -w test --coverage && pnpm -F @entity/web test:e2e`.
 - Coverage threshold 80%; fail build otherwise.
 - Ban `as any` on Motion imports via lint rule or regex grep step.
 - Est: 1 hr.
@@ -258,7 +258,7 @@ All of the following must pass in CI on the Phase 2 PR:
 - [ ] `pnpm -w typecheck` — zero errors, zero `any` on Motion imports
 - [ ] `pnpm -w lint` — zero warnings
 - [ ] `pnpm -w test --coverage` — ≥80% on `packages/ui` and new `apps/web/src/lib/theatrics/`
-- [ ] `pnpm -F @zstar/web test:e2e` — Playwright visual baselines green for `/`, `/sign-in`, `/dashboard`, `/showcase` × 2 viewports
+- [ ] `pnpm -F @entity/web test:e2e` — Playwright visual baselines green for `/`, `/sign-in`, `/dashboard`, `/showcase` × 2 viewports
 - [ ] `vitest-axe` — zero violations on B1–D3
 - [ ] Manual: dev server shows tier flash is gone on route change (was the main symptom of MutationObserver race)
 - [ ] Manual: `prefers-reduced-motion: reduce` disables all C-group animations

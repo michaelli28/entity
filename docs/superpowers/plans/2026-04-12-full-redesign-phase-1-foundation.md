@@ -4,7 +4,7 @@
 
 **Goal:** Establish the editorial design foundation — tokens, fonts, motion primitives, and the first wave of reusable primitives — so subsequent phases can compose surfaces from a finished system.
 
-**Architecture:** Tokens-first in `packages/ui` using Tailwind 4 `@theme` blocks; fonts via `next/font/google` with trimmed weights and `adjustFontFallback`; primitives as typed React components exported from `@zstar/ui`. Unit tests live in `apps/web/src/__tests__/ui/` using the existing Vitest setup (packages/ui has no vitest of its own).
+**Architecture:** Tokens-first in `packages/ui` using Tailwind 4 `@theme` blocks; fonts via `next/font/google` with trimmed weights and `adjustFontFallback`; primitives as typed React components exported from `@entity/ui`. Unit tests live in `apps/web/src/__tests__/ui/` using the existing Vitest setup (packages/ui has no vitest of its own).
 
 **Tech Stack:** Tailwind 4 CSS-first config, `next/font/google`, React 19, TypeScript strict, Vitest + React Testing Library + jsdom, Playwright for visual smoke.
 
@@ -53,7 +53,7 @@
 
 ### Modified
 
-- `apps/web/src/app/globals.css` — replace oklch tokens with editorial tokens; import `@zstar/ui/styles/tokens.css`
+- `apps/web/src/app/globals.css` — replace oklch tokens with editorial tokens; import `@entity/ui/styles/tokens.css`
 - `apps/web/src/app/layout.tsx` — migrate to `next/font/google` with trimmed weights and fallback adjustment
 - `packages/ui/src/index.ts` — barrel export for new primitives (create if missing)
 - `packages/ui/package.json` — add `"./styles/tokens.css"` to `exports` map
@@ -62,7 +62,7 @@
 
 ## Testing Conventions
 
-- Unit tests run via `pnpm -F @zstar/web test` (existing vitest config in `apps/web`)
+- Unit tests run via `pnpm -F @entity/web test` (existing vitest config in `apps/web`)
 - Type check: `pnpm -w typecheck`
 - All tests use Testing Library; no shallow rendering
 - Each primitive test covers: (a) renders children, (b) applies variant-distinguishing class or aria, (c) one behavior specific to the primitive (e.g., `Display` auto-wraps `<em>` with gradient class)
@@ -112,13 +112,13 @@
   --motion-hover-fill: 400ms;
 }
 
-@keyframes zstar-gradient-shift {
+@keyframes entity-gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  @keyframes zstar-gradient-shift {
+  @keyframes entity-gradient-shift {
     0%, 100% { background-position: 0% 50%; }
   }
 }
@@ -130,7 +130,7 @@ Add the styles path to the `exports` map:
 
 ```json
 {
-  "name": "@zstar/ui",
+  "name": "@entity/ui",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -153,7 +153,7 @@ Add the styles path to the `exports` map:
 
 ```css
 @import "tailwindcss";
-@import "@zstar/ui/styles/tokens.css";
+@import "@entity/ui/styles/tokens.css";
 
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
 
@@ -185,7 +185,7 @@ For each hit: replace `bg-background` → `bg-[var(--color-bg)]`, `text-foregrou
 - [ ] **Step 6: Verify in browser**
 
 ```bash
-pnpm -F @zstar/web dev
+pnpm -F @entity/web dev
 ```
 
 Navigate to any existing page. Expected: page renders on pure black with off-white text (no visual regression beyond the color swap).
@@ -249,7 +249,7 @@ const fontMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ZStar",
+  title: "Entity",
   description: "AI-powered founder profiling and deal flow",
 };
 
@@ -286,7 +286,7 @@ In `packages/ui/src/styles/tokens.css`, change the font entries inside `@theme`:
 - [ ] **Step 3: Run dev server and verify fonts load**
 
 ```bash
-pnpm -F @zstar/web dev
+pnpm -F @entity/web dev
 ```
 
 Open DevTools > Network > filter by "font". Expected: `dm-serif-display-latin-400-*.woff2`, `syne-latin-*.woff2`, `jetbrains-mono-latin-400-*.woff2`. No external fetches to fonts.googleapis.com.
@@ -323,7 +323,7 @@ Create `apps/web/src/__tests__/ui/use-reduced-motion.test.ts`:
 ```ts
 import { renderHook } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useReducedMotion } from "@zstar/ui/hooks/use-reduced-motion";
+import { useReducedMotion } from "@entity/ui/hooks/use-reduced-motion";
 
 function mockMatchMedia(matches: boolean) {
   Object.defineProperty(window, "matchMedia", {
@@ -363,10 +363,10 @@ describe("useReducedMotion", () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-pnpm -F @zstar/web test -- use-reduced-motion
+pnpm -F @entity/web test -- use-reduced-motion
 ```
 
-Expected: FAIL — module `@zstar/ui/hooks/use-reduced-motion` not found.
+Expected: FAIL — module `@entity/ui/hooks/use-reduced-motion` not found.
 
 - [ ] **Step 3: Write minimal implementation**
 
@@ -393,7 +393,7 @@ export function useReducedMotion(): boolean {
 - [ ] **Step 4: Run test to verify it passes**
 
 ```bash
-pnpm -F @zstar/web test -- use-reduced-motion
+pnpm -F @entity/web test -- use-reduced-motion
 ```
 
 Expected: PASS, 2 tests.
@@ -436,7 +436,7 @@ Create `apps/web/src/__tests__/ui/display.test.tsx`:
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { Display } from "@zstar/ui/typographic/display";
+import { Display } from "@entity/ui/typographic/display";
 
 describe("Display", () => {
   it("renders children as h1 by default", () => {
@@ -457,7 +457,7 @@ describe("Display", () => {
     );
     const em = container.querySelector("em");
     expect(em).not.toBeNull();
-    expect(em?.className).toContain("zstar-gradient-em");
+    expect(em?.className).toContain("entity-gradient-em");
   });
 });
 ```
@@ -465,7 +465,7 @@ describe("Display", () => {
 - [ ] **Step 3: Run test to verify it fails**
 
 ```bash
-pnpm -F @zstar/web test -- display
+pnpm -F @entity/web test -- display
 ```
 
 Expected: FAIL — `Display` not found.
@@ -497,7 +497,7 @@ function wrapEmWithGradient(node: React.ReactNode): React.ReactNode {
     if (child.type === "em") {
       const existing = (child.props as { className?: string }).className ?? "";
       return React.cloneElement(child as React.ReactElement<{ className?: string }>, {
-        className: cn(existing, "zstar-gradient-em not-italic italic"),
+        className: cn(existing, "entity-gradient-em not-italic italic"),
       });
     }
     const childProps = child.props as { children?: React.ReactNode };
@@ -532,13 +532,13 @@ export function Display({ as = "h1", className, children, ...rest }: DisplayProp
 Append to `packages/ui/src/styles/tokens.css` (outside `@theme`):
 
 ```css
-.zstar-gradient-em {
+.entity-gradient-em {
   background: var(--gradient-flow);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: zstar-gradient-shift var(--motion-gradient-duration) ease infinite;
+  animation: entity-gradient-shift var(--motion-gradient-duration) ease infinite;
   font-style: italic;
 }
 ```
@@ -546,7 +546,7 @@ Append to `packages/ui/src/styles/tokens.css` (outside `@theme`):
 - [ ] **Step 6: Run test to verify it passes**
 
 ```bash
-pnpm -F @zstar/web test -- display
+pnpm -F @entity/web test -- display
 ```
 
 Expected: PASS, 3 tests.
@@ -572,7 +572,7 @@ git commit -m "feat(ui): Display primitive with auto-gradient italic em"
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { Eyebrow } from "@zstar/ui/typographic/eyebrow";
+import { Eyebrow } from "@entity/ui/typographic/eyebrow";
 
 describe("Eyebrow", () => {
   it("renders uppercase mono text", () => {
@@ -593,7 +593,7 @@ describe("Eyebrow", () => {
 - [ ] **Step 2: Run test — expect FAIL (module not found)**
 
 ```bash
-pnpm -F @zstar/web test -- eyebrow
+pnpm -F @entity/web test -- eyebrow
 ```
 
 - [ ] **Step 3: Write implementation**
@@ -636,7 +636,7 @@ export function Eyebrow({ className, children, ...rest }: EyebrowProps) {
 - [ ] **Step 4: Run test — expect PASS**
 
 ```bash
-pnpm -F @zstar/web test -- eyebrow
+pnpm -F @entity/web test -- eyebrow
 ```
 
 - [ ] **Step 5: Commit**
@@ -659,7 +659,7 @@ git commit -m "feat(ui): Eyebrow primitive"
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { MonoCaption } from "@zstar/ui/typographic/mono-caption";
+import { MonoCaption } from "@entity/ui/typographic/mono-caption";
 
 describe("MonoCaption", () => {
   it("renders mono text with letter-spacing", () => {
@@ -741,7 +741,7 @@ git commit -m "feat(ui): MonoCaption primitive"
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { HairlineCard } from "@zstar/ui/surface/hairline-card";
+import { HairlineCard } from "@entity/ui/surface/hairline-card";
 
 describe("HairlineCard", () => {
   it("renders children", () => {
@@ -830,7 +830,7 @@ git commit -m "feat(ui): HairlineCard primitive"
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { StatCard } from "@zstar/ui/surface/stat-card";
+import { StatCard } from "@entity/ui/surface/stat-card";
 
 describe("StatCard", () => {
   it("renders label, value, and fill bar", () => {
@@ -924,7 +924,7 @@ git commit -m "feat(ui): StatCard primitive with animated fill bar"
 ```tsx
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { Chip } from "@zstar/ui/surface/chip";
+import { Chip } from "@entity/ui/surface/chip";
 
 describe("Chip", () => {
   it("renders as span by default", () => {
@@ -1053,7 +1053,7 @@ import {
   HairlineCard,
   StatCard,
   Chip,
-} from "@zstar/ui";
+} from "@entity/ui";
 
 export default function ShowcasePage() {
   return (
@@ -1134,7 +1134,7 @@ Expected: PASS.
 - [ ] **Step 4: Run dev server and visually verify**
 
 ```bash
-pnpm -F @zstar/web dev
+pnpm -F @entity/web dev
 ```
 
 Navigate to `http://localhost:3000/_showcase`. Expected:
@@ -1147,7 +1147,7 @@ Navigate to `http://localhost:3000/_showcase`. Expected:
 - [ ] **Step 5: Run full test suite to confirm no regressions**
 
 ```bash
-pnpm -F @zstar/web test
+pnpm -F @entity/web test
 ```
 
 Expected: all prior tests still pass.
@@ -1166,7 +1166,7 @@ git commit -m "feat(ui): barrel exports and primitive showcase route for Phase 1
 Before moving to Phase 2 (layout + kinetic primitives), confirm:
 
 - [ ] `pnpm -w typecheck` passes
-- [ ] `pnpm -F @zstar/web test` passes (all unit tests green)
+- [ ] `pnpm -F @entity/web test` passes (all unit tests green)
 - [ ] `/_showcase` renders correctly in the browser at 1440w
 - [ ] No existing surface is visually broken (spot-check `/sign-in`, `/dashboard`, `/`)
 - [ ] No external Google Fonts network requests in DevTools (only local `next/font` assets)

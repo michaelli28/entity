@@ -17,7 +17,7 @@ async def fetch_github_profile(username: str) -> dict[str, Any] | None:
     username = username.strip().lstrip("@")
     headers = {
         "Accept": "application/vnd.github+json",
-        "User-Agent": "zstar-mentor",
+        "User-Agent": "entity-mentor",
     }
     try:
         async with httpx.AsyncClient(timeout=10.0, headers=headers) as client:

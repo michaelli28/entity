@@ -4,7 +4,7 @@
  * Anomalous-matter shader scene — adapted from a 21st.dev concept.
  *
  * Adaptations from the original snippet:
- *  - Retuned to ZStar violet palette (sRGB output mapped to OKLCH-ish target)
+ *  - Retuned to Entity violet palette (sRGB output mapped to OKLCH-ish target)
  *  - Fixed a uniform-name mismatch bug (vertex declared pointLightPos,
  *    fragment expected pointLightPosition — unified to uLightPos)
  *  - Capped devicePixelRatio at 1.5 to keep marketing CWV healthy

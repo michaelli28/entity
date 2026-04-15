@@ -1,8 +1,8 @@
-# ZStar Monorepo Scaffold Implementation Plan
+# Entity Monorepo Scaffold Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Scaffold the ZStar monorepo with a working dev environment — Next.js frontend, FastAPI backend, Supabase database, and unified Makefile commands.
+**Goal:** Scaffold the Entity monorepo with a working dev environment — Next.js frontend, FastAPI backend, Supabase database, and unified Makefile commands.
 
 **Architecture:** Flat monorepo with pnpm workspaces for TypeScript (apps/web + packages/ui) and uv for Python (backend/). A root Makefile unifies commands. Supabase manages PostgreSQL + pgvector locally. No feature code — structure and tooling only.
 
@@ -25,7 +25,7 @@
 - [ ] **Step 1: Initialize git repo**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 git init
 ```
 
@@ -81,13 +81,13 @@ test-results/
 
 ```json
 {
-  "name": "zstar",
+  "name": "entity",
   "private": true,
   "scripts": {
-    "dev:web": "pnpm --filter @zstar/web dev",
-    "build:web": "pnpm --filter @zstar/web build",
-    "lint:web": "pnpm --filter @zstar/web lint",
-    "test:web": "pnpm --filter @zstar/web test"
+    "dev:web": "pnpm --filter @entity/web dev",
+    "build:web": "pnpm --filter @entity/web build",
+    "lint:web": "pnpm --filter @entity/web lint",
+    "test:web": "pnpm --filter @entity/web test"
   },
   "devDependencies": {
     "concurrently": "^9.1.0"
@@ -173,7 +173,7 @@ git commit -m "chore: initialize monorepo root with pnpm workspaces"
 - [ ] **Step 1: Create Next.js app**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 pnpm create next-app apps/web \
   --typescript \
   --tailwind \
@@ -190,9 +190,9 @@ Set the package name and add workspace dependency:
 
 ```json
 {
-  "name": "@zstar/web",
+  "name": "@entity/web",
   "dependencies": {
-    "@zstar/ui": "workspace:*",
+    "@entity/ui": "workspace:*",
     "@clerk/nextjs": "^6.12.0",
     "@tanstack/react-query": "^5.75.0",
     "react-hook-form": "^7.56.0",
@@ -285,7 +285,7 @@ Replace `apps/web/next.config.ts`:
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@zstar/ui"],
+  transpilePackages: ["@entity/ui"],
 };
 
 export default nextConfig;
@@ -373,7 +373,7 @@ export default function ChatPage() {
 
 ```tsx
 export default function HomePage() {
-  return <div>ZStar — AI-Powered Founder Profiling</div>;
+  return <div>Entity — AI-Powered Founder Profiling</div>;
 }
 ```
 
@@ -388,7 +388,7 @@ import { dark } from "@clerk/themes";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ZStar",
+  title: "Entity",
   description: "AI-powered founder profiling and deal flow",
 };
 
@@ -493,9 +493,9 @@ describe("smoke test", () => {
 - [ ] **Step 12: Run test to verify it passes**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 pnpm install
-pnpm --filter @zstar/web test
+pnpm --filter @entity/web test
 ```
 
 Expected: PASS
@@ -531,7 +531,7 @@ mkdir -p packages/ui/src/charts
 
 ```json
 {
-  "name": "@zstar/ui",
+  "name": "@entity/ui",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -605,7 +605,7 @@ export { cn } from "./utils";
 - [ ] **Step 6: Initialize shadcn in apps/web, then move components**
 
 ```bash
-cd /Users/possible/Documents/Zstar/apps/web
+cd /Users/possible/Documents/Entity/apps/web
 npx shadcn@latest init -y --style new-york --base-color neutral
 ```
 
@@ -614,10 +614,10 @@ After init, move the generated `components/ui/` and `lib/utils.ts` to `packages/
 ```bash
 # shadcn generates into apps/web/src/components/ui/ and apps/web/src/lib/utils.ts
 # Move components to packages/ui
-cp -r /Users/possible/Documents/Zstar/apps/web/src/components/ui/* /Users/possible/Documents/Zstar/packages/ui/src/components/
-# Remove the copied files from apps/web (we'll import from @zstar/ui)
-rm -rf /Users/possible/Documents/Zstar/apps/web/src/components/ui
-rm -f /Users/possible/Documents/Zstar/apps/web/src/lib/utils.ts
+cp -r /Users/possible/Documents/Entity/apps/web/src/components/ui/* /Users/possible/Documents/Entity/packages/ui/src/components/
+# Remove the copied files from apps/web (we'll import from @entity/ui)
+rm -rf /Users/possible/Documents/Entity/apps/web/src/components/ui
+rm -f /Users/possible/Documents/Entity/apps/web/src/lib/utils.ts
 ```
 
 Update `packages/ui/src/components/` files to import `cn` from `../utils` instead of `@/lib/utils`.
@@ -625,14 +625,14 @@ Update `packages/ui/src/components/` files to import `cn` from `../utils` instea
 - [ ] **Step 7: Add a shadcn component to verify the pipeline**
 
 ```bash
-cd /Users/possible/Documents/Zstar/apps/web
+cd /Users/possible/Documents/Entity/apps/web
 npx shadcn@latest add button
 ```
 
 Move the generated button to packages/ui:
 
 ```bash
-mv /Users/possible/Documents/Zstar/apps/web/src/components/ui/button.tsx /Users/possible/Documents/Zstar/packages/ui/src/components/button.tsx
+mv /Users/possible/Documents/Entity/apps/web/src/components/ui/button.tsx /Users/possible/Documents/Entity/packages/ui/src/components/button.tsx
 ```
 
 Update `packages/ui/src/components/button.tsx` import of `cn` to:
@@ -648,17 +648,17 @@ export { cn } from "./utils";
 export { Button, buttonVariants } from "./components/button";
 ```
 
-- [ ] **Step 8: Verify apps/web can import from @zstar/ui**
+- [ ] **Step 8: Verify apps/web can import from @entity/ui**
 
 Update `apps/web/src/app/(marketing)/page.tsx`:
 
 ```tsx
-import { Button } from "@zstar/ui";
+import { Button } from "@entity/ui";
 
 export default function HomePage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <Button>ZStar — AI-Powered Founder Profiling</Button>
+      <Button>Entity — AI-Powered Founder Profiling</Button>
     </div>
   );
 }
@@ -667,9 +667,9 @@ export default function HomePage() {
 - [ ] **Step 9: Install and verify**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 pnpm install
-pnpm --filter @zstar/web dev
+pnpm --filter @entity/web dev
 ```
 
 Open `http://localhost:3000` — should see a styled button. Kill the dev server.
@@ -678,7 +678,7 @@ Open `http://localhost:3000` — should see a styled button. Kill the dev server
 
 ```bash
 git add packages/ui/ apps/web/
-git commit -m "feat: create @zstar/ui package with shadcn/ui, Button component"
+git commit -m "feat: create @entity/ui package with shadcn/ui, Button component"
 ```
 
 ---
@@ -734,9 +734,9 @@ mkdir -p backend/tests
 
 ```toml
 [project]
-name = "zstar-api"
+name = "entity-api"
 version = "0.1.0"
-description = "ZStar API — AI-powered founder profiling"
+description = "Entity API — AI-powered founder profiling"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -812,7 +812,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    app_name: str = "ZStar API"
+    app_name: str = "Entity API"
     debug: bool = False
 
     database_url: str = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
@@ -862,7 +862,7 @@ from fastapi import FastAPI
 from src.core.cors import setup_cors
 
 app = FastAPI(
-    title="ZStar API",
+    title="Entity API",
     version="0.1.0",
     description="AI-powered founder profiling and deal flow",
 )
@@ -910,7 +910,7 @@ async def test_health_returns_ok(client: AsyncClient) -> None:
 - [ ] **Step 9: Install deps and run test**
 
 ```bash
-cd /Users/possible/Documents/Zstar/backend
+cd /Users/possible/Documents/Entity/backend
 uv sync
 uv run pytest tests/test_health.py -v
 ```
@@ -1094,7 +1094,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 
 app = FastAPI(
-    title="ZStar API",
+    title="Entity API",
     version="0.1.0",
     description="AI-powered founder profiling and deal flow",
     lifespan=lifespan,
@@ -1104,7 +1104,7 @@ app = FastAPI(
 - [ ] **Step 14: Verify the dev server starts**
 
 ```bash
-cd /Users/possible/Documents/Zstar/backend
+cd /Users/possible/Documents/Entity/backend
 uv run uvicorn src.main:app --reload --port 8000 &
 sleep 2
 curl http://localhost:8000/health
@@ -1133,7 +1133,7 @@ git commit -m "feat: scaffold FastAPI backend with health, CORS, JWT auth, rate 
 - [ ] **Step 1: Initialize Supabase project**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 supabase init --workdir ./supabase
 ```
 
@@ -1315,7 +1315,7 @@ Note: RLS policies use `current_setting('request.jwt.claims', true)` which is ho
 - [ ] **Step 4: Start Supabase and verify**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 supabase start --workdir ./supabase
 ```
 
@@ -1374,12 +1374,12 @@ dev:
 	npx concurrently \
 		--names "web,api,db" \
 		--prefix-colors "blue,green,yellow" \
-		"pnpm --filter @zstar/web dev" \
+		"pnpm --filter @entity/web dev" \
 		"cd backend && uv run uvicorn src.main:app --reload --host 0.0.0.0 --port 8000" \
 		"supabase start --workdir ./supabase"
 
 dev\:web:
-	pnpm --filter @zstar/web dev
+	pnpm --filter @entity/web dev
 
 dev\:api:
 	cd backend && uv run uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
@@ -1394,27 +1394,27 @@ dev\:db:
 test: test\:web test\:api
 
 test\:web:
-	pnpm --filter @zstar/web test
+	pnpm --filter @entity/web test
 
 test\:api:
 	cd backend && uv run pytest -v
 
 test\:e2e:
-	pnpm --filter @zstar/web exec playwright test
+	pnpm --filter @entity/web exec playwright test
 
 # ──────────────────────────────────────────────
 # Code Quality
 # ──────────────────────────────────────────────
 
 lint:
-	pnpm --filter @zstar/web lint
+	pnpm --filter @entity/web lint
 	cd backend && uv run ruff check .
 
 format:
 	cd backend && uv run ruff format .
 
 typecheck:
-	pnpm --filter @zstar/web exec tsc --noEmit
+	pnpm --filter @entity/web exec tsc --noEmit
 	cd backend && uv run pyright
 
 # ──────────────────────────────────────────────
@@ -1443,7 +1443,7 @@ ci: lint typecheck test
 - [ ] **Step 2: Verify Makefile targets**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 make test
 ```
 
@@ -1503,13 +1503,13 @@ jobs:
         run: cd backend && uv sync
 
       - name: Lint frontend
-        run: pnpm --filter @zstar/web lint
+        run: pnpm --filter @entity/web lint
 
       - name: Lint backend
         run: cd backend && uv run ruff check .
 
       - name: Typecheck frontend
-        run: pnpm --filter @zstar/web exec tsc --noEmit
+        run: pnpm --filter @entity/web exec tsc --noEmit
 
       - name: Typecheck backend
         run: cd backend && uv run pyright
@@ -1532,7 +1532,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: pnpm --filter @zstar/web test
+        run: pnpm --filter @entity/web test
 
   test-backend:
     runs-on: ubuntu-latest
@@ -1566,7 +1566,7 @@ git commit -m "ci: add GitHub Actions workflow for lint, typecheck, and tests"
 - [ ] **Step 1: Run make setup from scratch**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 make setup
 ```
 
@@ -1631,7 +1631,7 @@ git commit -m "chore: verify full stack integration"
 `README.md`:
 
 ````markdown
-# ZStar
+# Entity
 
 AI-powered founder profiling and deal flow platform.
 
@@ -1647,7 +1647,7 @@ AI-powered founder profiling and deal flow platform.
 ## Setup
 
 ```bash
-git clone <repo-url> && cd zstar
+git clone <repo-url> && cd entity
 make setup
 ```
 ````
@@ -1695,9 +1695,9 @@ make db:diff      # Auto-generate migration from changes
 ## Project Structure
 
 ```
-zstar/
+entity/
 ├── apps/web/          # Next.js 15+ frontend
-├── packages/ui/       # Shared UI components (@zstar/ui)
+├── packages/ui/       # Shared UI components (@entity/ui)
 ├── backend/           # FastAPI Python backend
 ├── supabase/          # Database migrations and config
 └── docs/              # Design specs and plans
@@ -1728,7 +1728,7 @@ git commit -m "docs: add root README with setup instructions"
 | ---- | --------------------------------------------------------------------- | --------- |
 | 1    | Git, root config, .env.example                                        | 3 min     |
 | 2    | Next.js 15 + Tailwind 4 + Clerk + Vitest                              | 15 min    |
-| 3    | @zstar/ui package with shadcn Button                                  | 10 min    |
+| 3    | @entity/ui package with shadcn Button                                  | 10 min    |
 | 4    | FastAPI + CORS + JWT auth + rate limiting + DB pool + webhook handler | 15 min    |
 | 5    | Supabase + Phase 1 schema + RLS + pgvector                            | 8 min     |
 | 6    | Makefile (dev, test, lint, db, ci)                                    | 5 min     |

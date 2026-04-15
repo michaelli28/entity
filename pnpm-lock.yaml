@@ -20,6 +20,9 @@ importers:
       '@clerk/themes':
         specifier: ^2.2.0
         version: 2.4.57(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@entity/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@gsap/react':
         specifier: ^2.1.2
         version: 2.1.2(gsap@3.15.0)(react@19.2.4)
@@ -41,9 +44,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.75.0
         version: 5.99.0(react@19.2.4)
-      '@zstar/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       gsap:
         specifier: ^3.15.0
         version: 3.15.0

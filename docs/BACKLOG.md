@@ -1,4 +1,4 @@
-# ZStar Backlog
+# Entity Backlog
 
 Items we've decided are valuable but aren't doing right now. Each item captures enough context that a future session can pick it up cold.
 
@@ -8,7 +8,7 @@ Items we've decided are valuable but aren't doing right now. Each item captures 
 
 **Status:** deferred
 **Origin:** 2026-04-12 multi-agent review of `docs/superpowers/specs/2026-04-12-full-redesign-design.md`
-**Problem it solves:** current editorial language (italic serif + purple-blue gradient + aurora + mono eyebrow + hairline grid) is a widely-copied 2024 YC-SaaS template. Tasteful but not unmistakably ZStar. Brand critic called it "premium default."
+**Problem it solves:** current editorial language (italic serif + purple-blue gradient + aurora + mono eyebrow + hairline grid) is a widely-copied 2024 YC-SaaS template. Tasteful but not unmistakably Entity. Brand critic called it "premium default."
 
 **The idea:** make each founder's signal vector (8 mentor-session scores) the source of their visual identity. Deterministic seed function `signalsToMark(scores) → { palette, mark, motion }` produces a one-of-one generative mark per founder; used as:
 

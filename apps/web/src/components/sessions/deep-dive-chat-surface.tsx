@@ -89,9 +89,9 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
 
   if (isLoading || !session) {
     return (
-      <div className="zs-chat-pending" role="status" aria-busy="true">
-        <span className="zs-chat-pending__label">Loading</span>
-        <span className="zs-chat-pending__bar" aria-hidden="true" />
+      <div className="en-chat-pending" role="status" aria-busy="true">
+        <span className="en-chat-pending__label">Loading</span>
+        <span className="en-chat-pending__bar" aria-hidden="true" />
       </div>
     );
   }
@@ -153,17 +153,17 @@ export function DeepDiveChatSurface({ sessionId }: Props) {
   };
 
   return (
-    <div className="zs-chat">
-      <div className="zs-chat__inner">
-        <header className="zs-chat__head">
-          <div className="zs-chat__title-group">
-            <span className="zs-chat__eyebrow">Deep dive</span>
-            <h1 className="zs-chat__title">
+    <div className="en-chat">
+      <div className="en-chat__inner">
+        <header className="en-chat__head">
+          <div className="en-chat__title-group">
+            <span className="en-chat__eyebrow">Deep dive</span>
+            <h1 className="en-chat__title">
               {CATEGORY_LABELS[session.target_category ?? ""] ??
                 titleCase(session.target_category ?? "")}
             </h1>
             {session.target_signal && (
-              <p className="zs-chat__subtitle">
+              <p className="en-chat__subtitle">
                 Focus ·{" "}
                 {SIGNAL_LABELS[session.target_signal] ??
                   titleCase(session.target_signal)}

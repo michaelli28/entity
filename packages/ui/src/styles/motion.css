@@ -1,27 +1,27 @@
 
-@keyframes zstar-dot-pulse {
+@keyframes entity-dot-pulse {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.35); opacity: 0.65; }
 }
 
-.zstar-dot-pulse {
-  animation: zstar-dot-pulse 1.4s ease-in-out infinite;
+.entity-dot-pulse {
+  animation: entity-dot-pulse 1.4s ease-in-out infinite;
   border-radius: 9999px;
   display: inline-block;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .zstar-dot-pulse {
+  .entity-dot-pulse {
     animation: none;
   }
 }
 
-@keyframes zstar-shimmer-sweep {
+@keyframes entity-shimmer-sweep {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
-.zstar-shimmer {
+.entity-shimmer {
   background-image: linear-gradient(
     90deg,
     transparent 0%,
@@ -29,27 +29,27 @@
     transparent 100%
   );
   background-size: 200% 100%;
-  animation: zstar-shimmer-sweep 1.8s linear infinite;
+  animation: entity-shimmer-sweep 1.8s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .zstar-shimmer { animation: none; }
+  .entity-shimmer { animation: none; }
 }
 
 @supports (animation-timeline: view()) {
-  @keyframes zstar-scroll-reveal {
+  @keyframes entity-scroll-reveal {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .zstar-scroll-reveal {
-    animation: zstar-scroll-reveal linear both;
+  .entity-scroll-reveal {
+    animation: entity-scroll-reveal linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 60%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .zstar-scroll-reveal { animation: none; opacity: 1; transform: none; }
+  .entity-scroll-reveal { animation: none; opacity: 1; transform: none; }
 }
 
 /* Aurora gradient drift — used by <AuroraBackground/> on the onboarding

@@ -8,7 +8,7 @@ test("golden path: onboarding → chat → first mentor reply", async ({
 }) => {
   await page.goto("/onboarding");
   await expect(
-    page.getByRole("heading", { name: /Welcome to ZStar/i }),
+    page.getByRole("heading", { name: /Welcome to Entity/i }),
   ).toBeVisible();
   await page.getByRole("button", { name: /Let's go/i }).click();
 

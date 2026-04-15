@@ -26,7 +26,7 @@ def send(
     to: str,
     subject: str,
     html: str,
-    from_addr: str = "ZStar Mentor <mentor@zstar.ai>",
+    from_addr: str = "Entity Mentor <mentor@entity.ai>",
 ) -> str | None:
     _ensure_initialized()
     if not settings.resend_api_key:

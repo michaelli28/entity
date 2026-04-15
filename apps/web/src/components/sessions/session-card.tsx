@@ -42,19 +42,19 @@ export function SessionCard({
   return (
     <Link
       href={href}
-      className="zs-session-card"
+      className="en-session-card"
       data-recommended={recommended || undefined}
     >
-      <div className="zs-session-card__head">
-        <div className="zs-session-card__title-group">
-          <div className="zs-session-card__eyebrow-row">
-            <span className="zs-session-card__eyebrow">{statusLabel}</span>
+      <div className="en-session-card__head">
+        <div className="en-session-card__title-group">
+          <div className="en-session-card__eyebrow-row">
+            <span className="en-session-card__eyebrow">{statusLabel}</span>
             {recommended && (
-              <span className="zs-session-card__recommended">Recommended</span>
+              <span className="en-session-card__recommended">Recommended</span>
             )}
           </div>
-          <h3 className="zs-session-card__title">{blueprint.title}</h3>
-          <p className="zs-session-card__subtitle">{blueprint.subtitle}</p>
+          <h3 className="en-session-card__title">{blueprint.title}</h3>
+          <p className="en-session-card__subtitle">{blueprint.subtitle}</p>
         </div>
         <SessionProgressRing
           startedAt={session?.started_at ?? null}
@@ -62,7 +62,7 @@ export function SessionCard({
           coverageScore={session?.coverage_score ?? 0}
         />
       </div>
-      <span className="zs-session-card__cta" aria-hidden>
+      <span className="en-session-card__cta" aria-hidden>
         {completed ? "Review" : session ? "Continue" : "Begin"} →
       </span>
     </Link>

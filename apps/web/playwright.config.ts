@@ -29,7 +29,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm --filter @zstar/web dev",
+    command: "pnpm --filter @entity/web dev",
     url: "http://127.0.0.1:3000",
     timeout: 120_000,
     reuseExistingServer: !process.env.CI,

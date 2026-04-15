@@ -2,17 +2,17 @@ import "../../../(dashboard)/chat.css";
 
 export default function ChatPreviewPage() {
   return (
-    <div className="zs-chat">
-      <div className="zs-chat__inner">
-        <header className="zs-chat__head">
-          <div className="zs-chat__title-group">
-            <span className="zs-chat__eyebrow">Mentor session</span>
-            <h1 className="zs-chat__title">Problem &amp; Market</h1>
-            <p className="zs-chat__subtitle">
+    <div className="en-chat">
+      <div className="en-chat__inner">
+        <header className="en-chat__head">
+          <div className="en-chat__title-group">
+            <span className="en-chat__eyebrow">Mentor session</span>
+            <h1 className="en-chat__title">Problem &amp; Market</h1>
+            <p className="en-chat__subtitle">
               What you&rsquo;re solving, who it hurts, and why now.
             </p>
           </div>
-          <button type="button" className="zs-chat-menu__toggle" aria-label="Chat options">
+          <button type="button" className="en-chat-menu__toggle" aria-label="Chat options">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
               <circle cx="3.5" cy="8" r="1.25" fill="currentColor" />
               <circle cx="8" cy="8" r="1.25" fill="currentColor" />
@@ -21,27 +21,27 @@ export default function ChatPreviewPage() {
           </button>
         </header>
 
-        <div className="zs-chat-progress" role="group" aria-label="Coverage 4 of 8">
-          <div className="zs-chat-progress__row">
-            <span className="zs-chat-progress__label">Coverage</span>
-            <span className="zs-chat-progress__count">
+        <div className="en-chat-progress" role="group" aria-label="Coverage 4 of 8">
+          <div className="en-chat-progress__row">
+            <span className="en-chat-progress__label">Coverage</span>
+            <span className="en-chat-progress__count">
               04 / 08
-              <span className="zs-chat-progress__count-pct">50%</span>
+              <span className="en-chat-progress__count-pct">50%</span>
             </span>
           </div>
           <div
-            className="zs-chat-progress__track"
+            className="en-chat-progress__track"
             role="progressbar"
             aria-valuenow={50}
             aria-valuemin={0}
             aria-valuemax={100}
           >
             <div
-              className="zs-chat-progress__fill"
-              style={{ "--zs-progress": 0.5 } as React.CSSProperties}
+              className="en-chat-progress__fill"
+              style={{ "--en-progress": 0.5 } as React.CSSProperties}
             />
           </div>
-          <ul className="zs-chat-progress__signals">
+          <ul className="en-chat-progress__signals">
             {[
               ["pain-points", "Pain points", true],
               ["icp", "ICP", true],
@@ -54,20 +54,20 @@ export default function ChatPreviewPage() {
             ].map(([k, label, covered]) => (
               <li
                 key={String(k)}
-                className="zs-chat-progress__signal"
+                className="en-chat-progress__signal"
                 data-covered={covered ? true : undefined}
               >
-                <span className="zs-chat-progress__signal-dot" aria-hidden />
+                <span className="en-chat-progress__signal-dot" aria-hidden />
                 <span>{label}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="zs-chat-list">
-          <div className="zs-chat-msg" data-role="assistant">
-            <span className="zs-chat-msg__role">Mentor</span>
-            <div className="zs-chat-msg__body">
+        <div className="en-chat-list">
+          <div className="en-chat-msg" data-role="assistant">
+            <span className="en-chat-msg__role">Mentor</span>
+            <div className="en-chat-msg__body">
               Let&rsquo;s start with the sharpest thing we can anchor on: name one
               specific moment in the last two weeks where a target customer hit the
               problem you&rsquo;re solving. Who was it, what were they trying to do,
@@ -75,9 +75,9 @@ export default function ChatPreviewPage() {
             </div>
           </div>
 
-          <div className="zs-chat-msg" data-role="user">
-            <span className="zs-chat-msg__role">You</span>
-            <div className="zs-chat-msg__body">
+          <div className="en-chat-msg" data-role="user">
+            <span className="en-chat-msg__role">You</span>
+            <div className="en-chat-msg__body">
               Talked to a seed-stage founder on Tuesday. She was spending 90 minutes
               prepping for every investor update — digging through Linear, Notion,
               and Slack to summarize the week. Told me she was &ldquo;losing her
@@ -85,9 +85,9 @@ export default function ChatPreviewPage() {
             </div>
           </div>
 
-          <div className="zs-chat-msg" data-role="assistant">
-            <span className="zs-chat-msg__role">Mentor</span>
-            <div className="zs-chat-msg__body">
+          <div className="en-chat-msg" data-role="assistant">
+            <span className="en-chat-msg__role">Mentor</span>
+            <div className="en-chat-msg__body">
               Good — concrete and recent. Two things to push on: (1) how often does
               she do this? Weekly, per investor, or only when someone asks? (2)
               Today she spends 90 minutes — is that in her budget forever, or is
@@ -95,26 +95,26 @@ export default function ChatPreviewPage() {
             </div>
           </div>
 
-          <div className="zs-chat-msg" data-role="assistant" aria-live="polite">
-            <span className="zs-chat-msg__role">Mentor</span>
-            <span className="zs-typing">
-              <span className="zs-typing__label">Thinking</span>
-              <span className="zs-typing__cursor" aria-hidden />
+          <div className="en-chat-msg" data-role="assistant" aria-live="polite">
+            <span className="en-chat-msg__role">Mentor</span>
+            <span className="en-typing">
+              <span className="en-typing__label">Thinking</span>
+              <span className="en-typing__cursor" aria-hidden />
             </span>
           </div>
         </div>
 
-        <div className="zs-chat-input">
-          <div className="zs-chat-input__row">
+        <div className="en-chat-input">
+          <div className="en-chat-input__row">
             <textarea
-              className="zs-chat-input__textarea"
+              className="en-chat-input__textarea"
               rows={1}
               placeholder="Share what you&rsquo;re working on…"
               defaultValue=""
             />
             <button
               type="button"
-              className="zs-chat-input__send"
+              className="en-chat-input__send"
               aria-label="Send message"
               disabled
             >
@@ -123,7 +123,7 @@ export default function ChatPreviewPage() {
               </svg>
             </button>
           </div>
-          <p className="zs-chat-input__hint">
+          <p className="en-chat-input__hint">
             <kbd>↵</kbd> to send · <kbd>⇧ ↵</kbd> for new line
           </p>
         </div>

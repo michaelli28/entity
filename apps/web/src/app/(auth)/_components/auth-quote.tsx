@@ -14,7 +14,7 @@ const QUOTES: readonly Quote[] = [
         work. Not praised. Not entertained.
       </>
     ),
-    attribution: "ZStar — operating principle",
+    attribution: "Entity — operating principle",
   },
   {
     text: (
@@ -23,7 +23,7 @@ const QUOTES: readonly Quote[] = [
         cheerleader for your last one.
       </>
     ),
-    attribution: "ZStar — operating principle",
+    attribution: "Entity — operating principle",
   },
   {
     text: (
@@ -32,7 +32,7 @@ const QUOTES: readonly Quote[] = [
         actually <em>sharpens</em> the narrative.
       </>
     ),
-    attribution: "ZStar — what we&rsquo;re for",
+    attribution: "Entity — what we&rsquo;re for",
   },
 ];
 
@@ -57,33 +57,33 @@ export function AuthQuote() {
 
   return (
     <figure
-      className="zs-auth-quote"
+      className="en-auth-quote"
       onMouseEnter={() => { pausedRef.current = true; }}
       onMouseLeave={() => { pausedRef.current = false; }}
     >
-      <span className="zs-auth-quote__mark" aria-hidden="true">&ldquo;</span>
-      <div className="zs-auth-quote__slides" aria-live="polite">
+      <span className="en-auth-quote__mark" aria-hidden="true">&ldquo;</span>
+      <div className="en-auth-quote__slides" aria-live="polite">
         {QUOTES.map((q, i) => (
           <div
             key={i}
-            className="zs-auth-quote__slide"
+            className="en-auth-quote__slide"
             data-active={i === index || undefined}
             aria-hidden={i === index ? undefined : true}
           >
-            <p className="zs-auth-quote__text">{q.text}</p>
-            <figcaption className="zs-auth-quote__attrib">
+            <p className="en-auth-quote__text">{q.text}</p>
+            <figcaption className="en-auth-quote__attrib">
               {q.attribution}
             </figcaption>
           </div>
         ))}
       </div>
-      <div className="zs-auth-quote__dots" role="tablist" aria-label="Quotes">
+      <div className="en-auth-quote__dots" role="tablist" aria-label="Quotes">
         {QUOTES.map((_, i) => (
           <button
             key={i}
             type="button"
             role="tab"
-            className="zs-auth-quote__dot"
+            className="en-auth-quote__dot"
             data-active={i === index || undefined}
             aria-selected={i === index}
             aria-label={`Quote ${i + 1} of ${QUOTES.length}`}

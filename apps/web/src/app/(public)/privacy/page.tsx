@@ -28,7 +28,7 @@ export default function Privacy() {
       <p>
         You can request export of your data at{" "}
         <code>/api/founders/me/export</code>. Deletion requests via your Clerk
-        account or <a href="mailto:privacy@zstar.ai">privacy@zstar.ai</a>. We
+        account or <a href="mailto:privacy@entity.ai">privacy@entity.ai</a>. We
         hard-delete within 30 days.
       </p>
       <h2>Third parties</h2>

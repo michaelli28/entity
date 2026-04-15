@@ -1,4 +1,4 @@
-# Product Requirements Document: ZStar
+# Product Requirements Document: Entity
 
 **Version:** 1.0
 **Date:** 2026-04-06
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-ZStar is an AI-powered founder profiling and deal flow platform that combines an intelligent mentorship agent with a signal-based startup scoring engine and a privacy-first investor marketplace.
+Entity is an AI-powered founder profiling and deal flow platform that combines an intelligent mentorship agent with a signal-based startup scoring engine and a privacy-first investor marketplace.
 
 **Phase 1** delivers a browser-based AI mentor that guides founders through building their startup profile via natural conversation, extracts structured signals, scores their investor-readiness, and enriches profiles with verified data from LinkedIn and GitHub.
 
@@ -836,7 +836,7 @@ Founder Message
 
 ## 13. Open Questions
 
-1. **Brand name** — "ZStar" is a placeholder. Need trademark search.
+1. **Brand name** — "Entity" is a placeholder. Need trademark search.
 2. **Geographic scope** — US-only launch or global from day one?
 3. **Vertical focus** — All startups, or niche down (e.g., AI startups only, B2B SaaS only)?
 4. **Advisor equity** — Should design partners get advisory equity or other compensation?

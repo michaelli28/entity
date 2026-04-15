@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
-import { NavPill } from "@zstar/ui/surface/nav-pill";
-import type { NavPillItem } from "@zstar/ui/surface/nav-pill";
+import { NavPill } from "@entity/ui/surface/nav-pill";
+import type { NavPillItem } from "@entity/ui/surface/nav-pill";
 
 const items: NavPillItem[] = [
   { href: "/", label: "Home", active: false },

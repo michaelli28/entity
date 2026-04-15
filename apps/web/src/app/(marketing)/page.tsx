@@ -10,9 +10,9 @@ import { AnomalousScene } from "./_components/anomalous-scene";
 import { DynamicEffects } from "./_components/dynamic-effects";
 
 export const metadata: Metadata = {
-  title: "ZStar — a private thinking partner for founders",
+  title: "Entity — a private thinking partner for founders",
   description:
-    "ZStar is a mentor that tells you what to do next. Private, cited, and built for the grind.",
+    "Entity is a mentor that tells you what to do next. Private, cited, and built for the grind.",
 };
 
 export default async function HomePage() {
@@ -59,7 +59,7 @@ export default async function HomePage() {
                   &mdash; <strong>what do I do next, and why that.</strong>
                 </p>
                 <p>
-                  ZStar is a conversation, not a console. It listens to how you
+                  Entity is a conversation, not a console. It listens to how you
                   describe the business, surfaces the signal you keep burying,
                   and hands back a decision you can act on before your coffee
                   goes cold.
@@ -79,7 +79,7 @@ export default async function HomePage() {
               </h2>
             </div>
 
-            <ol className="mkt-steps" aria-label="How ZStar works">
+            <ol className="mkt-steps" aria-label="How Entity works">
               <li className="mkt-step mkt-reveal">
                 <span className="mkt-step-num">Turn 01</span>
                 <h3 className="mkt-step-title">Talk it out</h3>
@@ -94,7 +94,7 @@ export default async function HomePage() {
                 <span className="mkt-step-num">Turn 02</span>
                 <h3 className="mkt-step-title">Surface the signal</h3>
                 <p className="mkt-step-body">
-                  ZStar reads the session against your profile, your prior
+                  Entity reads the session against your profile, your prior
                   conversations, and a library of founder research. Every claim
                   it makes is cited to a source it can show you.
                 </p>
@@ -152,7 +152,7 @@ export default async function HomePage() {
                     maxWidth: "46ch",
                   }}
                 >
-                  ZStar is built for founders who aren&rsquo;t ready to be
+                  Entity is built for founders who aren&rsquo;t ready to be
                   public yet. Nothing leaves your account without an explicit
                   action from you.
                 </p>
@@ -233,7 +233,7 @@ export default async function HomePage() {
 
       <footer className="mkt-container mkt-footer">
         <span>
-          &copy; {new Date().getFullYear()} ZStar. Built for the grind.
+          &copy; {new Date().getFullYear()} Entity. Built for the grind.
         </span>
         <nav className="mkt-footer-links" aria-label="Legal">
           <Link href="/privacy">Privacy</Link>

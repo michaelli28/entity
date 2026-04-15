@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useReducedMotion } from "@zstar/ui/hooks/use-reduced-motion";
+import { useReducedMotion } from "@entity/ui/hooks/use-reduced-motion";
 
 function mockMatchMedia(matches: boolean) {
   Object.defineProperty(window, "matchMedia", {

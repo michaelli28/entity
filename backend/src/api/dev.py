@@ -17,8 +17,8 @@ router = APIRouter(prefix="/api/dev", tags=["dev"])
 
 
 DEMO_FOUNDER = {
-    "linkedin_url": "https://www.linkedin.com/in/demo-founder-zstar",
-    "github_username": "demo-founder-zstar",
+    "linkedin_url": "https://www.linkedin.com/in/demo-founder-entity",
+    "github_username": "demo-founder-entity",
     "website_url": "https://demoflow.example.com",
     "what_would_make_10x": (
         "A warm intro to 3 Series-A SaaS founders who went through PLG→sales "

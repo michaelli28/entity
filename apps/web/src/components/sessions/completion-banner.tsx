@@ -33,16 +33,16 @@ export function CompletionBanner({ sessionId, onCompleted }: Props) {
   };
 
   return (
-    <div role="status" className="zs-complete">
-      <p className="zs-complete__title">Ready to wrap?</p>
-      <p className="zs-complete__text">
+    <div role="status" className="en-complete">
+      <p className="en-complete__title">Ready to wrap?</p>
+      <p className="en-complete__text">
         I think we&rsquo;ve covered what we need. You can mark this session
         complete and move on, or keep probing.
       </p>
-      <div className="zs-complete__actions">
+      <div className="en-complete__actions">
         <button
           type="button"
-          className="zs-btn-sm"
+          className="en-btn-sm"
           data-variant="primary"
           onClick={() =>
             complete.mutate(sessionId, { onSuccess: onCompleted })
@@ -53,7 +53,7 @@ export function CompletionBanner({ sessionId, onCompleted }: Props) {
         </button>
         <button
           type="button"
-          className="zs-btn-sm"
+          className="en-btn-sm"
           data-variant="ghost"
           onClick={handleDismiss}
         >

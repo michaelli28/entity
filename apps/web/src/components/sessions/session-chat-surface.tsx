@@ -169,9 +169,9 @@ export function SessionChatSurface({
 
   if (!sessionId || !blueprint) {
     return (
-      <div className="zs-chat-pending" role="status" aria-busy="true">
-        <span className="zs-chat-pending__label">Starting session</span>
-        <span className="zs-chat-pending__bar" aria-hidden="true" />
+      <div className="en-chat-pending" role="status" aria-busy="true">
+        <span className="en-chat-pending__label">Starting session</span>
+        <span className="en-chat-pending__bar" aria-hidden="true" />
       </div>
     );
   }
@@ -205,13 +205,13 @@ export function SessionChatSurface({
   };
 
   return (
-    <div className="zs-chat">
-      <div className="zs-chat__inner">
-        <header className="zs-chat__head">
-          <div className="zs-chat__title-group">
-            <span className="zs-chat__eyebrow">Mentor session</span>
-            <h1 className="zs-chat__title">{blueprint.title}</h1>
-            <p className="zs-chat__subtitle">{blueprint.subtitle}</p>
+    <div className="en-chat">
+      <div className="en-chat__inner">
+        <header className="en-chat__head">
+          <div className="en-chat__title-group">
+            <span className="en-chat__eyebrow">Mentor session</span>
+            <h1 className="en-chat__title">{blueprint.title}</h1>
+            <p className="en-chat__subtitle">{blueprint.subtitle}</p>
           </div>
           <ChatMenu
             onReset={handleReset}

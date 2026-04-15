@@ -37,47 +37,47 @@ const items: Item[] = [
 export default function ShellActivePreview() {
   return (
     <div className="flex min-h-screen bg-[var(--color-bg)]">
-      <aside className="zs-sidebar">
-        <div className="zs-sidebar__head">
+      <aside className="en-sidebar">
+        <div className="en-sidebar__head">
           <Link
             href="#"
-            className="zs-sidebar__mark"
+            className="en-sidebar__mark"
             aria-hidden="true"
             tabIndex={-1}
           />
-          <Link href="#" className="zs-wordmark" aria-label="ZStar — dashboard">
-            ZStar
+          <Link href="#" className="en-wordmark" aria-label="Entity — dashboard">
+            Entity
           </Link>
           <button
             type="button"
-            className="zs-icon-btn"
+            className="en-icon-btn"
             aria-label="Collapse sidebar"
           >
             <CaretLeft size={16} />
           </button>
         </div>
-        <nav className="zs-sidebar__nav" aria-label="Primary">
-          <p className="zs-eyebrow">Workspace</p>
+        <nav className="en-sidebar__nav" aria-label="Primary">
+          <p className="en-eyebrow">Workspace</p>
           {items.map((it) => (
             <Link
               key={it.href}
               href={it.href}
-              className="zs-nav-item"
+              className="en-nav-item"
               data-active={it.active || undefined}
               aria-current={it.active ? "page" : undefined}
             >
-              <span className="zs-nav-item__marker" aria-hidden="true" />
-              <span className="zs-nav-item__icon">{it.icon}</span>
-              <span className="zs-nav-item__row">
-                <span className="zs-nav-item__label">{it.label}</span>
-                {it.badge && <span className="zs-nav-item__badge">{it.badge}</span>}
+              <span className="en-nav-item__marker" aria-hidden="true" />
+              <span className="en-nav-item__icon">{it.icon}</span>
+              <span className="en-nav-item__row">
+                <span className="en-nav-item__label">{it.label}</span>
+                {it.badge && <span className="en-nav-item__badge">{it.badge}</span>}
               </span>
             </Link>
           ))}
         </nav>
-        <div className="zs-sidebar__foot">
+        <div className="en-sidebar__foot">
           <div className="h-8 w-8 rounded-full bg-[var(--color-surface)] ring-1 ring-[var(--color-border)]" />
-          <span className="zs-sidebar__foot-label">Account</span>
+          <span className="en-sidebar__foot-label">Account</span>
         </div>
       </aside>
       <main className="flex-1 p-10 text-[var(--color-text)]">

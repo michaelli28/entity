@@ -25,7 +25,7 @@ Mentor chat and `generate_mentor_summary` currently rely on parametric knowledge
 
 ## Corpus
 
-`/Users/possible/Documents/Zstar/papers/` → moved to `backend/data/papers/` (gitignored). 7 PDFs, ~6.3 MB total.
+`/Users/possible/Documents/Entity/papers/` → moved to `backend/data/papers/` (gitignored). 7 PDFs, ~6.3 MB total.
 
 ## Design
 

@@ -33,7 +33,7 @@ export default function Subprocessors() {
   return (
     <article>
       <h1>Sub-processors</h1>
-      <p>We use these third parties to run ZStar:</p>
+      <p>We use these third parties to run Entity:</p>
       <table>
         <thead>
           <tr>

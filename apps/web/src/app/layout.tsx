@@ -37,7 +37,7 @@ const fontDisplay = Bodoni_Moda({
 });
 
 export const metadata: Metadata = {
-  title: "ZStar",
+  title: "Entity",
   description: "AI-powered founder profiling and deal flow",
 };
 

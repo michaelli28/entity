@@ -20,8 +20,8 @@ export function MarketingNav({ isAuthed }: MarketingNavProps) {
   return (
     <nav className="mkt-nav" data-scrolled={scrolled}>
       <div className="mkt-container mkt-nav-inner">
-        <Link href="/" className="mkt-wordmark" aria-label="ZStar home">
-          ZStar
+        <Link href="/" className="mkt-wordmark" aria-label="Entity home">
+          Entity
         </Link>
 
         <div className="mkt-nav-links" aria-label="Primary">

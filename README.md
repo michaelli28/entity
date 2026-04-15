@@ -1,4 +1,4 @@
-# ZStar
+# Entity
 
 AI-powered founder profiling and deal flow platform.
 
@@ -14,7 +14,7 @@ AI-powered founder profiling and deal flow platform.
 ## Setup
 
 ```bash
-git clone <repo-url> && cd zstar
+git clone <repo-url> && cd entity
 make setup
 ```
 
@@ -61,9 +61,9 @@ make db:diff      # Auto-generate migration from changes
 ## Project Structure
 
 ```
-zstar/
+entity/
 ├── apps/web/          # Next.js 15+ frontend
-├── packages/ui/       # Shared UI components (@zstar/ui)
+├── packages/ui/       # Shared UI components (@entity/ui)
 ├── backend/           # FastAPI Python backend
 ├── supabase/          # Database migrations and config
 └── docs/              # Design specs and plans

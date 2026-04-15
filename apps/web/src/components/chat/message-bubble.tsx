@@ -22,15 +22,15 @@ export function MessageBubble({
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
-      className="zs-chat-msg"
+      className="en-chat-msg"
       data-role={role}
     >
-      <span className="zs-chat-msg__role">
+      <span className="en-chat-msg__role">
         {role === "user" ? "You" : "Mentor"}
       </span>
-      <div className="zs-chat-msg__body">{content}</div>
+      <div className="en-chat-msg__body">{content}</div>
       {showCitations && citations && (
-        <div className="zs-chat-msg__cites">
+        <div className="en-chat-msg__cites">
           <CitationChips citations={citations} compact />
         </div>
       )}

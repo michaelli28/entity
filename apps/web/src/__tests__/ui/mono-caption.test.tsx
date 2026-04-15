@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { MonoCaption } from "@zstar/ui/typographic/mono-caption";
+import { MonoCaption } from "@entity/ui/typographic/mono-caption";
 
 describe("MonoCaption", () => {
   it("renders mono text with letter-spacing", () => {

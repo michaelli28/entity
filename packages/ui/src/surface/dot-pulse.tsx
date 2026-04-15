@@ -40,7 +40,7 @@ export function DotPulse({
         className={cn(
           sizeClasses[size],
           toneClasses[tone],
-          !reducedMotion && "zstar-dot-pulse",
+          !reducedMotion && "entity-dot-pulse",
           reducedMotion && "rounded-full inline-block",
         )}
       />

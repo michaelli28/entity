@@ -169,8 +169,8 @@ uv add --dev pytest-asyncio httpx pytest-postgresql asgi-lifespan
 Run in repo root:
 
 ```bash
-pnpm --filter @zstar/web add @sentry/nextjs posthog-js
-pnpm --filter @zstar/web add -D openapi-typescript
+pnpm --filter @entity/web add @sentry/nextjs posthog-js
+pnpm --filter @entity/web add -D openapi-typescript
 ```
 
 - [ ] **Step 3: Verify installation**
@@ -178,7 +178,7 @@ pnpm --filter @zstar/web add -D openapi-typescript
 Run: `cd backend && uv run python -c "import sentry_sdk, structlog, posthog, sqlglot, cachetools; print('OK')"`
 Expected: `OK`
 
-Run: `pnpm --filter @zstar/web list @sentry/nextjs posthog-js`
+Run: `pnpm --filter @entity/web list @sentry/nextjs posthog-js`
 Expected: both listed with versions
 
 - [ ] **Step 4: Commit**
@@ -292,7 +292,7 @@ CREATE INDEX IF NOT EXISTS idx_founder_patterns_stages
 - [ ] **Step 2: Apply migration**
 
 ```bash
-cd /Users/possible/Documents/Zstar
+cd /Users/possible/Documents/Entity
 supabase db reset
 ```
 
@@ -593,7 +593,7 @@ async def lifespan(app: FastAPI):
     await close_pool()
 
 
-app = FastAPI(title="ZStar API", lifespan=lifespan)
+app = FastAPI(title="Entity API", lifespan=lifespan)
 configure_cors(app)
 
 
@@ -2156,7 +2156,7 @@ git commit -m "feat(api): streaming chat endpoint with safety screen, PII redact
 - [ ] **Step 1: Run Sentry wizard or manual config**
 
 ```bash
-pnpm --filter @zstar/web exec npx @sentry/wizard@latest -i nextjs -s
+pnpm --filter @entity/web exec npx @sentry/wizard@latest -i nextjs -s
 ```
 
 (If wizard fails in non-interactive mode, create the three config files manually — they just call `Sentry.init({ dsn: process.env.NEXT_PUBLIC_SENTRY_DSN })`.)
@@ -2250,7 +2250,7 @@ export { ShimmerButton } from "./components/shimmer-button";
 - [ ] **Step 4: Verify types compile**
 
 ```bash
-pnpm --filter @zstar/ui build 2>&1 | head -20
+pnpm --filter @entity/ui build 2>&1 | head -20
 ```
 
 Expected: no type errors.
@@ -2343,7 +2343,7 @@ git commit -m "feat(web): Clerk middleware with onboarding guard"
 
 ```tsx
 // apps/web/src/app/(onboarding)/layout.tsx
-import { AuroraBackground } from "@zstar/ui";
+import { AuroraBackground } from "@entity/ui";
 
 export default function OnboardingLayout({
   children,
@@ -2405,7 +2405,7 @@ export function WizardCard({ children }: { children: React.ReactNode }) {
 // apps/web/src/app/(onboarding)/page.tsx
 "use client";
 import Link from "next/link";
-import { ShimmerButton } from "@zstar/ui";
+import { ShimmerButton } from "@entity/ui";
 import { StepIndicator } from "@/components/onboarding/StepIndicator";
 import { WizardCard } from "@/components/onboarding/WizardCard";
 import { posthog } from "@/lib/posthog";
@@ -2418,7 +2418,7 @@ export default function WelcomeStep() {
   return (
     <WizardCard>
       <StepIndicator step={1} />
-      <h1 className="text-3xl font-semibold mb-3">Welcome to ZStar</h1>
+      <h1 className="text-3xl font-semibold mb-3">Welcome to Entity</h1>
       <p className="text-white/70 mb-8">
         I'm your AI mentor. I'll help you sharpen your fundraising narrative,
         identify gaps investors will push on, and build a clearer picture of
@@ -2441,7 +2441,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { ShimmerButton } from "@zstar/ui";
+import { ShimmerButton } from "@entity/ui";
 import { StepIndicator } from "@/components/onboarding/StepIndicator";
 import { WizardCard } from "@/components/onboarding/WizardCard";
 
@@ -2580,7 +2580,7 @@ export default function ProfileStep() {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShimmerButton } from "@zstar/ui";
+import { ShimmerButton } from "@entity/ui";
 import { StepIndicator } from "@/components/onboarding/StepIndicator";
 import { WizardCard } from "@/components/onboarding/WizardCard";
 import { posthog } from "@/lib/posthog";
@@ -2603,7 +2603,7 @@ export default function ReadyStep() {
         Your conversations are processed by Anthropic (Claude) under their
         commercial terms and stored encrypted. We've requested Zero Data
         Retention. Don't paste social security numbers, credit cards, or other
-        people's personal information. ZStar provides general startup guidance —
+        people's personal information. Entity provides general startup guidance —
         not investment, legal, or tax advice.
       </p>
       <p className="text-white/50 text-xs mb-6">
@@ -2639,7 +2639,7 @@ export default function ReadyStep() {
 - [ ] **Step 7: Install `@hookform/resolvers`**
 
 ```bash
-pnpm --filter @zstar/web add @hookform/resolvers
+pnpm --filter @entity/web add @hookform/resolvers
 ```
 
 - [ ] **Step 8: Commit**
@@ -2719,7 +2719,7 @@ export function Sidebar() {
       className={`flex flex-col bg-card border-r border-white/10 ${collapsed ? "w-16" : "w-60"} transition-[width]`}
     >
       <div className="p-4 flex items-center justify-between">
-        {!collapsed && <span className="font-semibold">ZStar</span>}
+        {!collapsed && <span className="font-semibold">Entity</span>}
         <button
           onClick={() => setCollapsed((c) => !c)}
           className="text-white/60 hover:text-white"
@@ -3282,7 +3282,7 @@ test("golden path: onboarding → chat → first mentor reply", async ({
 }) => {
   await page.goto("/onboarding");
   await expect(
-    page.getByRole("heading", { name: /Welcome to ZStar/i }),
+    page.getByRole("heading", { name: /Welcome to Entity/i }),
   ).toBeVisible();
   await page.getByRole("button", { name: /Let's go/i }).click();
 
@@ -3335,8 +3335,8 @@ git commit -m "test(e2e): Playwright golden path — onboarding to first mentor 
 
 ```bash
 cd backend && uv run pytest -v
-pnpm --filter @zstar/web test
-pnpm --filter @zstar/web exec playwright test e2e/golden-path.spec.ts
+pnpm --filter @entity/web test
+pnpm --filter @entity/web exec playwright test e2e/golden-path.spec.ts
 ```
 
 Expected: all pass.
@@ -3376,7 +3376,7 @@ uv add apscheduler "instructor[anthropic]" resend
 - [ ] **Step 2: Add frontend deps (React Email)**
 
 ```bash
-pnpm --filter @zstar/web add @react-email/components @react-email/render
+pnpm --filter @entity/web add @react-email/components @react-email/render
 ```
 
 - [ ] **Step 3: Commit**
@@ -3943,7 +3943,7 @@ if settings.__dict__.get("resend_api_key"):
     resend.api_key = settings.resend_api_key
 
 
-def send(*, to: str, subject: str, html: str, from_addr: str = "ZStar Mentor <mentor@zstar.ai>") -> str | None:
+def send(*, to: str, subject: str, html: str, from_addr: str = "Entity Mentor <mentor@entity.ai>") -> str | None:
     try:
         r = resend.Emails.send({
             "from": from_addr, "to": to, "subject": subject, "html": html,
@@ -4132,7 +4132,7 @@ def _render_html(founder_name: str, commitments: list[str], unanswered: list[str
       <ul>{qs}</ul>
       <p>Your commitment from last session:</p>
       <ul>{commits}</ul>
-      <p><a href="https://zstar.ai/dashboard/chat" style="color:#a78bfa;">Continue the conversation →</a></p>
+      <p><a href="https://entity.ai/dashboard/chat" style="color:#a78bfa;">Continue the conversation →</a></p>
     </body></html>
     """
 
@@ -4333,7 +4333,7 @@ async def export_me(claims: dict = Depends(verify_clerk_jwt)):
     # Coerce UUIDs/datetimes to strings
     return JSONResponse(
         content=payload,
-        headers={"Content-Disposition": "attachment; filename=zstar-export.json"},
+        headers={"Content-Disposition": "attachment; filename=entity-export.json"},
     )
 ```
 
@@ -4452,7 +4452,7 @@ export default async function ArtifactPage({
       </section>
       {cr.public_slug && (
         <p className="text-xs text-white/50">
-          Share link: <code>zstar.ai/cold-read/{cr.public_slug}</code>
+          Share link: <code>entity.ai/cold-read/{cr.public_slug}</code>
         </p>
       )}
     </article>
@@ -5052,7 +5052,7 @@ export default function Privacy() {
       <p>
         You can request export of your data at{" "}
         <code>/api/founders/me/export</code>. Deletion requests via your Clerk
-        account or <a href="mailto:privacy@zstar.ai">privacy@zstar.ai</a>. We
+        account or <a href="mailto:privacy@entity.ai">privacy@entity.ai</a>. We
         hard-delete within 30 days.
       </p>
       <h2>Third parties</h2>
@@ -5075,7 +5075,7 @@ export default function Terms() {
       <p>Last updated: 2026-04-12</p>
       <h2>Not financial, legal, or tax advice</h2>
       <p>
-        ZStar provides general startup coaching. It is NOT investment advice,
+        Entity provides general startup coaching. It is NOT investment advice,
         legal advice, or tax advice. For specific decisions involving money,
         securities, or legal matters, consult a licensed professional.
       </p>
@@ -5130,7 +5130,7 @@ export default function Subprocessors() {
   return (
     <article>
       <h1>Sub-processors</h1>
-      <p>We use these third parties to run ZStar:</p>
+      <p>We use these third parties to run Entity:</p>
       <table>
         <thead>
           <tr>
@@ -5202,11 +5202,11 @@ Status tracker for Data Processing Agreements with sub-processors.
 
 Email to send to Anthropic sales/enterprise contact:
 
-Subject: ZDR request for ZStar (commercial API customer)
+Subject: ZDR request for Entity (commercial API customer)
 
 Hello,
 
-I'm building ZStar — an AI founder mentoring product — using the Anthropic API
+I'm building Entity — an AI founder mentoring product — using the Anthropic API
 (Claude Sonnet 4.6 + Haiku 4.5). Our users share sensitive startup data during
 mentor conversations, and our privacy positioning requires Zero Data Retention.
 
@@ -5248,7 +5248,7 @@ import { SignUp } from "@clerk/nextjs";
 export default function SignUpPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 className="text-2xl font-semibold mb-4">ZStar is invite-only</h1>
+      <h1 className="text-2xl font-semibold mb-4">Entity is invite-only</h1>
       <p className="text-sm text-white/60 mb-6">
         If you have an invite link, click it to continue. Otherwise,{" "}
         <a href="/waitlist" className="underline">
@@ -5350,8 +5350,8 @@ git commit -m "docs(ops): PostHog dashboards and red-flag thresholds"
 
 ```bash
 cd backend && uv run pytest -v
-pnpm --filter @zstar/web test
-pnpm --filter @zstar/web exec playwright test
+pnpm --filter @entity/web test
+pnpm --filter @entity/web exec playwright test
 cd backend && uv run python evals/run_evals.py
 ```
 

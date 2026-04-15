@@ -13,26 +13,26 @@ export default function AuthLayout({
 }) {
   return (
     <TheatricsProvider value="medium">
-      <div className="zs-auth-root">
-        <aside className="zs-auth-narrative">
-          <header className="zs-auth-narrative__head">
+      <div className="en-auth-root">
+        <aside className="en-auth-narrative">
+          <header className="en-auth-narrative__head">
             <Link
               href="/"
-              className="zs-auth-wordmark"
-              aria-label="ZStar — home"
+              className="en-auth-wordmark"
+              aria-label="Entity — home"
             >
-              ZStar
+              Entity
             </Link>
-            <span className="zs-auth-meta">Founder mentor</span>
+            <span className="en-auth-meta">Founder mentor</span>
           </header>
 
-          <div className="zs-auth-narrative__body">
+          <div className="en-auth-narrative__body">
             <AuthQuote />
           </div>
 
-          <footer className="zs-auth-narrative__foot">
-            <span className="zs-auth-meta">© ZStar 2026</span>
-            <span className="zs-auth-meta">
+          <footer className="en-auth-narrative__foot">
+            <span className="en-auth-meta">© Entity 2026</span>
+            <span className="en-auth-meta">
               <Link href="/privacy">Privacy</Link>
               {"  ·  "}
               <Link href="/terms">Terms</Link>
@@ -40,23 +40,23 @@ export default function AuthLayout({
           </footer>
         </aside>
 
-        <section className="zs-auth-widget">
-          <header className="zs-auth-topbar">
+        <section className="en-auth-widget">
+          <header className="en-auth-topbar">
             <Link
               href="/"
-              className="zs-auth-wordmark"
-              aria-label="ZStar — home"
+              className="en-auth-wordmark"
+              aria-label="Entity — home"
               style={{ visibility: "visible" }}
             >
-              ZStar
+              Entity
             </Link>
-            <span className="zs-auth-meta">
+            <span className="en-auth-meta">
               <Link href="/privacy">Privacy</Link>
               {"  ·  "}
               <Link href="/terms">Terms</Link>
             </span>
           </header>
-          <div className="zs-auth-widget__inner">{children}</div>
+          <div className="en-auth-widget__inner">{children}</div>
         </section>
       </div>
     </TheatricsProvider>

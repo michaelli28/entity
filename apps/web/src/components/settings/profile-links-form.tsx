@@ -60,58 +60,58 @@ export function ProfileLinksForm() {
 
   if (loading) {
     return (
-      <div className="zs-card">
-        <span className="zs-card__eyebrow">Loading profile…</span>
+      <div className="en-card">
+        <span className="en-card__eyebrow">Loading profile…</span>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSave} className="zs-card zs-surface-form">
+    <form onSubmit={handleSave} className="en-card en-surface-form">
       <div>
-        <h2 className="zs-card__title">Public links</h2>
-        <p className="zs-card__subtitle">
+        <h2 className="en-card__title">Public links</h2>
+        <p className="en-card__subtitle">
           Share where your mentor should look. These get passed into the
           mentor&rsquo;s system prompt so it can reason about your background.
         </p>
       </div>
 
-      <label className="zs-input-field">
-        <span className="zs-input-field__label">LinkedIn URL</span>
+      <label className="en-input-field">
+        <span className="en-input-field__label">LinkedIn URL</span>
         <input
           type="url"
           value={linkedinUrl}
           onChange={(e) => setLinkedinUrl(e.target.value)}
           placeholder="https://www.linkedin.com/in/yourhandle"
-          className="zs-input"
+          className="en-input"
           autoComplete="url"
         />
       </label>
 
-      <label className="zs-input-field">
-        <span className="zs-input-field__label">GitHub username</span>
+      <label className="en-input-field">
+        <span className="en-input-field__label">GitHub username</span>
         <input
           type="text"
           value={githubUsername}
           onChange={(e) => setGithubUsername(e.target.value)}
           placeholder="yourhandle"
-          className="zs-input"
+          className="en-input"
           autoComplete="username"
         />
-        <span className="zs-input-field__hint">
+        <span className="en-input-field__hint">
           We&rsquo;ll fetch your public GitHub profile and top repos to enrich
           your mentor context.
         </span>
       </label>
 
-      <label className="zs-input-field">
-        <span className="zs-input-field__label">Website URL</span>
+      <label className="en-input-field">
+        <span className="en-input-field__label">Website URL</span>
         <input
           type="url"
           value={websiteUrl}
           onChange={(e) => setWebsiteUrl(e.target.value)}
           placeholder="https://yourproduct.com"
-          className="zs-input"
+          className="en-input"
           autoComplete="url"
         />
       </label>
@@ -127,13 +127,13 @@ export function ProfileLinksForm() {
         <button
           type="submit"
           disabled={saving}
-          className="zs-button"
+          className="en-button"
           data-variant="primary"
         >
           {saving ? "Saving…" : "Save"}
         </button>
-        {saved && <span className="zs-input-ok">Saved</span>}
-        {error && <span className="zs-input-error">{error}</span>}
+        {saved && <span className="en-input-ok">Saved</span>}
+        {error && <span className="en-input-error">{error}</span>}
       </div>
     </form>
   );

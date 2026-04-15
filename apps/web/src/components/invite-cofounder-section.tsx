@@ -28,23 +28,23 @@ export function InviteCofounderSection() {
   };
 
   return (
-    <section className="zs-card">
+    <section className="en-card">
       <div>
-        <h2 className="zs-card__title">Co-founder</h2>
-        <p className="zs-card__subtitle">
+        <h2 className="en-card__title">Co-founder</h2>
+        <p className="en-card__subtitle">
           Invite a co-founder to join your workspace. They&rsquo;ll have
           access to the same mentor and signal dashboard.
         </p>
       </div>
       {url ? (
         <>
-          <div className="zs-url-block">
+          <div className="en-url-block">
             <code>{url}</code>
           </div>
           <button
             type="button"
             onClick={() => void copy()}
-            className="zs-button"
+            className="en-button"
             data-variant="ghost"
             style={{ alignSelf: "flex-start" }}
           >
@@ -56,7 +56,7 @@ export function InviteCofounderSection() {
           type="button"
           onClick={() => void generate()}
           disabled={loading}
-          className="zs-button"
+          className="en-button"
           data-variant="ghost"
           style={{ alignSelf: "flex-start" }}
         >

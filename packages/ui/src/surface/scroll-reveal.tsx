@@ -42,7 +42,7 @@ export function ScrollReveal({
   if (supportsTimeline) {
     return (
       <Tag
-        className={cn("zstar-scroll-reveal", className)}
+        className={cn("entity-scroll-reveal", className)}
         {...(rest as React.HTMLAttributes<HTMLElement>)}
       >
         {children}

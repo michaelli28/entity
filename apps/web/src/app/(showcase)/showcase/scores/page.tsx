@@ -79,57 +79,57 @@ export default function ScoresPreviewPage() {
     team: "Team",
   };
   return (
-    <div className="zs-scores">
-      <header className="zs-scores__head">
-        <p className="zs-scores__eyebrow">Signal scores</p>
-        <h1 className="zs-scores__title">
+    <div className="en-scores">
+      <header className="en-scores__head">
+        <p className="en-scores__eyebrow">Signal scores</p>
+        <h1 className="en-scores__title">
           How you <em>read</em> to investors.
         </h1>
-        <p className="zs-scores__subtitle">
+        <p className="en-scores__subtitle">
           Eight categories, one overall read. Scored off every mentor session
           and any decks you&rsquo;ve shared.
         </p>
       </header>
 
-      <section className="zs-panel">
-        <div className="zs-overall">
-          <div className="zs-overall__stat">
-            <span className="zs-overall__label">Overall</span>
-            <div className="zs-overall__value">
+      <section className="en-panel">
+        <div className="en-overall">
+          <div className="en-overall__stat">
+            <span className="en-overall__label">Overall</span>
+            <div className="en-overall__value">
               62
-              <span className="zs-overall__suffix">/ 100</span>
+              <span className="en-overall__suffix">/ 100</span>
             </div>
-            <span className="zs-overall__meta">Updated 2 minutes ago</span>
+            <span className="en-overall__meta">Updated 2 minutes ago</span>
           </div>
-          <div className="zs-overall__chart">
+          <div className="en-overall__chart">
             <ScoreRadar scores={DEMO_SCORES} />
           </div>
         </div>
 
         <div style={{ marginTop: "1.75rem" }}>
-          <div className="zs-cats">
+          <div className="en-cats">
             {order.map((k) => {
               const rationale = DEMO_RATIONALES[k];
               const isLong = rationale.length > 160;
               const isExpanded = expanded[k] || false;
               const pct = DEMO_SCORES[k];
               return (
-                <div className="zs-cat" key={k}>
-                  <div className="zs-cat__row">
-                    <span className="zs-cat__name">{label[k]}</span>
-                    <span className="zs-cat__score">
+                <div className="en-cat" key={k}>
+                  <div className="en-cat__row">
+                    <span className="en-cat__name">{label[k]}</span>
+                    <span className="en-cat__score">
                       {DEMO_SCORES[k]}
-                      <span className="zs-cat__score-suffix">/ 100</span>
+                      <span className="en-cat__score-suffix">/ 100</span>
                     </span>
                   </div>
-                  <div className="zs-cat__bar" aria-hidden>
+                  <div className="en-cat__bar" aria-hidden>
                     <div
-                      className="zs-cat__bar-fill"
-                      style={{ "--zs-progress": pct / 100 } as React.CSSProperties}
+                      className="en-cat__bar-fill"
+                      style={{ "--en-progress": pct / 100 } as React.CSSProperties}
                     />
                   </div>
                   <p
-                    className="zs-cat__rationale"
+                    className="en-cat__rationale"
                     data-clamped={isExpanded ? undefined : true}
                   >
                     {rationale}
@@ -137,7 +137,7 @@ export default function ScoresPreviewPage() {
                   {isLong && (
                     <button
                       type="button"
-                      className="zs-cat__more"
+                      className="en-cat__more"
                       onClick={() =>
                         setExpanded((e) => ({ ...e, [k]: !e[k] }))
                       }
@@ -152,17 +152,17 @@ export default function ScoresPreviewPage() {
         </div>
       </section>
 
-      <section className="zs-panel zs-summary">
-        <header className="zs-summary__head">
-          <div className="zs-summary__title-group">
-            <h2 className="zs-summary__title">
+      <section className="en-panel en-summary">
+        <header className="en-summary__head">
+          <div className="en-summary__title-group">
+            <h2 className="en-summary__title">
               What your mentor <em>thinks</em>.
             </h2>
-            <p className="zs-summary__subtitle">
+            <p className="en-summary__subtitle">
               Brutally honest read across every session. No corporate-speak.
             </p>
           </div>
-          <button type="button" className="zs-summary__generate" data-variant="regen">
+          <button type="button" className="en-summary__generate" data-variant="regen">
             Regenerate
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
               <path
@@ -176,38 +176,38 @@ export default function ScoresPreviewPage() {
           </button>
         </header>
 
-        <p className="zs-summary__headline">{HEADLINE}</p>
+        <p className="en-summary__headline">{HEADLINE}</p>
 
-        <div className="zs-list" data-tone="pos">
-          <h3 className="zs-list__heading">Strengths</h3>
-          <ul className="zs-list__items">
+        <div className="en-list" data-tone="pos">
+          <h3 className="en-list__heading">Strengths</h3>
+          <ul className="en-list__items">
             {STRENGTHS.map((t, i) => (
-              <li className="zs-list__item" key={i}>
-                <span className="zs-list__marker" aria-hidden />
+              <li className="en-list__item" key={i}>
+                <span className="en-list__marker" aria-hidden />
                 <span>{t}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="zs-list" data-tone="neg">
-          <h3 className="zs-list__heading">Weaknesses</h3>
-          <ul className="zs-list__items">
+        <div className="en-list" data-tone="neg">
+          <h3 className="en-list__heading">Weaknesses</h3>
+          <ul className="en-list__items">
             {WEAKNESSES.map((t, i) => (
-              <li className="zs-list__item" key={i}>
-                <span className="zs-list__marker" aria-hidden />
+              <li className="en-list__item" key={i}>
+                <span className="en-list__marker" aria-hidden />
                 <span>{t}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="zs-list" data-tone="warn">
-          <h3 className="zs-list__heading">This week</h3>
-          <ul className="zs-list__items">
+        <div className="en-list" data-tone="warn">
+          <h3 className="en-list__heading">This week</h3>
+          <ul className="en-list__items">
             {TIPS.map((t, i) => (
-              <li className="zs-list__item" key={i}>
-                <span className="zs-list__marker" aria-hidden />
+              <li className="en-list__item" key={i}>
+                <span className="en-list__marker" aria-hidden />
                 <span>{t}</span>
               </li>
             ))}

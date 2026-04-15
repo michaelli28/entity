@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { KineticHeadline } from "@zstar/ui/typographic/kinetic-headline";
+import { KineticHeadline } from "@entity/ui/typographic/kinetic-headline";
 
-vi.mock("@zstar/ui/hooks/use-reduced-motion", () => ({
+vi.mock("@entity/ui/hooks/use-reduced-motion", () => ({
   useReducedMotion: vi.fn(() => false),
 }));
 
@@ -25,7 +25,7 @@ vi.mock("motion/react", () => ({
   ),
 }));
 
-import * as motionHook from "@zstar/ui/hooks/use-reduced-motion";
+import * as motionHook from "@entity/ui/hooks/use-reduced-motion";
 
 describe("KineticHeadline", () => {
   beforeEach(() => {

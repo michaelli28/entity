@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { Chip } from "@zstar/ui/surface/chip";
+import { Chip } from "@entity/ui/surface/chip";
 
 describe("Chip", () => {
   it("renders as span by default", () => {

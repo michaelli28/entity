@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { StreamingReveal } from "@zstar/ui/surface/streaming-reveal";
+import { StreamingReveal } from "@entity/ui/surface/streaming-reveal";
 
-vi.mock("@zstar/ui/hooks/use-reduced-motion", () => ({
+vi.mock("@entity/ui/hooks/use-reduced-motion", () => ({
   useReducedMotion: vi.fn(() => false),
 }));
 
@@ -25,7 +25,7 @@ vi.mock("motion/react", () => ({
   ),
 }));
 
-import * as motionHook from "@zstar/ui/hooks/use-reduced-motion";
+import * as motionHook from "@entity/ui/hooks/use-reduced-motion";
 
 describe("StreamingReveal", () => {
   beforeEach(() => {

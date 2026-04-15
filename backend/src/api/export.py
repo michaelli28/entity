@@ -65,6 +65,6 @@ async def export_me(
     return JSONResponse(
         content=payload,
         headers={
-            "Content-Disposition": "attachment; filename=zstar-export.json"
+            "Content-Disposition": "attachment; filename=entity-export.json"
         },
     )

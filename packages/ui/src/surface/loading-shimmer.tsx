@@ -35,7 +35,7 @@ export function LoadingShimmer({
       className={cn(
         "relative overflow-hidden bg-[color:var(--color-bg-elevated)]",
         roundedMap[rounded],
-        !reducedMotion && "zstar-shimmer",
+        !reducedMotion && "entity-shimmer",
         className,
       )}
       style={{ width, height, ...style }}

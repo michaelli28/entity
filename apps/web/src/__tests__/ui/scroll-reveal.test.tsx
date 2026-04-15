@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { ScrollReveal } from "@zstar/ui/surface/scroll-reveal";
+import { ScrollReveal } from "@entity/ui/surface/scroll-reveal";
 
-vi.mock("@zstar/ui/hooks/use-reduced-motion", () => ({
+vi.mock("@entity/ui/hooks/use-reduced-motion", () => ({
   useReducedMotion: vi.fn(() => false),
 }));
 
@@ -11,7 +11,7 @@ vi.mock("motion/react", () => ({
   useInView: () => mockUseInView(),
 }));
 
-import * as motionHook from "@zstar/ui/hooks/use-reduced-motion";
+import * as motionHook from "@entity/ui/hooks/use-reduced-motion";
 
 function setCSS(supports: boolean) {
   (globalThis as Record<string, unknown>).CSS = { supports: () => supports };
@@ -37,7 +37,7 @@ describe("ScrollReveal", () => {
         </ScrollReveal>,
       );
       const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.className).not.toContain("zstar-scroll-reveal");
+      expect(wrapper.className).not.toContain("entity-scroll-reveal");
     });
 
     it("renders children with no inline transform when reduced-motion is true", () => {
@@ -66,7 +66,7 @@ describe("ScrollReveal", () => {
   });
 
   describe("Path B — CSS animation-timeline supported", () => {
-    it("renders .zstar-scroll-reveal class when CSS.supports returns true", () => {
+    it("renders .entity-scroll-reveal class when CSS.supports returns true", () => {
       vi.mocked(motionHook.useReducedMotion).mockReturnValue(false);
       setCSS(true);
       const { container } = render(
@@ -75,7 +75,7 @@ describe("ScrollReveal", () => {
         </ScrollReveal>,
       );
       const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.className).toContain("zstar-scroll-reveal");
+      expect(wrapper.className).toContain("entity-scroll-reveal");
     });
 
     it("renders as configured element tag", () => {
@@ -119,7 +119,7 @@ describe("ScrollReveal", () => {
       expect(wrapper.style.transform).toBe("none");
     });
 
-    it("no .zstar-scroll-reveal class on JS fallback path", () => {
+    it("no .entity-scroll-reveal class on JS fallback path", () => {
       vi.mocked(motionHook.useReducedMotion).mockReturnValue(false);
       mockUseInView.mockReturnValue(false);
       setCSS(false);
@@ -129,7 +129,7 @@ describe("ScrollReveal", () => {
         </ScrollReveal>,
       );
       const wrapper = container.firstChild as HTMLElement;
-      expect(wrapper.className).not.toContain("zstar-scroll-reveal");
+      expect(wrapper.className).not.toContain("entity-scroll-reveal");
     });
   });
 });

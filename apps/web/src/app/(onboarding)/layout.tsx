@@ -11,19 +11,19 @@ export default function OnboardingLayout({
 }) {
   return (
     <TheatricsProvider value="medium">
-      <div className="zs-onboard-root">
-        <div className="zs-onboard-shell">
-          <header className="zs-onboard-topbar">
+      <div className="en-onboard-root">
+        <div className="en-onboard-shell">
+          <header className="en-onboard-topbar">
             <Link
               href="/"
-              className="zs-onboard-wordmark"
-              aria-label="ZStar — home"
+              className="en-onboard-wordmark"
+              aria-label="Entity — home"
             >
-              ZStar
+              Entity
             </Link>
-            <span className="zs-onboard-meta">Founder setup</span>
+            <span className="en-onboard-meta">Founder setup</span>
           </header>
-          <div className="zs-onboard-main">{children}</div>
+          <div className="en-onboard-main">{children}</div>
         </div>
       </div>
     </TheatricsProvider>

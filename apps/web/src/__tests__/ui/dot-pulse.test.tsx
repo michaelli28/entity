@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { DotPulse } from "@zstar/ui/surface/dot-pulse";
+import { DotPulse } from "@entity/ui/surface/dot-pulse";
 
-vi.mock("@zstar/ui/hooks/use-reduced-motion", () => ({
+vi.mock("@entity/ui/hooks/use-reduced-motion", () => ({
   useReducedMotion: vi.fn(() => false),
 }));
 
-import * as motionHook from "@zstar/ui/hooks/use-reduced-motion";
+import * as motionHook from "@entity/ui/hooks/use-reduced-motion";
 
 describe("DotPulse", () => {
   beforeEach(() => {
@@ -54,17 +54,17 @@ describe("DotPulse", () => {
     expect(dot?.className).toContain("bg-[var(--color-text-muted)]");
   });
 
-  it("when useReducedMotion is false, dot has zstar-dot-pulse class", () => {
+  it("when useReducedMotion is false, dot has entity-dot-pulse class", () => {
     vi.mocked(motionHook.useReducedMotion).mockReturnValue(false);
     render(<DotPulse />);
     const dot = screen.getByRole("status").querySelector("[aria-hidden='true']");
-    expect(dot?.className).toContain("zstar-dot-pulse");
+    expect(dot?.className).toContain("entity-dot-pulse");
   });
 
-  it("when useReducedMotion is true, dot does NOT have zstar-dot-pulse class", () => {
+  it("when useReducedMotion is true, dot does NOT have entity-dot-pulse class", () => {
     vi.mocked(motionHook.useReducedMotion).mockReturnValue(true);
     render(<DotPulse />);
     const dot = screen.getByRole("status").querySelector("[aria-hidden='true']");
-    expect(dot?.className).not.toContain("zstar-dot-pulse");
+    expect(dot?.className).not.toContain("entity-dot-pulse");
   });
 });

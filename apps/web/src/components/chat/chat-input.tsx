@@ -35,8 +35,8 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
   const canSend = value.trim().length > 0 && !disabled;
 
   return (
-    <div className="zs-chat-input">
-      <div className="zs-chat-input__row">
+    <div className="en-chat-input">
+      <div className="en-chat-input__row">
         <textarea
           ref={taRef}
           value={value}
@@ -45,21 +45,21 @@ export function ChatInput({ onSend, disabled }: ChatInputProps) {
           rows={1}
           disabled={disabled}
           placeholder="Share what you&rsquo;re working on…"
-          className="zs-chat-input__textarea"
+          className="en-chat-input__textarea"
         />
         <button
           type="button"
           onClick={submit}
           disabled={!canSend}
           aria-label="Send message"
-          className="zs-chat-input__send"
+          className="en-chat-input__send"
         >
           <PaperPlaneRight weight="fill" size={16} />
         </button>
       </div>
-      <p className="zs-chat-input__hint">
+      <p className="en-chat-input__hint">
         <span><kbd>↵</kbd> to send</span>
-        <span aria-hidden="true" className="zs-chat-input__hint-sep">·</span>
+        <span aria-hidden="true" className="en-chat-input__hint-sep">·</span>
         <span><kbd>⇧ ↵</kbd> for new line</span>
       </p>
     </div>
