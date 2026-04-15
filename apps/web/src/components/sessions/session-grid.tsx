@@ -2,6 +2,10 @@
 import { useMemo } from "react";
 
 import {
+  MotionStagger,
+  MotionStaggerItem,
+} from "@/components/motion/motion-surface";
+import {
   useBlueprints,
   useDeepDiveRecommendation,
   useSessions,
@@ -49,16 +53,17 @@ export function SessionGrid() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      <div className="zs-session-grid">
+      <MotionStagger className="zs-session-grid" stagger={0.06} delay={0.05}>
         {coreBlueprints.map((bp: Blueprint) => (
-          <SessionCard
-            key={bp.key}
-            blueprint={bp}
-            session={latestByType.get(bp.key) ?? null}
-            recommended={recommended?.key === bp.key}
-          />
+          <MotionStaggerItem key={bp.key}>
+            <SessionCard
+              blueprint={bp}
+              session={latestByType.get(bp.key) ?? null}
+              recommended={recommended?.key === bp.key}
+            />
+          </MotionStaggerItem>
         ))}
-      </div>
+      </MotionStagger>
       <DeepDiveCard recommendation={recommendation ?? null} />
     </div>
   );
