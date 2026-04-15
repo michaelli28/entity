@@ -3,6 +3,8 @@ import "@/app/(dashboard)/scores.css";
 
 import { useState } from "react";
 
+import { CountUp } from "@/components/motion/count-up";
+import { MotionItem, MotionSurface } from "@/components/motion/motion-surface";
 import { useLatestScores } from "@/lib/hooks/use-scores";
 
 import { MentorSummarySection } from "./mentor-summary";
@@ -45,33 +47,46 @@ export function ScoresView() {
   const rationales = summary?.category_rationales ?? {};
 
   return (
-    <div className="zs-scores">
+    <MotionSurface className="zs-scores">
       <header className="zs-scores__head">
-        <p className="zs-scores__eyebrow">Signal scores</p>
-        <h1 className="zs-scores__title">
-          How you <em>read</em> to investors.
-        </h1>
-        <p className="zs-scores__subtitle">
-          Eight categories, one overall read. Scored off every mentor session
-          and any decks you&rsquo;ve shared.
-        </p>
+        <MotionItem>
+          <p className="zs-scores__eyebrow">Signal scores</p>
+        </MotionItem>
+        <MotionItem>
+          <h1 className="zs-scores__title">
+            How you <em>read</em> to investors.
+          </h1>
+        </MotionItem>
+        <MotionItem>
+          <p className="zs-scores__subtitle">
+            Eight categories, one overall read. Scored off every mentor session
+            and any decks you&rsquo;ve shared.
+          </p>
+        </MotionItem>
       </header>
 
       {!data.present ? (
-        <div className="zs-empty">
-          <span className="zs-empty__label">Nothing to score yet</span>
-          <p className="zs-empty__text">
-            Finish one mentor session — or drop in a deck — and we&rsquo;ll
-            generate your first read across the eight categories.
-          </p>
-        </div>
+        <MotionItem>
+          <div className="zs-empty">
+            <span className="zs-empty__label">Nothing to score yet</span>
+            <p className="zs-empty__text">
+              Finish one mentor session — or drop in a deck — and we&rsquo;ll
+              generate your first read across the eight categories.
+            </p>
+          </div>
+        </MotionItem>
       ) : (
-        <section className="zs-panel">
+        <MotionItem>
+          <section className="zs-panel">
           <div className="zs-overall">
             <div className="zs-overall__stat">
               <span className="zs-overall__label">Overall</span>
               <div className="zs-overall__value">
-                {data.overall_score ?? "—"}
+                {data.overall_score != null ? (
+                  <CountUp value={data.overall_score} />
+                ) : (
+                  "—"
+                )}
                 <span className="zs-overall__suffix">/ 100</span>
               </div>
               {data.computed_at && (
@@ -108,11 +123,14 @@ export function ScoresView() {
               </span>
             </p>
           )}
-        </section>
+          </section>
+        </MotionItem>
       )}
 
-      <MentorSummarySection summary={summary} onSummary={setSummary} />
-    </div>
+      <MotionItem>
+        <MentorSummarySection summary={summary} onSummary={setSummary} />
+      </MotionItem>
+    </MotionSurface>
   );
 }
 

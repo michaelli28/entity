@@ -1,5 +1,12 @@
 import { auth } from "@clerk/nextjs/server";
 
+import {
+  MotionItem,
+  MotionStagger,
+  MotionStaggerItem,
+  MotionSurface,
+} from "@/components/motion/motion-surface";
+
 type ColdRead = {
   id: string;
   what_i_heard: string;
@@ -38,59 +45,79 @@ export default async function ArtifactPage({
   const cr = (await res.json()) as ColdRead;
 
   return (
-    <article className="zs-surface zs-surface--narrow">
+    <MotionSurface className="zs-surface zs-surface--narrow">
       <header className="zs-surface__head">
-        <p className="zs-surface__eyebrow">Cold read</p>
-        <h1 className="zs-surface__title">
-          Your mentor&rsquo;s first <em>read</em>.
-        </h1>
-        <p className="zs-surface__subtitle">
-          What I heard, what investors will press on, and what you can&rsquo;t
-          yet answer.
-        </p>
+        <MotionItem>
+          <p className="zs-surface__eyebrow">Cold read</p>
+        </MotionItem>
+        <MotionItem>
+          <h1 className="zs-surface__title">
+            Your mentor&rsquo;s first <em>read</em>.
+          </h1>
+        </MotionItem>
+        <MotionItem>
+          <p className="zs-surface__subtitle">
+            What I heard, what investors will press on, and what you
+            can&rsquo;t yet answer.
+          </p>
+        </MotionItem>
       </header>
 
-      <section className="zs-prose">
-        <div>
-          <p className="zs-prose__eyebrow">What I heard</p>
-          <p>{cr.what_i_heard}</p>
-        </div>
+      <MotionItem>
+        <section className="zs-prose">
+          <MotionStagger stagger={0.07} delay={0.1}>
+            <MotionStaggerItem>
+              <div>
+                <p className="zs-prose__eyebrow">What I heard</p>
+                <p>{cr.what_i_heard}</p>
+              </div>
+            </MotionStaggerItem>
 
-        <div>
-          <p className="zs-prose__eyebrow">What investors will push on</p>
-          <ul>
-            {cr.investor_pushback.map((p) => (
-              <li key={p}>
-                <span>{p}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+            <MotionStaggerItem>
+              <div>
+                <p className="zs-prose__eyebrow">What investors will push on</p>
+                <ul>
+                  {cr.investor_pushback.map((p) => (
+                    <li key={p}>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </MotionStaggerItem>
 
-        <div>
-          <p className="zs-prose__eyebrow">Three questions you can&rsquo;t yet answer</p>
-          <ul>
-            {cr.three_unanswered_questions.map((q) => (
-              <li key={q}>
-                <span>{q}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+            <MotionStaggerItem>
+              <div>
+                <p className="zs-prose__eyebrow">
+                  Three questions you can&rsquo;t yet answer
+                </p>
+                <ul>
+                  {cr.three_unanswered_questions.map((q) => (
+                    <li key={q}>
+                      <span>{q}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </MotionStaggerItem>
 
-        {cr.public_slug && (
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.6875rem",
-              letterSpacing: "0.08em",
-              color: "var(--color-text-dim)",
-            }}
-          >
-            Share link · <code>zstar.ai/cold-read/{cr.public_slug}</code>
-          </p>
-        )}
-      </section>
-    </article>
+            {cr.public_slug && (
+              <MotionStaggerItem>
+                <p
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.6875rem",
+                    letterSpacing: "0.08em",
+                    color: "var(--color-text-dim)",
+                  }}
+                >
+                  Share link · <code>zstar.ai/cold-read/{cr.public_slug}</code>
+                </p>
+              </MotionStaggerItem>
+            )}
+          </MotionStagger>
+        </section>
+      </MotionItem>
+    </MotionSurface>
   );
 }
