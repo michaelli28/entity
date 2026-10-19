@@ -23,12 +23,12 @@ dev:
 	npx concurrently \
 		--names "web,api,db" \
 		--prefix-colors "blue,green,yellow" \
-		"pnpm --filter @zstar/web dev" \
+		"pnpm --filter @entity/web dev" \
 		"cd backend && uv run uvicorn src.main:app --reload --host 0.0.0.0 --port 8000" \
 		"supabase start"
 
 dev\:web:
-	pnpm --filter @zstar/web dev
+	pnpm --filter @entity/web dev
 
 dev\:api:
 	cd backend && uv run uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
@@ -43,27 +43,27 @@ dev\:db:
 test: test\:web test\:api
 
 test\:web:
-	pnpm --filter @zstar/web test
+	pnpm --filter @entity/web test
 
 test\:api:
 	cd backend && uv run pytest -v
 
 test\:e2e:
-	pnpm --filter @zstar/web exec playwright test
+	pnpm --filter @entity/web exec playwright test
 
 # ──────────────────────────────────────────────
 # Code Quality
 # ──────────────────────────────────────────────
 
 lint:
-	pnpm --filter @zstar/web lint
+	pnpm --filter @entity/web lint
 	cd backend && uv run ruff check .
 
 format:
 	cd backend && uv run ruff format .
 
 typecheck:
-	pnpm --filter @zstar/web exec tsc --noEmit
+	pnpm --filter @entity/web exec tsc --noEmit
 	cd backend && uv run pyright
 
 # ──────────────────────────────────────────────
