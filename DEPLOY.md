@@ -20,7 +20,7 @@ You need accounts on all three. If you haven't, sign up now — free tiers cover
 - Railway:  https://railway.com (GitHub sign-in recommended — Railway reads your repo)
 - Vercel:   https://vercel.com/signup (again, GitHub sign-in)
 
-You'll also need production **Clerk** keys — go to https://dashboard.clerk.com, create a new *production* instance (you currently have a dev/test one: `first-lynx-19`).
+You'll also need production **Clerk** keys — go to https://dashboard.clerk.com, create a new *production* instance.
 
 Push this repo to GitHub if it isn't already:
 
@@ -45,7 +45,7 @@ gh repo create entity --private --source=. --remote=origin --push
    ```
 5. Run migrations from your laptop (links local CLI to cloud project):
    ```bash
-   cd /Users/possible/Documents/Entity
+   # from the repo root
    supabase link --project-ref <your-project-ref>
    supabase db push
    ```

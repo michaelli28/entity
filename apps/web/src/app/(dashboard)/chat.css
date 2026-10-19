@@ -1,6 +1,6 @@
 /* =======================================================================
    Mentor chat surface — header, progress, messages, input.
-   Governed by .impeccable.md — Principle 1: Chat is the product; chrome
+   Design principle: chat is the product; chrome
    recedes. Every pixel below earns its place.
    ======================================================================= */
 
@@ -17,8 +17,7 @@
 
 /* Atmospheric wash — a single violet halo at the top of the session surface.
    Fades to pure bg within 360px. No animation, no gradient text — just
-   perceived depth behind the title. Mirrors the Dedalus lineage noted in
-   .impeccable.md (atmospheric dark, one strong accent). */
+   perceived depth behind the title (atmospheric dark, one strong accent). */
 .en-chat::before {
   content: "";
   position: absolute;

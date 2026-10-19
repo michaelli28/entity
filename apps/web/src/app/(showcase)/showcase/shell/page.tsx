@@ -14,9 +14,8 @@ export default function ShellPreviewPage() {
           Dashboard shell
         </h1>
         <p className="mt-2 max-w-md text-sm text-[var(--color-text-muted)]">
-          Sidebar, nav-item, and wordmark crafted to{" "}
-          <em className="font-[var(--font-display)] not-italic">.impeccable.md</em>{" "}
-          — quiet dark, hairline borders, one vivid accent.
+          Sidebar, nav-item, and wordmark: quiet dark, hairline borders, one
+          vivid accent.
         </p>
       </main>
     </div>
