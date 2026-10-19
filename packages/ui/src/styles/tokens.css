@@ -1,5 +1,5 @@
 /*
- * Entity design tokens — impeccable revision
+ * Entity design tokens
  * System: OKLCH violet-tinted monochrome, single rare vivid accent.
  * All values defined in OKLCH. No pure black, no pure white.
  * Tokens consumed as Tailwind utilities via @theme; also readable as var().
